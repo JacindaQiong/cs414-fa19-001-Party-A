@@ -4,7 +4,7 @@ User stories
 09/20/2019
 1. As a user, I want to register to this X game platform by using an email,
 nickname and a password in order to login to it and play it online.
-2. As a user, I want to invite another user who is online
+2. As a user, I want to invite another user who is online to a match.
 3. As a user, I can accept or decline an invitation. 
 4. As a user, I can receive a notification if an invitation is rejected.
 5. (optional) As a user, I want to send more than one invitation.
