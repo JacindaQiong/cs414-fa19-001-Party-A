@@ -1,0 +1,20 @@
+CS414_P1
+Party A
+User stories
+09/20/2019
+1. As a user, I want to register to this X game platform by using an email,
+nickname and a password in order to login it and play it online.
+2. As a user, I want to invite anther user who is online
+3. As a user, the user who is be invited can accept or ignore.
+4. As a user, I can receive a notification from the user if he reject it.
+5. (optional) As a user, I want to send more than one invitation.
+6. (optional) As a user, I want to play multiple games at the same time.
+7. As a user, I want this platform to record the history of the game including the result of
+the game, the player account of the opponent, and the number of moves.
+8. As a user, I want to have a prompt to tell me what is my turn.
+9. As a user, I want to have rules and tutorials before I start playing the game for the first
+time.
+10. As a user, I want to quit from any game at any time.
+11. As a user, I want to logout this X game whenever I do not want to play, and the
+platform prompts you before you exit.
+12. As a user, I want to be able to unregister.
