@@ -30,11 +30,11 @@ public class GameBoard {
     public void initialize() {
         // white team
 
-        King whiteKing=new King(this, Piece.Color.WHITE);
-        placePiece(whiteKing,"ab");
-
-        Pawn whitePawn1 = new Pawn(this, Piece.Color.WHITE);
-        placePiece(whitePawn1,"ac");
+//        King whiteKing=new King(this, Piece.Color.WHITE);
+//        placePiece(whiteKing,"ab");
+//
+//        Pawn whitePawn1 = new Pawn(this, Piece.Color.WHITE);
+//        placePiece(whitePawn1,"ac");
 
     }
 
@@ -119,16 +119,12 @@ public class GameBoard {
         return whoseTurn;
     }
 
-    public void setWhoseTurn(int whoseTurn) {
-        this.whoseTurn = whoseTurn;
-    }
-
     private boolean isBlack(int row, int column){
         if(row<0||column<0)
             return false;
 
         String position = String.valueOf((char)('a'+column))+ (char)('a'+row);
-        if("aa".equals(position)||"ak".equals(position)||"ka".equals(position)||"kk".equals(position))
+        if("aa".equals(position)||"ak".equals(position)||"ka".equals(position)||"kk".equals(position)||"ff".equals(position))
             return true;
 
         try {
@@ -159,18 +155,21 @@ public class GameBoard {
                     }
                 }
             }
-            String kingPos = king.getPosition();
-            // 1. white win
-            if("aa".equals(kingPos)||"ak".equals(kingPos)||"ka".equals(kingPos)||"kk".equals(kingPos))
-                return 1;
+            if(king != null){
 
-            // 2. black win
-            boolean king_left = isBlack(king_row,king_column-1);
-            boolean king_right = isBlack(king_row,king_column+1);
-            boolean king_up = isBlack(king_row+1,king_column);
-            boolean king_down = isBlack(king_row-1,king_column);
-            if(king_left&&king_right&&king_up&&king_down)
-                return 0;
+                String kingPos = king.getPosition();
+                // 1. white win
+                if("aa".equals(kingPos)||"ak".equals(kingPos)||"ka".equals(kingPos)||"kk".equals(kingPos))
+                    return 1;
+
+                // 2. black win
+                boolean king_left = isBlack(king_row,king_column-1);
+                boolean king_right = isBlack(king_row,king_column+1);
+                boolean king_up = isBlack(king_row+1,king_column);
+                boolean king_down = isBlack(king_row-1,king_column);
+                if(king_left&&king_right&&king_up&&king_down)
+                    return 0;
+            }
 
             // 3. kill an opponent
             char[] pos = toPosition.toCharArray();
@@ -179,64 +178,85 @@ public class GameBoard {
             Piece p = getPiece(toPosition);
             Piece.Color currColor=p.getColor();
             //top
-            String top_pos1 = String.valueOf((char)('a'+column))+ (char)('a'+row+1);
-            Piece top_piece1 = getPiece(top_pos1);
-            if(top_piece1!=null && !top_piece1.getColor().equals(currColor)){
-                String top_pos2 = String.valueOf((char)('a'+column))+ (char)('a'+row+2);
-                Piece top_piece2 = getPiece(top_pos2);
-                if(top_piece2!=null&&top_piece2.getColor().equals(currColor))
-                    board[row+1][column] = null;
-                if(top_piece2==null){
-                    if("aa".equals(top_pos2)||"ak".equals(top_pos2)||"ka".equals(top_pos2)||"kk".equals(top_pos2)||"ff".equals(top_pos2))
-                        board[row+1][column] = null;
-                }
 
-            }
-            //bottom
-            String bottom_pos1 = String.valueOf((char)('a'+column))+ (char)('a'+row-1);
-            Piece bottom_piece1 = getPiece(bottom_pos1);
-            if(bottom_piece1!=null && !bottom_piece1.getColor().equals(currColor)){
-                    String bottom_pos2 = String.valueOf((char)('a'+column))+ (char)('a'+row-2);
-                    Piece bottom_piece2 = getPiece(bottom_pos2);
-                    if(bottom_piece2!=null&&bottom_piece2.getColor().equals(currColor))
-                        board[row-1][column] = null;
-                    if(bottom_piece2==null){
-                        if("aa".equals(bottom_pos2)||"ak".equals(bottom_pos2)||"ka".equals(bottom_pos2)||"kk".equals(bottom_pos2)||"ff".equals(bottom_pos2))
-                            board[row-1][column] = null;
+            String top_pos1 = String.valueOf((char)('a'+column))+ (char)('a'+row+1);
+            if(top_pos1.charAt(0)>='a'&&top_pos1.charAt(0)<='k'&&top_pos1.charAt(1)>='a'&&top_pos1.charAt(1)<='k'){
+                Piece top_piece1 = getPiece(top_pos1);
+                if(top_piece1!=null && !top_piece1.getColor().equals(currColor)){
+                    String top_pos2 = String.valueOf((char)('a'+column))+ (char)('a'+row+2);
+                    if(top_pos2.charAt(0)>='a'&&top_pos2.charAt(0)<='k'&&top_pos2.charAt(1)>='a'&&top_pos2.charAt(1)<='k'){
+                        Piece top_piece2 = getPiece(top_pos2);
+                        if(top_piece2!=null&&top_piece2.getColor().equals(currColor))
+                            board[row+1][column] = null;
+                        if(top_piece2==null){
+                            if("aa".equals(top_pos2)||"ak".equals(top_pos2)||"ka".equals(top_pos2)||"kk".equals(top_pos2)||"ff".equals(top_pos2))
+                                board[row+1][column] = null;
+                        }
                     }
 
+                }
             }
 
-
+            //bottom
+            String bottom_pos1 = String.valueOf((char)('a'+column))+ (char)('a'+row-1);
+            if(bottom_pos1.charAt(0)>='a'&&bottom_pos1.charAt(0)<='k'&&bottom_pos1.charAt(1)>='a'&&bottom_pos1.charAt(1)<='k'){
+                Piece bottom_piece1 = getPiece(bottom_pos1);
+                if(bottom_piece1!=null && !bottom_piece1.getColor().equals(currColor)){
+                    String bottom_pos2 = String.valueOf((char)('a'+column))+ (char)('a'+row-2);
+                    if(bottom_pos2.charAt(0)>='a'&&bottom_pos2.charAt(0)<='k'&&bottom_pos2.charAt(1)>='a'&&bottom_pos2.charAt(1)<='k'){
+                        Piece bottom_piece2 = getPiece(bottom_pos2);
+                        if(bottom_piece2!=null&&bottom_piece2.getColor().equals(currColor))
+                            board[row-1][column] = null;
+                        if(bottom_piece2==null){
+                            if("aa".equals(bottom_pos2)||"ak".equals(bottom_pos2)||"ka".equals(bottom_pos2)||"kk".equals(bottom_pos2)||"ff".equals(bottom_pos2))
+                                board[row-1][column] = null;
+                        }
+                    }
+                }
+            }
+            
             //left
             String left_pos1 = String.valueOf((char)('a'+column-1))+ (char)('a'+row);
-            Piece left_piece1 = getPiece(left_pos1);
-            if(left_piece1!=null && !left_piece1.getColor().equals(currColor)){
-                String left_pos2 = String.valueOf((char)('a'+column-2))+ (char)('a'+row);
-                Piece left_piece2 = getPiece(left_pos2);
-                if(left_piece2!=null&&left_piece2.getColor().equals(currColor))
-                    board[row][column-1] = null;
-                if(left_piece2==null){
-                    if("aa".equals(left_pos2)||"ak".equals(left_pos2)||"ka".equals(left_pos2)||"kk".equals(left_pos2)||"ff".equals(left_pos2))
-                        board[row][column-1] = null;
-                }
+            if(left_pos1.charAt(0)>='a'&&left_pos1.charAt(0)<='k'&&left_pos1.charAt(1)>='a'&&left_pos1.charAt(1)<='k'){
+                Piece left_piece1 = getPiece(left_pos1);
+                if(left_piece1!=null && !left_piece1.getColor().equals(currColor)){
+                    String left_pos2 = String.valueOf((char)('a'+column-2))+ (char)('a'+row);
+                    if(left_pos2.charAt(0)>='a'&&left_pos2.charAt(0)<='k'&&left_pos2.charAt(1)>='a'&&left_pos2.charAt(1)<='k'){
+                        Piece left_piece2 = getPiece(left_pos2);
+                        if(left_piece2!=null&&left_piece2.getColor().equals(currColor))
+                            board[row][column-1] = null;
+                        if(left_piece2==null){
+                            if("aa".equals(left_pos2)||"ak".equals(left_pos2)||"ka".equals(left_pos2)||"kk".equals(left_pos2)||"ff".equals(left_pos2))
+                                board[row][column-1] = null;
+                        }
+                    }
 
+
+                }
             }
+
+
 
             //right
             String right_pos1 = String.valueOf((char)('a'+column+1))+ (char)('a'+row);
-            Piece right_piece1 = getPiece(right_pos1);
-            if(right_piece1!=null && !right_piece1.getColor().equals(currColor)){
-                String right_pos2 = String.valueOf((char)('a'+column+2))+ (char)('a'+row);
-                Piece right_piece2 = getPiece(right_pos2);
-                if(right_piece2!=null&&right_piece2.getColor().equals(currColor))
-                    board[row][column+1] = null;
-                if(right_piece2==null){
-                    if("aa".equals(right_pos2)||"ak".equals(right_pos2)||"ka".equals(right_pos2)||"kk".equals(right_pos2)||"ff".equals(right_pos2))
-                        board[row][column+1] = null;
-                }
+            if(right_pos1.charAt(0)>='a'&&right_pos1.charAt(0)<='k'&&right_pos1.charAt(1)>='a'&&right_pos1.charAt(1)<='k'){
+                Piece right_piece1 = getPiece(right_pos1);
+                if(right_piece1!=null && !right_piece1.getColor().equals(currColor)){
+                    String right_pos2 = String.valueOf((char)('a'+column+2))+ (char)('a'+row);
+                    if(right_pos2.charAt(0)>='a'&&right_pos2.charAt(0)<='k'&&right_pos2.charAt(1)>='a'&&right_pos2.charAt(1)<='k'){
+                        Piece right_piece2 = getPiece(right_pos2);
+                        if(right_piece2!=null&&right_piece2.getColor().equals(currColor))
+                            board[row][column+1] = null;
+                        if(right_piece2==null){
+                            if("aa".equals(right_pos2)||"ak".equals(right_pos2)||"ka".equals(right_pos2)||"kk".equals(right_pos2)||"ff".equals(right_pos2))
+                                board[row][column+1] = null;
+                        }
+                    }
 
+
+                }
             }
+
 
         } catch (IllegalPositionException e) {
             e.printStackTrace();
