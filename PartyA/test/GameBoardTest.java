@@ -21,6 +21,11 @@ public class GameBoardTest {
     }
 
     @Test
+    public void testInitialize(){
+        System.out.println(board);
+    }
+
+    @Test
     public void testKillOpponent(){
         Pawn opponent1 = new Pawn(board, Piece.Color.BLACK);
         Pawn same1 = new Pawn(board, Piece.Color.WHITE);

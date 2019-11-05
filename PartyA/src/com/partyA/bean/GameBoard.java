@@ -28,14 +28,90 @@ public class GameBoard {
     }
 
     public void initialize() {
-        // white team
+        King king = new King(this, Piece.Color.WHITE);
+        placePiece(king,"ff");
 
-//        King whiteKing=new King(this, Piece.Color.WHITE);
-//        placePiece(whiteKing,"ab");
-//
-//        Pawn whitePawn1 = new Pawn(this, Piece.Color.WHITE);
-//        placePiece(whitePawn1,"ac");
+        Pawn w1 = new Pawn(this,Piece.Color.WHITE);
+        Pawn w2 = new Pawn(this,Piece.Color.WHITE);
+        Pawn w3 = new Pawn(this,Piece.Color.WHITE);
+        Pawn w4 = new Pawn(this,Piece.Color.WHITE);
+        Pawn w5 = new Pawn(this,Piece.Color.WHITE);
+        Pawn w6 = new Pawn(this,Piece.Color.WHITE);
+        Pawn w7 = new Pawn(this,Piece.Color.WHITE);
+        Pawn w8 = new Pawn(this,Piece.Color.WHITE);
+        Pawn w9 = new Pawn(this,Piece.Color.WHITE);
+        Pawn w10 = new Pawn(this,Piece.Color.WHITE);
+        Pawn w11 = new Pawn(this,Piece.Color.WHITE);
+        Pawn w12 = new Pawn(this,Piece.Color.WHITE);
+        placePiece(w1,"fd");
 
+        placePiece(w2,"ee");
+        placePiece(w3,"fe");
+        placePiece(w4,"ge");
+
+        placePiece(w5,"df");
+        placePiece(w6,"ef");
+        placePiece(w7,"gf");
+        placePiece(w8,"hf");
+
+
+        placePiece(w9,"eg");
+        placePiece(w10,"fg");
+        placePiece(w11,"gg");
+
+        placePiece(w12,"fh");
+
+        Pawn b1 = new Pawn(this,Piece.Color.BLACK);
+        Pawn b2 = new Pawn(this,Piece.Color.BLACK);
+        Pawn b3 = new Pawn(this,Piece.Color.BLACK);
+        Pawn b4 = new Pawn(this,Piece.Color.BLACK);
+        Pawn b5 = new Pawn(this,Piece.Color.BLACK);
+        Pawn b6 = new Pawn(this,Piece.Color.BLACK);
+        placePiece(b1,"da");
+        placePiece(b2,"ea");
+        placePiece(b3,"fa");
+        placePiece(b4,"ga");
+        placePiece(b5,"ha");
+        placePiece(b6,"fb");
+
+        Pawn b7 = new Pawn(this,Piece.Color.BLACK);
+        Pawn b8 = new Pawn(this,Piece.Color.BLACK);
+        Pawn b9 = new Pawn(this,Piece.Color.BLACK);
+        Pawn b10 = new Pawn(this,Piece.Color.BLACK);
+        Pawn b11 = new Pawn(this,Piece.Color.BLACK);
+        Pawn b12 = new Pawn(this,Piece.Color.BLACK);
+        placePiece(b7,"kd");
+        placePiece(b8,"ke");
+        placePiece(b9,"kf");
+        placePiece(b10,"kg");
+        placePiece(b11,"kh");
+        placePiece(b12,"jf");
+
+        Pawn b13 = new Pawn(this,Piece.Color.BLACK);
+        Pawn b14 = new Pawn(this,Piece.Color.BLACK);
+        Pawn b15 = new Pawn(this,Piece.Color.BLACK);
+        Pawn b16 = new Pawn(this,Piece.Color.BLACK);
+        Pawn b17 = new Pawn(this,Piece.Color.BLACK);
+        Pawn b18 = new Pawn(this,Piece.Color.BLACK);
+        placePiece(b13,"dk");
+        placePiece(b14,"ek");
+        placePiece(b15,"fk");
+        placePiece(b16,"gk");
+        placePiece(b17,"hk");
+        placePiece(b18,"fj");
+
+        Pawn b19 = new Pawn(this,Piece.Color.BLACK);
+        Pawn b20 = new Pawn(this,Piece.Color.BLACK);
+        Pawn b21 = new Pawn(this,Piece.Color.BLACK);
+        Pawn b22 = new Pawn(this,Piece.Color.BLACK);
+        Pawn b23 = new Pawn(this,Piece.Color.BLACK);
+        Pawn b24 = new Pawn(this,Piece.Color.BLACK);
+        placePiece(b19,"ah");
+        placePiece(b20,"ag");
+        placePiece(b21,"af");
+        placePiece(b22,"ae");
+        placePiece(b23,"ad");
+        placePiece(b24,"bf");
     }
 
     /**
@@ -214,7 +290,7 @@ public class GameBoard {
                     }
                 }
             }
-            
+
             //left
             String left_pos1 = String.valueOf((char)('a'+column-1))+ (char)('a'+row);
             if(left_pos1.charAt(0)>='a'&&left_pos1.charAt(0)<='k'&&left_pos1.charAt(1)>='a'&&left_pos1.charAt(1)<='k'){
@@ -272,7 +348,7 @@ public class GameBoard {
         String upperLeft = "\u250C";
         String upperRight = "\u2510";
         String horizontalLine = "\u2500";
-        String horizontal3 = horizontalLine + "\u3000" + horizontalLine;
+        String horizontal3 = horizontalLine + horizontalLine;
         String verticalLine = "\u2502";
         String upperT = "\u252C";
         String bottomLeft = "\u2514";
@@ -283,13 +359,13 @@ public class GameBoard {
         String rightT = "\u2524";
 
         String topLine = upperLeft;
-        for (int i = 0; i<11; i++){
+        for (int i = 0; i<10; i++){
             topLine += horizontal3 + upperT;
         }
         topLine += horizontal3 + upperRight;
 
         String bottomLine = bottomLeft;
-        for (int i = 0; i<11; i++){
+        for (int i = 0; i<10; i++){
             bottomLine += horizontal3 + bottomT;
         }
         bottomLine += horizontal3 + bottomRight;
@@ -299,12 +375,18 @@ public class GameBoard {
             String midLine = "";
             for (int col = 0; col < 11; col++){
                 if(board[row][col]==null) {
-                    midLine += verticalLine + " \u3000 ";
-                } else {midLine += verticalLine + " "+board[row][col]+" ";}
+                    if((row==0&&col==0)||(row==10&&col==0)||(row==0&&col==10)||(row==10&&col==10)){
+                        midLine += verticalLine + "\u274C";
+                    }else{
+                        midLine += verticalLine + "  ";
+                    }
+                } else {
+                    midLine += verticalLine + " "+board[row][col];
+                }
             }
             midLine += verticalLine;
             String midLine2 = leftT;
-            for (int i = 0; i<11; i++){
+            for (int i = 0; i<10; i++){
                 midLine2 += horizontal3 + plus;
             }
             midLine2 += horizontal3 + rightT;
