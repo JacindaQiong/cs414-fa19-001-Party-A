@@ -1,4 +1,4 @@
-package partya;
+package com.partyA.exception;
 /**
  * User: Nana Yin
  * Date: 10/11/19

@@ -1,4 +1,6 @@
-package partya;
+package com.partyA.bean;
+
+import com.partyA.exception.IllegalMoveException;
 
 /**
  * User: Nana Yin
@@ -21,10 +23,10 @@ public class Match {
     public void execute(String fromPosition, String toPosition){
         try {
             board.move(fromPosition,toPosition);
-            result = board.killOpponent(toPosition);
         } catch (IllegalMoveException e) {
             e.printStackTrace();
         }
+        result = board.killOpponent(toPosition);
 
     }
 
@@ -34,9 +36,9 @@ public class Match {
         String msg = "";
         int whoseTurn = board.getWhoseTurn();
         if(whoseTurn%2==0){
-            msg = blackUser.getNickname()+", please move.";
+            msg = blackUser.getName()+", please move.";
         }else{
-            msg = whiteUser.getNickname()+", please move.";
+            msg = whiteUser.getName()+", please move.";
         }
         return msg;
     }

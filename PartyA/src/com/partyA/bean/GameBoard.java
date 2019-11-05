@@ -1,4 +1,7 @@
-package partya;
+package com.partyA.bean;
+
+import com.partyA.exception.IllegalMoveException;
+import com.partyA.exception.IllegalPositionException;
 
 import java.util.ArrayList;
 
@@ -9,10 +12,6 @@ import java.util.ArrayList;
  */
 public class GameBoard {
 
-    /** 2-dimensional array of size 11*11
-     * a=0, b=1, c=2, d=3, e=4, f=5, g=6, h=7, i=8, j=9, k=10
-     * In the initial position, the white king at f6 is at index[5][g]
-     */
     private Piece[][] board;
 
     private Match match;
@@ -24,26 +23,18 @@ public class GameBoard {
     * */
     private int whoseTurn=0;
 
-    /**
-     * initialize the board to an 11*11 array with all empty square
-     */
     public GameBoard() {
-        board= new Piece[8][8];
+        board= new Piece[11][11];
     }
-
-    /** initialize the board to the standard chess opening state
-     *  1. use the constructors of the appropriate pieces
-     *  2. call placePiece to place the newly constructed pieces in the right position
-     */
 
     public void initialize() {
         // white team
 
         King whiteKing=new King(this, Piece.Color.WHITE);
-        placePiece(whiteKing,"e1");
+        placePiece(whiteKing,"ab");
 
         Pawn whitePawn1 = new Pawn(this, Piece.Color.WHITE);
-        placePiece(whitePawn1,"a2");
+        placePiece(whitePawn1,"ac");
 
     }
 
@@ -59,27 +50,16 @@ public class GameBoard {
         char[] pos = position.toCharArray();
         char pos_column= pos[0];
         char pos_row= pos[1];
-        if(!(pos_column>='a'&&pos_column<='h'&&pos_row>='1'&&pos_row<='8'))
+        if(!(pos_column>='a'&&pos_column<='k'&&pos_row>='a'&&pos_row<='k'))
             throw new IllegalPositionException("this position contains illegal characters or it's outside of the board !!");
 
         //2. transfer the position(two-character string) into row/column values
-        int row = pos_row -'1';
+        int row = pos_row -'a';
         int column = pos_column -'a';
         //3. find the piece at a given position
         return board[row][column];
     }
 
-    /**
-     * @param piece
-     * @param position
-     * @return true if successful, false if failed
-     * @throws IllegalPositionException
-     * 1.1 if the position is illegal --->it failed
-     * 1.2 if there is already a piece of the same player in the given position ---> it failed
-     * if an opponent's piece exists, that piece is captured ---> successful
-     * 2.1 if successful, call setPosition() in the ChessPiece class to set the piece's position
-     * 2.2 update the board
-     */
     public boolean placePiece(Piece piece, String position){
         //1.1 FALSE: piece or position is illegal
         if(piece==null||position==null||position.length()!=2)
@@ -87,7 +67,7 @@ public class GameBoard {
         char[] pos = position.toCharArray();
         char pos_column= pos[0];
         char pos_row= pos[1];
-        if(!(pos_column>='a' && pos_column<='h' && pos_row>='1' && pos_row<='8'))
+        if(!(pos_column>='a' && pos_column<='k' && pos_row>='a' && pos_row<='k'))
             return false;
 
         try {
@@ -98,7 +78,7 @@ public class GameBoard {
 
             //2 TRUE: set the piece's position && update the board
             piece.setPosition(position);
-            int row = pos_row-'1';
+            int row = pos_row-'a';
             int column = pos_column-'a';
             board[row][column]=piece;
             return true;
@@ -109,13 +89,6 @@ public class GameBoard {
 
     }
 
-    /**
-     * @param fromPosition
-     * @param toPosition
-     * @throws IllegalMoveException
-     * @throws IllegalPositionException
-     * 1. check if this moving is a legal move
-     */
     public void move(String fromPosition, String toPosition) throws IllegalMoveException {
         try {
             //1. check if this moving is a legal move
@@ -127,7 +100,7 @@ public class GameBoard {
                     placePiece(piece,toPosition);
 
                     char[] pos = fromPosition.toCharArray();
-                    int row = pos[1]-'1';
+                    int row = pos[1]-'a';
                     int column = pos[0]-'a';
                     board[row][column] = null;
                     whoseTurn++;
@@ -154,8 +127,8 @@ public class GameBoard {
         if(row<0||column<0)
             return false;
 
-        String position = String.valueOf((char)('a'+column))+ (char)(row+'1');
-        if("a1".equals(position)||"a11".equals(position)||"k1".equals(position)||"k11".equals(position))
+        String position = String.valueOf((char)('a'+column))+ (char)('a'+row);
+        if("aa".equals(position)||"ak".equals(position)||"ka".equals(position)||"kk".equals(position))
             return true;
 
         try {
@@ -177,7 +150,7 @@ public class GameBoard {
 
             for(int i=0;i<11;i++){
                 for(int j=0;j<11;j++){
-                    String pos = String.valueOf((char)('a'+j))+ (char)(i+'1');
+                    String pos = String.valueOf((char)('a'+j))+ (char)('a'+i);
                     Piece p = getPiece(pos);
                     if(p instanceof  King){
                         king = (King) p;
@@ -188,7 +161,7 @@ public class GameBoard {
             }
             String kingPos = king.getPosition();
             // 1. white win
-            if("a1".equals(kingPos)||"a11".equals(kingPos)||"k1".equals(kingPos)||"k11".equals(kingPos))
+            if("aa".equals(kingPos)||"ak".equals(kingPos)||"ka".equals(kingPos)||"kk".equals(kingPos))
                 return 1;
 
             // 2. black win
@@ -201,34 +174,34 @@ public class GameBoard {
 
             // 3. kill an opponent
             char[] pos = toPosition.toCharArray();
-            int row = pos[1]-'1';
+            int row = pos[1]-'a';
             int column = pos[0]-'a';
             Piece p = getPiece(toPosition);
             Piece.Color currColor=p.getColor();
             //top
-            String top_pos1 = String.valueOf((char)('a'+column))+ (char)(row+1+'1');
+            String top_pos1 = String.valueOf((char)('a'+column))+ (char)('a'+row+1);
             Piece top_piece1 = getPiece(top_pos1);
             if(top_piece1!=null && !top_piece1.getColor().equals(currColor)){
-                String top_pos2 = String.valueOf((char)('a'+column))+ (char)(row+2+'1');
+                String top_pos2 = String.valueOf((char)('a'+column))+ (char)('a'+row+2);
                 Piece top_piece2 = getPiece(top_pos2);
                 if(top_piece2!=null&&top_piece2.getColor().equals(currColor))
                     board[row+1][column] = null;
                 if(top_piece2==null){
-                    if("a1".equals(top_pos2)||"a11".equals(top_pos2)||"k1".equals(top_pos2)||"k11".equals(top_pos2)||"f6".equals(top_pos2))
+                    if("aa".equals(top_pos2)||"ak".equals(top_pos2)||"ka".equals(top_pos2)||"kk".equals(top_pos2)||"ff".equals(top_pos2))
                         board[row+1][column] = null;
                 }
 
             }
             //bottom
-            String bottom_pos1 = String.valueOf((char)('a'+column))+ (char)(row-1+'1');
+            String bottom_pos1 = String.valueOf((char)('a'+column))+ (char)('a'+row-1);
             Piece bottom_piece1 = getPiece(bottom_pos1);
             if(bottom_piece1!=null && !bottom_piece1.getColor().equals(currColor)){
-                    String bottom_pos2 = String.valueOf((char)('a'+column))+ (char)(row-2+'1');
+                    String bottom_pos2 = String.valueOf((char)('a'+column))+ (char)('a'+row-2);
                     Piece bottom_piece2 = getPiece(bottom_pos2);
                     if(bottom_piece2!=null&&bottom_piece2.getColor().equals(currColor))
                         board[row-1][column] = null;
                     if(bottom_piece2==null){
-                        if("a1".equals(bottom_pos2)||"a11".equals(bottom_pos2)||"k1".equals(bottom_pos2)||"k11".equals(bottom_pos2)||"f6".equals(bottom_pos2))
+                        if("aa".equals(bottom_pos2)||"ak".equals(bottom_pos2)||"ka".equals(bottom_pos2)||"kk".equals(bottom_pos2)||"ff".equals(bottom_pos2))
                             board[row-1][column] = null;
                     }
 
@@ -236,30 +209,30 @@ public class GameBoard {
 
 
             //left
-            String left_pos1 = String.valueOf((char)('a'+column-1))+ (char)(row+'1');
+            String left_pos1 = String.valueOf((char)('a'+column-1))+ (char)('a'+row);
             Piece left_piece1 = getPiece(left_pos1);
             if(left_piece1!=null && !left_piece1.getColor().equals(currColor)){
-                String left_pos2 = String.valueOf((char)('a'+column-2))+ (char)(row+'1');
+                String left_pos2 = String.valueOf((char)('a'+column-2))+ (char)('a'+row);
                 Piece left_piece2 = getPiece(left_pos2);
                 if(left_piece2!=null&&left_piece2.getColor().equals(currColor))
                     board[row][column-1] = null;
                 if(left_piece2==null){
-                    if("a1".equals(left_pos2)||"a11".equals(left_pos2)||"k1".equals(left_pos2)||"k11".equals(left_pos2)||"f6".equals(left_pos2))
+                    if("aa".equals(left_pos2)||"ak".equals(left_pos2)||"ka".equals(left_pos2)||"kk".equals(left_pos2)||"ff".equals(left_pos2))
                         board[row][column-1] = null;
                 }
 
             }
 
             //right
-            String right_pos1 = String.valueOf((char)('a'+column+1))+ (char)(row+'1');
+            String right_pos1 = String.valueOf((char)('a'+column+1))+ (char)('a'+row);
             Piece right_piece1 = getPiece(right_pos1);
             if(right_piece1!=null && !right_piece1.getColor().equals(currColor)){
-                String right_pos2 = String.valueOf((char)('a'+column+2))+ (char)(row+'1');
+                String right_pos2 = String.valueOf((char)('a'+column+2))+ (char)('a'+row);
                 Piece right_piece2 = getPiece(right_pos2);
                 if(right_piece2!=null&&right_piece2.getColor().equals(currColor))
                     board[row][column+1] = null;
                 if(right_piece2==null){
-                    if("a1".equals(right_pos2)||"a11".equals(right_pos2)||"k1".equals(right_pos2)||"k11".equals(right_pos2)||"f6".equals(right_pos2))
+                    if("aa".equals(right_pos2)||"ak".equals(right_pos2)||"ka".equals(right_pos2)||"kk".equals(right_pos2)||"ff".equals(right_pos2))
                         board[row][column+1] = null;
                 }
 

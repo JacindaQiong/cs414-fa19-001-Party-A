@@ -1,12 +1,13 @@
-package partya;
+package com.partyA.bean;
 
+
+import com.partyA.exception.IllegalPositionException;
 
 import java.util.ArrayList;
 
 /**
  * User: Nana Yin
  * Date: 10/11/19
- * desc: king can only move one square horizontally, vertically or diagonally.
  */
 public class King extends Piece {
     public King(GameBoard board, Color color) {
@@ -27,8 +28,8 @@ public class King extends Piece {
         try {
             int i,j;
             //vertically: up
-            for(i=row+1;i<=7;i++){
-                String position = String.valueOf((char)('a'+column))+ (char)(i+'1');
+            for(i=row+1;i<=10;i++){
+                String position = String.valueOf((char)('a'+column))+ (char)('a'+i);
                 Piece p = board.getPiece(position);
                 if(p==null)
                     legalMoves.add(position);
@@ -37,7 +38,7 @@ public class King extends Piece {
             }
             //vertically: down
             for(i=row-1;i>=0;i--){
-                String position = String.valueOf((char)('a'+column))+ (char)(i+'1');
+                String position = String.valueOf((char)('a'+column))+ (char)('a'+i);
                 Piece p = board.getPiece(position);
                 if(p==null)
                     legalMoves.add(position);
@@ -47,7 +48,7 @@ public class King extends Piece {
             }
             //horizontally: left
             for(j=column-1;j>=0;j--){
-                String position = String.valueOf((char)('a'+j))+ (char)(row+'1');
+                String position = String.valueOf((char)('a'+j))+ (char)('a'+row);
                 Piece p = board.getPiece(position);
                 if(p==null)
                     legalMoves.add(position);
@@ -55,8 +56,8 @@ public class King extends Piece {
                     break;
             }
             //horizontally: right
-            for(j=column+1;j<=7;j++){
-                String position = String.valueOf((char)('a'+j))+ (char)(row+'1');
+            for(j=column+1;j<=10;j++){
+                String position = String.valueOf((char)('a'+j))+ (char)('a'+row);
                 Piece p = board.getPiece(position);
                 if(p==null)
                     legalMoves.add(position);
