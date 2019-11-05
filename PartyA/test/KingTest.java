@@ -1,5 +1,6 @@
 import com.partyA.bean.GameBoard;
 import com.partyA.bean.King;
+import com.partyA.bean.Pawn;
 import com.partyA.bean.Piece;
 import com.partyA.exception.IllegalPositionException;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +25,20 @@ public class KingTest {
         board = new GameBoard();
         king=new King(board, Piece.Color.BLACK);
         board.placePiece(king,position);
+
+        Pawn p1 = new Pawn(board, Piece.Color.BLACK);
+        board.placePiece(p1,"fk");
+
+        Pawn p2 = new Pawn(board, Piece.Color.BLACK);
+        board.placePiece(p2,"fc");
+
+        Pawn p3 = new Pawn(board, Piece.Color.BLACK);
+        board.placePiece(p3,"df");
+
+        Pawn p4 = new Pawn(board, Piece.Color.BLACK);
+        board.placePiece(p1,"jf");
+
+        System.out.println(board.toString());
     }
 
     @Test
@@ -37,24 +52,25 @@ public class KingTest {
     }
 
     @Test
-    public void testSetPositionForNull(){
-        assertThrows(IllegalPositionException.class,()->king.setPosition(null),"IllegalPositionException should be expected!!");
-    }
-
-    @Test
-    public void testSetPositionForEmpty(){
-        assertThrows(IllegalPositionException.class,()->king.setPosition(""),"IllegalPositionException should be expected!!");
-    }
-
-    @Test
     public void testSetIllegalPosition(){
         assertThrows(IllegalPositionException.class,()->king.setPosition("h^9"),"IllegalPositionException should be expected!!");
     }
 
     @Test
-    public void testLegalMovesForEmptySquares(){
-        //king is in the middle of the board, it has 8 choices.
+    public void testLegalMoves(){
         ArrayList<String> legalMoves = new ArrayList<>();
+        legalMoves.add("fd");
+        legalMoves.add("fe");
+
+        legalMoves.add("fg");
+        legalMoves.add("fh");
+        legalMoves.add("fi");
+        legalMoves.add("fj");
+
+        legalMoves.add("ef");
+        legalMoves.add("gf");
+        legalMoves.add("hf");
+        legalMoves.add("if");
 
 
         assertTrue(legalMoves.containsAll(king.legalMoves())&&king.legalMoves().containsAll(legalMoves),"actual result should be equal with expected result.");

@@ -25,6 +25,8 @@ public class Pawn extends Piece {
             //vertically: up
             for(i=row+1;i<=10;i++){
                 String position = String.valueOf((char)('a'+column))+ (char)('a'+i);
+                if("aa".equals(position)||"ak".equals(position)||"ka".equals(position)||"kk".equals(position)||"ff".equals(position))
+                    continue;
                 Piece p = board.getPiece(position);
                 if(p==null)
                     legalMoves.add(position);
@@ -34,6 +36,8 @@ public class Pawn extends Piece {
             //vertically: down
             for(i=row-1;i>=0;i--){
                 String position = String.valueOf((char)('a'+column))+ (char)('a'+i);
+                if("aa".equals(position)||"ak".equals(position)||"ka".equals(position)||"kk".equals(position)||"ff".equals(position))
+                    continue;
                 Piece p = board.getPiece(position);
                 if(p==null)
                     legalMoves.add(position);
@@ -43,6 +47,8 @@ public class Pawn extends Piece {
             //horizontally: left
             for(j=column-1;j>=0;j--){
                 String position = String.valueOf((char)('a'+j))+ (char)('a'+row);
+                if("aa".equals(position)||"ak".equals(position)||"ka".equals(position)||"kk".equals(position)||"ff".equals(position))
+                    continue;
                 Piece p = board.getPiece(position);
                 if(p==null)
                     legalMoves.add(position);
@@ -52,6 +58,8 @@ public class Pawn extends Piece {
             //horizontally: right
             for(j=column+1;j<=10;j++){
                 String position = String.valueOf((char)('a'+j))+ (char)('a'+row);
+                if("aa".equals(position)||"ak".equals(position)||"ka".equals(position)||"kk".equals(position)||"ff".equals(position))
+                    continue;
                 Piece p = board.getPiece(position);
                 if(p==null)
                     legalMoves.add(position);
