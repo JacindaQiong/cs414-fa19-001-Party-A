@@ -2,6 +2,7 @@ import com.partyA.bean.GameBoard;
 import com.partyA.bean.King;
 import com.partyA.bean.Pawn;
 import com.partyA.bean.Piece;
+import com.partyA.exception.IllegalMoveException;
 import com.partyA.exception.IllegalPositionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,8 @@ import org.junit.jupiter.api.Test;
  * User: Nana Yin
  * Date: 10/11/19
  */
+import java.util.Scanner;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameBoardTest {
@@ -25,6 +28,13 @@ public class GameBoardTest {
         System.out.println(board);
     }
 
+
+    @Test
+    public void testMove(){
+
+
+
+    }
     @Test
     public void testKillOpponent(){
         Pawn opponent1 = new Pawn(board, Piece.Color.BLACK);

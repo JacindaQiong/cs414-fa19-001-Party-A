@@ -4,6 +4,7 @@ import com.partyA.exception.IllegalMoveException;
 import com.partyA.exception.IllegalPositionException;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * User: Nana Yin
@@ -211,8 +212,6 @@ public class GameBoard {
             e.printStackTrace();
         }
         return false;
-
-
     }
     public int killOpponent(String toPosition) {
         try {
@@ -311,8 +310,6 @@ public class GameBoard {
                 }
             }
 
-
-
             //right
             String right_pos1 = String.valueOf((char)('a'+column+1))+ (char)('a'+row);
             if(right_pos1.charAt(0)>='a'&&right_pos1.charAt(0)<='k'&&right_pos1.charAt(1)>='a'&&right_pos1.charAt(1)<='k'){
@@ -332,7 +329,6 @@ public class GameBoard {
 
                 }
             }
-
 
         } catch (IllegalPositionException e) {
             e.printStackTrace();
@@ -397,5 +393,32 @@ public class GameBoard {
 
         chess+=bottomLine;
         return chess;
+    }
+
+    public static void main(String[] args) {
+        GameBoard board = new GameBoard();
+        board.initialize();
+
+        while(true){
+            Scanner scanner = new Scanner(System.in);
+            String input = scanner.next();
+            String[] parameters = input.split(",");
+            System.out.println("from："+parameters[0]+",to: "+parameters[1]);
+            try {
+                board.move(parameters[0],parameters[1]);
+                int result = board.killOpponent(parameters[1]);
+                System.out.println(board.toString());
+                if(result==0){
+                    System.out.println("black team wins!");
+                    break;
+                }else if(result ==1){
+                    System.out.println("white team wins!");
+                    break;
+                }
+            } catch (IllegalMoveException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }
