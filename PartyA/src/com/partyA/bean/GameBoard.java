@@ -3,7 +3,6 @@ package com.partyA.bean;
 import com.partyA.exception.IllegalMoveException;
 import com.partyA.exception.IllegalPositionException;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
 import java.util.Scanner;
 
