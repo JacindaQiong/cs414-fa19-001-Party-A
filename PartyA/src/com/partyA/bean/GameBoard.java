@@ -455,28 +455,28 @@ public class GameBoard {
         String rightT = "\u2524";
 
         String topLine = upperLeft;
-        for (int i = 0; i<7; i++){
+        for (int i = 0; i<10; i++){
             topLine += horizontal3 + upperT;
         }
         topLine += horizontal3 + upperRight;
 
         String bottomLine = bottomLeft;
-        for (int i = 0; i<7; i++){
+        for (int i = 0; i<10; i++){
             bottomLine += horizontal3 + bottomT;
         }
         bottomLine += horizontal3 + bottomRight;
         chess+=topLine + "\n";
 
-        for (int row = 7; row >=0; row--){
+        for (int row = 10; row >=0; row--){
             String midLine = "";
-            for (int col = 0; col < 8; col++){
+            for (int col = 0; col < 11; col++){
                 if(board[row][col]==null) {
                     midLine += verticalLine + " \u3000 ";
                 } else {midLine += verticalLine + " "+board[row][col]+" ";}
             }
             midLine += verticalLine;
             String midLine2 = leftT;
-            for (int i = 0; i<7; i++){
+            for (int i = 0; i<10; i++){
                 midLine2 += horizontal3 + plus;
             }
             midLine2 += horizontal3 + rightT;
