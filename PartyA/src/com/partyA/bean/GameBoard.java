@@ -429,6 +429,29 @@ public class GameBoard {
     }
 
     public static void main(String[] args) {
+        /* king wins:
+        * df,dj
+        * ef,cf
+        * ff,df
+        * df,db,
+        * db,ab
+        * ab,aa
+        * */
+
+        /*black wins:
+        * df,dj
+        * hf,hj
+        * ef,cf
+        * cf,ca
+        * gf,if,
+        * if,ia
+        * fd,fc
+        * fc,kc
+        * fe,fc
+        * fb,fe
+        * bf,ef
+        * jf,gf
+        * */
         User black = new User(1,"AAA","abcx","AAA@gamil.com");
         User white = new User(2,"BBB","fgfd","BBB@gamil.com");
         Match match = new Match(black,white);
