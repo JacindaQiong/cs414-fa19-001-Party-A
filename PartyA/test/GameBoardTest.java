@@ -2,7 +2,6 @@ import com.partyA.bean.GameBoard;
 import com.partyA.bean.King;
 import com.partyA.bean.Pawn;
 import com.partyA.bean.Piece;
-import com.partyA.exception.IllegalMoveException;
 import com.partyA.exception.IllegalPositionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +10,6 @@ import org.junit.jupiter.api.Test;
  * User: Nana Yin
  * Date: 10/11/19
  */
-import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -45,7 +43,7 @@ public class GameBoardTest {
         board.placePiece(same1,"he");
 
         board.placePiece(p,"hc");
-        board.killOpponent("hc");
+        board.checkStatus("hc");
 
         try {
             assertNull(board.getPiece("hd"));
@@ -62,7 +60,7 @@ public class GameBoardTest {
         board.placePiece(opponent1,"aj");
 
         board.placePiece(p,"ai");
-        board.killOpponent("ai");
+        board.checkStatus("ai");
 
         try {
             assertNull(board.getPiece("aj"));
@@ -79,7 +77,7 @@ public class GameBoardTest {
         board.placePiece(opponent1,"jk");
 
         board.placePiece(p,"ik");
-        board.killOpponent("ik");
+        board.checkStatus("ik");
 
         try {
             assertNull(board.getPiece("jk"));
@@ -103,10 +101,10 @@ public class GameBoardTest {
         board.placePiece(opponent3,"fg");
 
         board.placePiece(opponent4,"ef");
-        board.killOpponent("ef");
+        board.checkStatus("ef");
 
         // black wins
-        assertEquals(0,board.killOpponent("ef"));
+        assertEquals(0,board.checkStatus("ef"));
     }
 
     //3 black pieces + center square --> kill king
@@ -122,10 +120,10 @@ public class GameBoardTest {
         board.placePiece(opponent2,"df");
 
         board.placePiece(opponent3,"ee");
-        board.killOpponent("ee");
+        board.checkStatus("ee");
 
         // black wins
-        assertEquals(0,board.killOpponent("ee"));
+        assertEquals(0,board.checkStatus("ee"));
     }
 
     //3 king wins
@@ -135,7 +133,7 @@ public class GameBoardTest {
         board.placePiece(king,"ka");
 
         // king wins
-        assertEquals(1,board.killOpponent("ka"));
+        assertEquals(1,board.checkStatus("ka"));
     }
 
 }

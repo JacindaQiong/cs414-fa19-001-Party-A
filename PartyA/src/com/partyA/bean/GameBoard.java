@@ -3,6 +3,7 @@ package com.partyA.bean;
 import com.partyA.exception.IllegalMoveException;
 import com.partyA.exception.IllegalPositionException;
 
+import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -24,7 +25,8 @@ public class GameBoard {
     * */
     private int whoseTurn=0;
 
-    public GameBoard() {
+    public GameBoard(Match match) {
+        this.match = match;
         board= new Piece[11][11];
     }
 
@@ -166,7 +168,8 @@ public class GameBoard {
 
     }
 
-    public void move(String fromPosition, String toPosition) throws IllegalMoveException {
+    //-1 no change; 0 black wins; 1 white wins; 2 kill opponent
+    public int move(String fromPosition, String toPosition) throws IllegalMoveException {
         try {
             //1. check if this moving is a legal move
             Piece piece = getPiece(fromPosition);
@@ -181,6 +184,8 @@ public class GameBoard {
                     int column = pos[0]-'a';
                     board[row][column] = null;
                     whoseTurn++;
+
+                    return this.checkStatus(toPosition);
                 }else{
                     throw new IllegalMoveException("legalMoves List doesn't contain toPosition!! it's illegal move!!");
                 }
@@ -213,7 +218,7 @@ public class GameBoard {
         }
         return false;
     }
-    public int killOpponent(String toPosition) {
+    private int checkStatus(String toPosition) {
         try {
             King king = null;
             int king_row = 0;
@@ -247,6 +252,7 @@ public class GameBoard {
             }
 
             // 3. kill an opponent
+            boolean flag = false;
             char[] pos = toPosition.toCharArray();
             int row = pos[1]-'a';
             int column = pos[0]-'a';
@@ -261,11 +267,15 @@ public class GameBoard {
                     String top_pos2 = String.valueOf((char)('a'+column))+ (char)('a'+row+2);
                     if(top_pos2.charAt(0)>='a'&&top_pos2.charAt(0)<='k'&&top_pos2.charAt(1)>='a'&&top_pos2.charAt(1)<='k'){
                         Piece top_piece2 = getPiece(top_pos2);
-                        if(top_piece2!=null&&top_piece2.getColor().equals(currColor))
+                        if(top_piece2!=null&&top_piece2.getColor().equals(currColor)){
                             board[row+1][column] = null;
+                            flag = true;
+                        }
                         if(top_piece2==null){
-                            if("aa".equals(top_pos2)||"ak".equals(top_pos2)||"ka".equals(top_pos2)||"kk".equals(top_pos2)||"ff".equals(top_pos2))
+                            if("aa".equals(top_pos2)||"ak".equals(top_pos2)||"ka".equals(top_pos2)||"kk".equals(top_pos2)||"ff".equals(top_pos2)){
                                 board[row+1][column] = null;
+                                flag = true;
+                            }
                         }
                     }
 
@@ -280,11 +290,15 @@ public class GameBoard {
                     String bottom_pos2 = String.valueOf((char)('a'+column))+ (char)('a'+row-2);
                     if(bottom_pos2.charAt(0)>='a'&&bottom_pos2.charAt(0)<='k'&&bottom_pos2.charAt(1)>='a'&&bottom_pos2.charAt(1)<='k'){
                         Piece bottom_piece2 = getPiece(bottom_pos2);
-                        if(bottom_piece2!=null&&bottom_piece2.getColor().equals(currColor))
+                        if(bottom_piece2!=null&&bottom_piece2.getColor().equals(currColor)){
                             board[row-1][column] = null;
+                            flag = true;
+                        }
                         if(bottom_piece2==null){
-                            if("aa".equals(bottom_pos2)||"ak".equals(bottom_pos2)||"ka".equals(bottom_pos2)||"kk".equals(bottom_pos2)||"ff".equals(bottom_pos2))
+                            if("aa".equals(bottom_pos2)||"ak".equals(bottom_pos2)||"ka".equals(bottom_pos2)||"kk".equals(bottom_pos2)||"ff".equals(bottom_pos2)){
                                 board[row-1][column] = null;
+                                flag = true;
+                            }
                         }
                     }
                 }
@@ -298,11 +312,15 @@ public class GameBoard {
                     String left_pos2 = String.valueOf((char)('a'+column-2))+ (char)('a'+row);
                     if(left_pos2.charAt(0)>='a'&&left_pos2.charAt(0)<='k'&&left_pos2.charAt(1)>='a'&&left_pos2.charAt(1)<='k'){
                         Piece left_piece2 = getPiece(left_pos2);
-                        if(left_piece2!=null&&left_piece2.getColor().equals(currColor))
+                        if(left_piece2!=null&&left_piece2.getColor().equals(currColor)){
                             board[row][column-1] = null;
+                            flag = true;
+                        }
                         if(left_piece2==null){
-                            if("aa".equals(left_pos2)||"ak".equals(left_pos2)||"ka".equals(left_pos2)||"kk".equals(left_pos2)||"ff".equals(left_pos2))
+                            if("aa".equals(left_pos2)||"ak".equals(left_pos2)||"ka".equals(left_pos2)||"kk".equals(left_pos2)||"ff".equals(left_pos2)){
                                 board[row][column-1] = null;
+                                flag = true;
+                            }
                         }
                     }
 
@@ -318,18 +336,24 @@ public class GameBoard {
                     String right_pos2 = String.valueOf((char)('a'+column+2))+ (char)('a'+row);
                     if(right_pos2.charAt(0)>='a'&&right_pos2.charAt(0)<='k'&&right_pos2.charAt(1)>='a'&&right_pos2.charAt(1)<='k'){
                         Piece right_piece2 = getPiece(right_pos2);
-                        if(right_piece2!=null&&right_piece2.getColor().equals(currColor))
+                        if(right_piece2!=null&&right_piece2.getColor().equals(currColor)){
                             board[row][column+1] = null;
+                            flag = true;
+                        }
                         if(right_piece2==null){
-                            if("aa".equals(right_pos2)||"ak".equals(right_pos2)||"ka".equals(right_pos2)||"kk".equals(right_pos2)||"ff".equals(right_pos2))
+                            if("aa".equals(right_pos2)||"ak".equals(right_pos2)||"ka".equals(right_pos2)||"kk".equals(right_pos2)||"ff".equals(right_pos2)){
                                 board[row][column+1] = null;
+                                flag = true;
+                            }
                         }
                     }
 
 
                 }
             }
-
+            if(flag){
+                return 2;
+            }
         } catch (IllegalPositionException e) {
             e.printStackTrace();
         }
@@ -338,7 +362,16 @@ public class GameBoard {
 
     }
 
-
+    public String prompt(){
+        String msg = "";
+        int whoseTurn = getWhoseTurn();
+        if(whoseTurn%2==0){
+            msg = match.getBlackUser().getName()+", please move.";
+        }else{
+            msg = match.getWhiteUser().getName()+", please move.";
+        }
+        return msg;
+    }
     public String toString(){
         String chess="";
         String upperLeft = "\u250C";
@@ -396,7 +429,11 @@ public class GameBoard {
     }
 
     public static void main(String[] args) {
-        GameBoard board = new GameBoard();
+        User black = new User(1,"AAA","abcx","AAA@gamil.com");
+        User white = new User(2,"BBB","fgfd","BBB@gamil.com");
+        Match match = new Match(black,white);
+        GameBoard board = new GameBoard(match);
+
         board.initialize();
 
         while(true){
@@ -406,7 +443,7 @@ public class GameBoard {
             System.out.println("from："+parameters[0]+",to: "+parameters[1]);
             try {
                 board.move(parameters[0],parameters[1]);
-                int result = board.killOpponent(parameters[1]);
+                int result = board.checkStatus(parameters[1]);
                 System.out.println(board.toString());
                 if(result==0){
                     System.out.println("black team wins!");

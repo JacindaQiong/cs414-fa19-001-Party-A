@@ -2,6 +2,8 @@ package com.partyA.bean;
 
 import com.partyA.exception.IllegalMoveException;
 
+import java.util.Date;
+
 /**
  * User: Nana Yin
  * Date: 10/30/19
@@ -9,37 +11,26 @@ import com.partyA.exception.IllegalMoveException;
 public class Match {
     private User whiteUser;
     private User blackUser;
-    private GameBoard board;
 
     //0 black win, 1 white win
     private int result;
+    private Date startTime;
+    private Date endTime;
 
-    public Match(User whiteUser, User blackUser, GameBoard board) {
+    public Match( User blackUser,User whiteUser) {
         this.whiteUser = whiteUser;
         this.blackUser = blackUser;
-        this.board = board;
     }
 
-    public void execute(String fromPosition, String toPosition){
-        try {
-            board.move(fromPosition,toPosition);
-        } catch (IllegalMoveException e) {
-            e.printStackTrace();
-        }
-        result = board.killOpponent(toPosition);
-
+    public User getWhiteUser() {
+        return whiteUser;
     }
 
+    public User getBlackUser() {
+        return blackUser;
+    }
 
-
-    public String prompt(){
-        String msg = "";
-        int whoseTurn = board.getWhoseTurn();
-        if(whoseTurn%2==0){
-            msg = blackUser.getName()+", please move.";
-        }else{
-            msg = whiteUser.getName()+", please move.";
-        }
-        return msg;
+    public void record(){
+        // BlackUser  WhiteUser   result
     }
 }
