@@ -1,6 +1,4 @@
-import com.partyA.bean.GameBoard;
-import com.partyA.bean.Pawn;
-import com.partyA.bean.Piece;
+import com.partyA.bean.*;
 import com.partyA.exception.IllegalPositionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +20,11 @@ public class PawnTest {
 
     @BeforeEach
     public void setUp(){
-         board = new GameBoard();
+        User black = new User(1,"AAA","abcx","AAA@gamil.com");
+        User white = new User(2,"BBB","fgfd","BBB@gamil.com");
+        Match match = new Match(black,white);
+        GameBoard board = new GameBoard(match);
+
         pawn=new Pawn(board, Piece.Color.WHITE);
         board.placePiece(pawn,position);
 

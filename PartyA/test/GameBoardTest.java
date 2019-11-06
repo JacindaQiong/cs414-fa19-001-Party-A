@@ -1,7 +1,5 @@
-import com.partyA.bean.GameBoard;
-import com.partyA.bean.King;
-import com.partyA.bean.Pawn;
-import com.partyA.bean.Piece;
+import com.partyA.bean.*;
+import com.partyA.exception.IllegalMoveException;
 import com.partyA.exception.IllegalPositionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +15,10 @@ public class GameBoardTest {
     private GameBoard board;
     @BeforeEach
     public void setUp(){
-        board = new GameBoard();
+        User black = new User(1,"AAA","abcx","AAA@gamil.com");
+        User white = new User(2,"BBB","fgfd","BBB@gamil.com");
+        Match match = new Match(black,white);
+        GameBoard board = new GameBoard(match);
         board.initialize();
     }
 
@@ -42,8 +43,12 @@ public class GameBoardTest {
         board.placePiece(opponent1,"hd");
         board.placePiece(same1,"he");
 
-        board.placePiece(p,"hc");
-        board.checkStatus("hc");
+        board.placePiece(p,"ac");
+        try {
+            int result = board.move("ac","hc");
+        } catch (IllegalMoveException e) {
+            e.printStackTrace();
+        }
 
         try {
             assertNull(board.getPiece("hd"));
@@ -59,8 +64,12 @@ public class GameBoardTest {
 
         board.placePiece(opponent1,"aj");
 
-        board.placePiece(p,"ai");
-        board.checkStatus("ai");
+        board.placePiece(p,"aa");
+        try {
+            int result = board.move("aa","ai");
+        } catch (IllegalMoveException e) {
+            e.printStackTrace();
+        }
 
         try {
             assertNull(board.getPiece("aj"));
@@ -76,8 +85,13 @@ public class GameBoardTest {
 
         board.placePiece(opponent1,"jk");
 
-        board.placePiece(p,"ik");
-        board.checkStatus("ik");
+
+        board.placePiece(p,"ii");
+        try {
+            board.move("ii","ik");
+        } catch (IllegalMoveException e) {
+            e.printStackTrace();
+        }
 
         try {
             assertNull(board.getPiece("jk"));
@@ -100,11 +114,15 @@ public class GameBoardTest {
         board.placePiece(opponent2,"dg");
         board.placePiece(opponent3,"fg");
 
-        board.placePiece(opponent4,"ef");
-        board.checkStatus("ef");
+        board.placePiece(opponent4,"ee");
+
 
         // black wins
-        assertEquals(0,board.checkStatus("ef"));
+        try {
+            assertEquals(0,board.move("ee","ef"));
+        } catch (IllegalMoveException e) {
+            e.printStackTrace();
+        }
     }
 
     //3 black pieces + center square --> kill king
@@ -119,21 +137,30 @@ public class GameBoardTest {
         board.placePiece(opponent1,"eg");
         board.placePiece(opponent2,"df");
 
-        board.placePiece(opponent3,"ee");
-        board.checkStatus("ee");
+        board.placePiece(opponent3,"aa");
+        try {
+            board.move("aa","ee");
+        } catch (IllegalMoveException e) {
+            e.printStackTrace();
+        }
 
-        // black wins
-        assertEquals(0,board.checkStatus("ee"));
+
     }
 
     //3 king wins
     @Test
     public void testKingWin(){
         King king = new King(board, Piece.Color.WHITE);
-        board.placePiece(king,"ka");
+        board.placePiece(king,"aa");
+        int result = 0;
+        try {
+            result = board.move("aa","ka");
+        } catch (IllegalMoveException e) {
+            e.printStackTrace();
+        }
 
         // king wins
-        assertEquals(1,board.checkStatus("ka"));
+        assertEquals(1,result);
     }
 
 }
