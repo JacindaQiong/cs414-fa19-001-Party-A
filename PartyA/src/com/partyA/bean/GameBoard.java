@@ -471,8 +471,15 @@ public class GameBoard {
             String midLine = "";
             for (int col = 0; col < 11; col++){
                 if(board[row][col]==null) {
-                    midLine += verticalLine + " \u3000 ";
-                } else {midLine += verticalLine + " "+board[row][col]+" ";}
+                    if((row==0&&col==0)||(row==10&&col==0)||(row==0&&col==10)||(row==10&&col==10)){
+                        midLine += verticalLine + " \u274C ";
+                    }else{
+                        midLine += verticalLine + " \u3000 ";
+                    }
+//                    midLine += verticalLine + "";
+                } else {
+                    midLine += verticalLine + " "+board[row][col]+" ";
+                }
             }
             midLine += verticalLine;
             String midLine2 = leftT;
