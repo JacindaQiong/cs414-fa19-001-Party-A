@@ -223,7 +223,7 @@ public class GameBoard {
             King king = null;
             int king_row = 0;
             int king_column = 0;
-
+            String kingPos = "";
             for(int i=0;i<11;i++){
                 for(int j=0;j<11;j++){
                     String pos = String.valueOf((char)('a'+j))+ (char)('a'+i);
@@ -237,7 +237,7 @@ public class GameBoard {
             }
             if(king != null){
 
-                String kingPos = king.getPosition();
+                kingPos = king.getPosition();
                 // 1. white win
                 if("aa".equals(kingPos)||"ak".equals(kingPos)||"ka".equals(kingPos)||"kk".equals(kingPos))
                     return 1;
@@ -261,12 +261,13 @@ public class GameBoard {
             //top
 
             String top_pos1 = String.valueOf((char)('a'+column))+ (char)('a'+row+1);
-            if(top_pos1.charAt(0)>='a'&&top_pos1.charAt(0)<='k'&&top_pos1.charAt(1)>='a'&&top_pos1.charAt(1)<='k'){
+            if(top_pos1.charAt(0)>='a'&&top_pos1.charAt(0)<='k'&&top_pos1.charAt(1)>='a'&&top_pos1.charAt(1)<='k'&&!kingPos.equals(top_pos1)){
                 Piece top_piece1 = getPiece(top_pos1);
                 if(top_piece1!=null && !top_piece1.getColor().equals(currColor)){
                     String top_pos2 = String.valueOf((char)('a'+column))+ (char)('a'+row+2);
                     if(top_pos2.charAt(0)>='a'&&top_pos2.charAt(0)<='k'&&top_pos2.charAt(1)>='a'&&top_pos2.charAt(1)<='k'){
                         Piece top_piece2 = getPiece(top_pos2);
+
                         if(top_piece2!=null&&top_piece2.getColor().equals(currColor)){
                             board[row+1][column] = null;
                             flag = true;
@@ -277,6 +278,7 @@ public class GameBoard {
                                 flag = true;
                             }
                         }
+
                     }
 
                 }
@@ -284,20 +286,23 @@ public class GameBoard {
 
             //bottom
             String bottom_pos1 = String.valueOf((char)('a'+column))+ (char)('a'+row-1);
-            if(bottom_pos1.charAt(0)>='a'&&bottom_pos1.charAt(0)<='k'&&bottom_pos1.charAt(1)>='a'&&bottom_pos1.charAt(1)<='k'){
+            if(bottom_pos1.charAt(0)>='a'&&bottom_pos1.charAt(0)<='k'&&bottom_pos1.charAt(1)>='a'&&bottom_pos1.charAt(1)<='k'&&!kingPos.equals(bottom_pos1)){
                 Piece bottom_piece1 = getPiece(bottom_pos1);
                 if(bottom_piece1!=null && !bottom_piece1.getColor().equals(currColor)){
                     String bottom_pos2 = String.valueOf((char)('a'+column))+ (char)('a'+row-2);
                     if(bottom_pos2.charAt(0)>='a'&&bottom_pos2.charAt(0)<='k'&&bottom_pos2.charAt(1)>='a'&&bottom_pos2.charAt(1)<='k'){
                         Piece bottom_piece2 = getPiece(bottom_pos2);
-                        if(bottom_piece2!=null&&bottom_piece2.getColor().equals(currColor)){
-                            board[row-1][column] = null;
-                            flag = true;
-                        }
-                        if(bottom_piece2==null){
-                            if("aa".equals(bottom_pos2)||"ak".equals(bottom_pos2)||"ka".equals(bottom_pos2)||"kk".equals(bottom_pos2)||"ff".equals(bottom_pos2)){
+                        if(!(bottom_piece2 instanceof King)){
+
+                            if(bottom_piece2!=null&&bottom_piece2.getColor().equals(currColor)){
                                 board[row-1][column] = null;
                                 flag = true;
+                            }
+                            if(bottom_piece2==null){
+                                if("aa".equals(bottom_pos2)||"ak".equals(bottom_pos2)||"ka".equals(bottom_pos2)||"kk".equals(bottom_pos2)||"ff".equals(bottom_pos2)){
+                                    board[row-1][column] = null;
+                                    flag = true;
+                                }
                             }
                         }
                     }
@@ -306,22 +311,25 @@ public class GameBoard {
 
             //left
             String left_pos1 = String.valueOf((char)('a'+column-1))+ (char)('a'+row);
-            if(left_pos1.charAt(0)>='a'&&left_pos1.charAt(0)<='k'&&left_pos1.charAt(1)>='a'&&left_pos1.charAt(1)<='k'){
+            if(left_pos1.charAt(0)>='a'&&left_pos1.charAt(0)<='k'&&left_pos1.charAt(1)>='a'&&left_pos1.charAt(1)<='k'&&!kingPos.equals(left_pos1)){
                 Piece left_piece1 = getPiece(left_pos1);
                 if(left_piece1!=null && !left_piece1.getColor().equals(currColor)){
                     String left_pos2 = String.valueOf((char)('a'+column-2))+ (char)('a'+row);
                     if(left_pos2.charAt(0)>='a'&&left_pos2.charAt(0)<='k'&&left_pos2.charAt(1)>='a'&&left_pos2.charAt(1)<='k'){
                         Piece left_piece2 = getPiece(left_pos2);
-                        if(left_piece2!=null&&left_piece2.getColor().equals(currColor)){
-                            board[row][column-1] = null;
-                            flag = true;
-                        }
-                        if(left_piece2==null){
-                            if("aa".equals(left_pos2)||"ak".equals(left_pos2)||"ka".equals(left_pos2)||"kk".equals(left_pos2)||"ff".equals(left_pos2)){
+                        if(!(left_piece2 instanceof King)){
+                            if(left_piece2!=null&&left_piece2.getColor().equals(currColor)){
                                 board[row][column-1] = null;
                                 flag = true;
                             }
+                            if(left_piece2==null){
+                                if("aa".equals(left_pos2)||"ak".equals(left_pos2)||"ka".equals(left_pos2)||"kk".equals(left_pos2)||"ff".equals(left_pos2)){
+                                    board[row][column-1] = null;
+                                    flag = true;
+                                }
+                            }
                         }
+
                     }
 
 
@@ -330,22 +338,25 @@ public class GameBoard {
 
             //right
             String right_pos1 = String.valueOf((char)('a'+column+1))+ (char)('a'+row);
-            if(right_pos1.charAt(0)>='a'&&right_pos1.charAt(0)<='k'&&right_pos1.charAt(1)>='a'&&right_pos1.charAt(1)<='k'){
+            if(right_pos1.charAt(0)>='a'&&right_pos1.charAt(0)<='k'&&right_pos1.charAt(1)>='a'&&right_pos1.charAt(1)<='k'&&!kingPos.equals(right_pos1)){
                 Piece right_piece1 = getPiece(right_pos1);
                 if(right_piece1!=null && !right_piece1.getColor().equals(currColor)){
                     String right_pos2 = String.valueOf((char)('a'+column+2))+ (char)('a'+row);
                     if(right_pos2.charAt(0)>='a'&&right_pos2.charAt(0)<='k'&&right_pos2.charAt(1)>='a'&&right_pos2.charAt(1)<='k'){
                         Piece right_piece2 = getPiece(right_pos2);
-                        if(right_piece2!=null&&right_piece2.getColor().equals(currColor)){
-                            board[row][column+1] = null;
-                            flag = true;
-                        }
-                        if(right_piece2==null){
-                            if("aa".equals(right_pos2)||"ak".equals(right_pos2)||"ka".equals(right_pos2)||"kk".equals(right_pos2)||"ff".equals(right_pos2)){
+                        if(!(right_piece2 instanceof King)){
+                            if(right_piece2!=null&&right_piece2.getColor().equals(currColor)){
                                 board[row][column+1] = null;
                                 flag = true;
                             }
+                            if(right_piece2==null){
+                                if("aa".equals(right_pos2)||"ak".equals(right_pos2)||"ka".equals(right_pos2)||"kk".equals(right_pos2)||"ff".equals(right_pos2)){
+                                    board[row][column+1] = null;
+                                    flag = true;
+                                }
+                            }
                         }
+
                     }
 
 
@@ -439,18 +450,16 @@ public class GameBoard {
         * */
 
         /*black wins:
-        * df,dj
-        * hf,hj
+        *df,di
+        * di,ai
         * ef,cf
-        * cf,ca
-        * gf,if,
-        * if,ia
-        * fd,fc
-        * fc,kc
-        * fe,fc
-        * fb,fe
-        * bf,ef
-        * jf,gf
+        * cf,ci
+        * ci,ki
+        * bf,be
+        * ff,bf
+        * ag,bg
+        * dk,df
+        * df,cf
         * */
         User black = new User(1,"AAA","abcx","AAA@gamil.com");
         User white = new User(2,"BBB","fgfd","BBB@gamil.com");
