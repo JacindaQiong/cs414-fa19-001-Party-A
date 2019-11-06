@@ -44,9 +44,11 @@ public class AddUserServlet extends HttpServlet {
       user.setName(request.getParameter("uname"));
       user.setPass(request.getParameter("upass"));
       user.setEmail(request.getParameter("uemail"));
+
       UserService service=new UserService();
       boolean flag=service.addUser(user);
       PrintWriter out=response.getWriter();
+      response.sendRedirect("http://localhost:8080/login.jsp");
       out.print(flag);
       out.flush();  
 	}
