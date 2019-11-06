@@ -4,93 +4,91 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<!-- Basic -->
-
-		<title>Register</title>
-
+    <style type="text/css">
+        #ant {
+            background-color: #b5c9cc;
+            text-align: center;
+            width: 500px;
+            height: 400px;
+            margin: auto;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+        #title{
+            text-align: center;
+        }
+        #body{
+            text-align: center;
+        }
+    </style>
+		<title >Register</title>
 	</head>
-
 	<body>
-		<!-- Start: Content -->
-		<div class="container-fluid content">
-			<div class="row">
-				<!-- Main Page -->
-				<div class="body-register">
-					<div class="center-register">
-						<a href="#" class="logo pull-left hidden-xs">
-							<img src="" height="45" alt="Hnenfatafl" />
-						</a>
-
-						<div class="panel panel-register">
-							<div class="panel-title-register text-right">
-								<h2 class="title text-uppercase" ><i class="fa fa-user"></i> Register</h2>
-							</div>
-							<div class="panel-body">
+						<table>
+							<div id="title"><h2 >Register</h2></div>
+							<div id="ant">
 								<form action="addUser" id="fm" method="post">
-									<div class="form-group">
-										<label>username</label>
-										<input name="uname" type="text" class="form-control" title="username"/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<div >
+										<label style="font-size: 20px;">username:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+										<input style="font-size: 10px;" name="uname" type="text"  title="username"/>
 									</div>
-							       <div class="form-group">
-										<div class="row">
-											<div class="col-sm-6">
-												<label>password</label>
-												<input name="upass" type="password" class="form-control"title="password"/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+											<div >
+												<label style="font-size: 20px;">password:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+												<input style="font-size: 10px;" name="upass" type="password" title="password"/>
 											</div>
-										</div>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+									<div >
+										<label style="font-size: 20px;">email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+										<input style="font-size: 10px;" name="uemail" type="email" title="email_address"/>
 									</div>
-									<div class="form-group">
-										<label>email</label>
-										<input name="uemail" type="email" class="form-control" title="email_address"/>
-									</div>
-									<div class="row">
-										<div class="col-sm-8">
-											<div class="checkbox-custom checkbox-default">
-												<input id="AgreeTerms" name="agreeterms" checked="checked"  type="checkbox" title="agreement"/>
-												<label for="AgreeTerms">I agree <a href="#"><small>user agreement</small></a></label>
-											</div>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+										<div >
+											<a href="javascript:commit()" type="submit" style="font-size: 30px;"><button>register</button></a>
 										</div>
-										<div class="col-sm-4 text-right">
-											<a href="javascript:commit()" type="submit" class=""><button>register </button></a>
-											<!--<button href="index.html" type="submit" class="btn btn-primary btn-block btn-lg visible-xs bk-margin-top-10">注</button>-->
-										</div>
-									</div>
-									<p class="text-center">I have a account!<a href="login.jsp"><button>login</button></a>
 								</form>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                I have an account!
+								<a href="login.jsp"><small >login</small></a>
 							</div>
-						</div>
-					</div>
-				</div>
-				<!-- End Main Page -->
-		
-				<!-- Usage -->
-				
-				<!-- End Usage -->					
-		
-			</div>
-		</div><!--/container-->
-		 <script >
-  
-  function commit(){
-	  var myform = document.getElementById("fm");   //获得form表单对象
-	    for(var i=0;i<myform.length;i++){               //循环form表单
-	          if(myform.elements[i].value==""){          //判断每一个元素是否为空
-	                alert(myform.elements[i].title+"cannot null");
-	                myform.elements[i].focus();             //元素获得焦点
-	                return ;
-	          }
-	    }
-	    if ($('#AgreeTerms').attr('checked')) {
-	    	alert("agreement cannot null!");
-	    	return;
-	    }
-	  $('#fm').form('submit',{
+                        </table>
+		<script >
+            function commit(){
+      // var myform = document.getElementById("fm");
+	   //  for(var i=0;i<myform.length;i++){
+	   //        if(myform.elements[i].value==""){
+	   //              alert(myform.elements[i].title+"cannot null");
+	   //              myform.elements[i].focus();
+	   //              return ;
+	   //        }
+	   //  }
+	   // console.log($("#fm").serialize())
+      // $.ajax({
+      //     url:'addUser',
+      //     type:'post',
+      //     dataType:'json',
+      //     data:$("#fm").serialize(),
+      //     complete:function(){
+      //         console.log(1)
+		//   },
+      //     error:function(){
+      //         console.log(2);
+      //     },
+      //     success:function(){
+      //         console.log(3);
+      //     }
+      // });
+      $('#fm').form('submit',{
 		  url:'addUser',
-		  success:function(){
+		  success:function(res){
+		      console.log(res);
 			 window.location.href="login.jsp";
 		  }
-	  });
-  }  
+      });
+  }
   </script>
 </body>
 </html>

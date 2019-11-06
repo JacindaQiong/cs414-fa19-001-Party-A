@@ -48,7 +48,7 @@ public class LoginServlet extends HttpServlet {
 		}else{
 			HttpSession session=request.getSession();
 			session.setAttribute("userInfo",user);
-			response.sendRedirect("page-register.jsp");
+			response.sendRedirect("Gameboard.jsp");
 		}
 	}
 
