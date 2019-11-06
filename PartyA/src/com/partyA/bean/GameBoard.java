@@ -548,7 +548,6 @@ public class GameBoard {
             System.out.println("from："+parameters[0]+",to: "+parameters[1]);
             try {
                 int result  = board.move(parameters[0],parameters[1]);
-//                int result = board.checkStatus(parameters[1]);
                 System.out.println(board.toString());
                 if(result==999){
                     System.out.println("it's not your turn!");
