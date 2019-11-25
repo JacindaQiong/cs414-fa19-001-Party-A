@@ -10,7 +10,9 @@ partyA
 </body>
 <script>
 
+
     var controller = {
+        turn:0,
         round:true,
         color:"black",
         whiteTable:new Array(),
@@ -19,17 +21,18 @@ partyA
         col:0,
         over:false,
         trans:function() {
-            this.round = !this.round;
-            if (!this.round) {
-                this.blackTable[this.row][this.col] = 1;
-                this.ifWin(this.blackTable)
-                this.color = "white";
-            }
-            else {
-                this.whiteTable[this.row][this.col] = 1;
-                this.ifWin(this.whiteTable)
-                this.color = "black";
-            }
+            controller.turn = controller.turn+1;
+            // this.round = !this.round;
+            // if (!this.round) {
+            //     this.blackTable[this.row][this.col] = 1;
+            //     this.ifWin(this.blackTable)
+            //     this.color = "white";
+            // }
+            // else {
+            //     this.whiteTable[this.row][this.col] = 1;
+            //     this.ifWin(this.whiteTable)
+            //     this.color = "black";
+            // }
         },
         ifWin:function(table) {
             var arr1 = new Array();
@@ -435,8 +438,41 @@ partyA
             ctx.fill();
             ctx.stroke();
 
+        },
+        clearPiece:function(posX, posY) {
+            ctx.lineWidth="2";
+            ctx.beginPath();
+            ctx.clearRect(posX,posY,ratio,ratio);
+            ctx.fillStyle = "#4fff29";
+            ctx.fillRect(posX,posY,ratio,ratio);
+
+            ctx.moveTo(posX,posY);
+            ctx.lineTo(posX+ratio,posY);
+            ctx.stroke();
+            ctx.moveTo(posX,posY);
+            ctx.lineTo(posX,posY+ratio);
+            ctx.stroke();
+
+            ctx.moveTo(posX+ratio,posY+ratio);
+            ctx.lineTo(posX+ratio,posY);
+            ctx.stroke();
+            ctx.moveTo(posX+ratio,posY+ratio);
+            ctx.lineTo(posX+ratio,posY);
+            ctx.stroke();
+
+        },
+        placePiece:function(posX, posY, whoseTurn) {
+            ctx.beginPath();
+            ctx.arc((posX+0.5)*ratio, (posY+0.5)*ratio, 0.5*ratio, 0, 2*Math.PI);
+            ctx.fillStyle = whoseTurn%2==0?"black":"white";
+            ctx.fill();
+            ctx.stroke();
+
         }
     };
+
+
+
     //获取点击位置
     function getMousePos(canvas, evt) {
         var rect = canvas.getBoundingClientRect();
@@ -464,15 +500,36 @@ partyA
 
     controller.init();
 
+    // canvas.addEventListener("dblclick", function (evt) {
+    //     var mousePos = getMousePos(canvas, evt);
+    //     mousePos.x = getNode(mousePos.x);
+    //     mousePos.y = getNode(mousePos.y);
+    //     alert(" move from origin: x="+mousePos.x+",y="+mousePos.y);
+    //     var exist = controller.exist(mousePos.x, mousePos.y);
+    //     if (!exist && !controller.over) {
+    //         controller.clearPiece(mousePos.x, mousePos.y);
+    //         // controller.trans();
+    //         alert(this.turn);
+    //     }
+    // }, false);
+
     canvas.addEventListener("click", function (evt) {
         var mousePos = getMousePos(canvas, evt);
         mousePos.x = getNode(mousePos.x);
         mousePos.y = getNode(mousePos.y);
-        alert("x="+mousePos.x+",y="+mousePos.y);
         var exist = controller.exist(mousePos.x, mousePos.y);
+        if (exist && !controller.over) {
+            alert(" move from : x="+mousePos.x+",y="+mousePos.y);
+            controller.clearPiece(mousePos.x, mousePos.y);
+            alert(controller.turn);
+
+        }
         if (!exist && !controller.over) {
-            // controller.placePiece(mousePos.x, mousePos.y);
+            alert(" move to : x="+mousePos.x+",y="+mousePos.y);
+            controller.placePiece(mousePos.x, mousePos.y,controller.turn);
             controller.trans();
+            alert(controller.turn);
+
         }
     }, false);
 </script>
