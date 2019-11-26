@@ -49,9 +49,9 @@
     var chess = [
         //[txt, x, y, whoseTurn]
         ['B',150,0,0],['B',200,0,0],['B',250,0,0],['B',300,0,0],['B',350,0,0],['B',250,50,0],
-        ['B',150,550,0],['B',200,550,0],['B',250,550,0],['B',300,550,0],['B',350,550,0],['B',250,500,0],
+        ['B',150,500,0],['B',200,500,0],['B',250,500,0],['B',300,500,0],['B',350,500,0],['B',250,500,0],
         ['B',0,150,0],['B',0,200,0],['B',0,250,0],['B',0,300,0],['B',0,350,0],['B',50,250,0],
-        ['B',550,150,0],['B',550,200,0],['B',550,250,0],['B',550,300,0],['B',550,350,0],['B',500,250,0],
+        ['B',500,150,0],['B',500,200,0],['B',500,250,0],['B',500,300,0],['B',500,350,0],['B',500,250,0],
 
         ['W',250,150,0],['W',250,350,0],
         ['W',200,200,0],['W',250,200,0],['W',300,200,0],['W',200,300,0],['W',250,300,0],['W',300,300,0],
@@ -69,11 +69,11 @@
         var canvas = document.getElementById("canvas");
         var canvas1 = document.getElementById("canvas1");
 
-        canvas.width = 550;
-        canvas.height = 550;
+        canvas.width = 500;
+        canvas.height = 500;
 
-        canvas1.width = 550;
-        canvas1.height = 550;
+        canvas1.width = 500;
+        canvas1.height = 500;
 
         var context = canvas.getContext("2d");
         var context1 = canvas1.getContext("2d");
@@ -134,7 +134,6 @@
                 }
 
                 // if(desc_click[3] == whose&&chess[i][4]!=whose){
-                    //这一步判断是否成功换人下子
                     // if(go(sub_x,sub_y,desc_click[4],true)){
                         // if(go(sub_x,sub_y,desc_click[4],true)){
 
@@ -150,7 +149,7 @@
             }
         }
 
-        // if(sub_x >= 50&&sub_x<=450&&sub_y>=50&&sub_y<=550){
+        // if(sub_x >= 50&&sub_x<=450&&sub_y>=50&&sub_y<=500){
             // if(go(sub_x,sub_y,desc_click[4])){
                 chess[desc_click[2]][1] = sub_x;
                 chess[desc_click[2]][2] = sub_y;
@@ -162,22 +161,22 @@
     }
 
     function repaint(context){
-        context.clearRect(0,0,550,550);
+        context.clearRect(0,0,500,500);
         draw_Chess_All(context);
     }
 
     function draw_ChessBoard(context){
         context.lineWidth = 2;
-        context.clearRect(0,0,550,550);
+        context.clearRect(0,0,500,500);
         context.fillStyle = "#b3b37d";
-        context.fillRect(0,0,550,550);
+        context.fillRect(0,0,500,500);
         context.beginPath();
-        for(var i = 0; i <12; i++) {
+        for(var i = 0; i <11; i++) {
             context.moveTo(i * 50, 0);
-            context.lineTo(i * 50, 550);
+            context.lineTo(i * 50, 500);
             context.stroke();
             context.moveTo(0, i * 50);
-            context.lineTo(550, i * 50);
+            context.lineTo(500, i * 50);
             context.stroke();
         }
     }
