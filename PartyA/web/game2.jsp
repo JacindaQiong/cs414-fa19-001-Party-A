@@ -49,39 +49,30 @@
     var chess = [
         //[txt, x, y, whoseTurn]
         ['B',150,0,0],['B',200,0,0],['B',250,0,0],['B',300,0,0],['B',350,0,0],['B',250,50,0],
-        ['B',150,500,0],['B',200,500,0],['B',250,500,0],['B',300,500,0],['B',350,500,0],['B',250,500,0],
+        ['B',150,500,0],['B',200,500,0],['B',250,500,0],['B',300,500,0],['B',350,500,0],['B',250,450,0],
         ['B',0,150,0],['B',0,200,0],['B',0,250,0],['B',0,300,0],['B',0,350,0],['B',50,250,0],
-        ['B',500,150,0],['B',500,200,0],['B',500,250,0],['B',500,300,0],['B',500,350,0],['B',500,250,0],
-
+        ['B',500,150,0],['B',500,200,0],['B',500,250,0],['B',500,300,0],['B',500,350,0],['B',450,250,0],
         ['W',250,150,0],['W',250,350,0],
         ['W',200,200,0],['W',250,200,0],['W',300,200,0],['W',200,300,0],['W',250,300,0],['W',300,300,0],
         ['W',150,250,0],['W',200,250,0],['W',300,250,0],['W',350,250,0],
-
         ['K',250,250,0]
     ];
-
     //index, x，y
     var desc_click = [-1,-1,-1];
     //0 black; 1 white
     var whose = 0;
-
     window.onload = function (){
         var canvas = document.getElementById("canvas");
         var canvas1 = document.getElementById("canvas1");
-
         canvas.width = 500;
         canvas.height = 500;
-
         canvas1.width = 500;
         canvas1.height = 500;
-
         var context = canvas.getContext("2d");
         var context1 = canvas1.getContext("2d");
-
         draw_ChessBoard(context1);
         draw_Chess_All(context);
         // update_h2();//更换当前的出手的人
-
         canvas.onclick = function(e){
             // alert("e.clientX="+e.clientX+",e.clientY="+e.clientY);
             // alert("canvas.offsetLeft="+canvas.offsetLeft+",canvas.offsetTop="+canvas.offsetTop);
@@ -93,14 +84,12 @@
             }
         };
     }
-
     function put_Chess(context,x,y){
         var sub_x = 0,sub_y = 0, i, turn;
         if (x%100>80||x%100<20) {sub_x = 100*Math.round(x/100)};
         if (x%100>30&&x%100<70) {sub_x = x>100?(Math.floor(x/100)*100 + 50):50};
         if (y%100>80||y%100<20) {sub_y = 100*Math.round(y/100)};
         if (y%100>30&&y%100<70) {sub_y = y>100?(Math.floor(y/100)*100 + 50):50};
-
         for (i = 0;i < chess.length; i++) {
             if (chess[i][1] == desc_click[1] && chess[i][2] == desc_click[2]) {
                 alert("move before:x="+chess[i][1]+",y="+chess[i][2]);
@@ -132,39 +121,34 @@
                 }else{
                     alert("it's not your turn! ");
                 }
-
                 // if(desc_click[3] == whose&&chess[i][4]!=whose){
-                    // if(go(sub_x,sub_y,desc_click[4],true)){
-                        // if(go(sub_x,sub_y,desc_click[4],true)){
-
-                        // chess[desc_click[2]][1] = sub_x;//
-                        // chess[desc_click[2]][2] = sub_y;//
-                        // chess[i][3] = 0;
-                        // whose = whose == 0?1:0;
-                        // repaint(context);
-                        // if(chess[i][5] == 5) {document.getElementById("canvas").onclick = null;}
-                    // }
+                // if(go(sub_x,sub_y,desc_click[4],true)){
+                // if(go(sub_x,sub_y,desc_click[4],true)){
+                // chess[desc_click[2]][1] = sub_x;//
+                // chess[desc_click[2]][2] = sub_y;//
+                // chess[i][3] = 0;
+                // whose = whose == 0?1:0;
+                // repaint(context);
+                // if(chess[i][5] == 5) {document.getElementById("canvas").onclick = null;}
+                // }
                 // }
                 // return false;
             }
         }
-
         // if(sub_x >= 50&&sub_x<=450&&sub_y>=50&&sub_y<=500){
-            // if(go(sub_x,sub_y,desc_click[4])){
-                chess[desc_click[2]][1] = sub_x;
-                chess[desc_click[2]][2] = sub_y;
-                repaint(context);
-                desc_click = [0,0,0];
-                whose = whose ==0?1:0;
-            // }
+        // if(go(sub_x,sub_y,desc_click[4])){
+        chess[desc_click[2]][1] = sub_x;
+        chess[desc_click[2]][2] = sub_y;
+        repaint(context);
+        desc_click = [0,0,0];
+        whose = whose ==0?1:0;
+        // }
         // }
     }
-
     function repaint(context){
         context.clearRect(0,0,500,500);
         draw_Chess_All(context);
     }
-
     function draw_ChessBoard(context){
         context.lineWidth = 2;
         context.clearRect(0,0,500,500);
@@ -180,13 +164,11 @@
             context.stroke();
         }
     }
-
     function draw_Chess_All(context){
         for (var i = 0;i < chess.length; i++) {
-                draw_Chess_One_Piece(context,chess[i][0],chess[i][1],chess[i][2]);
+            draw_Chess_One_Piece(context,chess[i][0],chess[i][1],chess[i][2]);
         }
     }
-
     function draw_Chess_One_Piece(context, txt, x, y){
         var color;
         if(txt=='B'){
@@ -210,29 +192,24 @@
         context.strokeStyle = "#c9c876";
         context.stroke();
         context.fill();
-
         context.beginPath();
         context.fillStyle = color;
         context.font = "900 24px KaiTi_GB2312";
         context.fillText(txt,x-12,y+8);
         context.restore();
     }
-
     function draw_check(context,x,y){
         repaint(context);
         context.beginPath();
         context.moveTo(x-23,y-10);
         context.lineTo(x-23,y-23);
         context.lineTo(x-10,y-23);
-
         context.moveTo(x+10,y-23);
         context.lineTo(x+23,y-23);
         context.lineTo(x+23,y-10);
-
         context.moveTo(x-23,y+10);
         context.lineTo(x-23,y+23);
         context.lineTo(x-10,y+23);
-
         context.moveTo(x+23,y+10);
         context.lineTo(x+23,y+23);
         context.lineTo(x+10,y+23);
@@ -276,7 +253,6 @@
                     }
                 }
                 break;
-
         }
         return can_go;
     }
@@ -323,12 +299,9 @@
         }
         return state;
     }
-
     function update_h2(){
         var h2 = document.getElementById("title");
         h2.innerHTML = whose == 0?"Black":"White";
         h2.style.color = whose == 0?"#000000":"#ff0000";
     }
-
-
 </script>
