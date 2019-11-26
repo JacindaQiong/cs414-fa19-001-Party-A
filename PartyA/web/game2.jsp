@@ -46,26 +46,22 @@
 </body>
 </html>
 <script type="text/javascript">
-    //开始画象棋布局
-    //定义一个棋盘所有的棋子，这是一个二维数组
     var chess = [
-        //['名称(txt)','横坐标x','纵坐标y','哪边下子','判断是红棋还是黑棋','判断是什么棋']
-        //chess.length = 32，一共32颗棋子
-        ['B',25+150,25,0,0,0],['B',25+200,25,0,0,0],['B',25+250,25,0,0,0],['B',25+300,25,0,0,0],['B',25+350,25,0,0,0],['B',25+250,25+50,0,0,0],
-        ['B',25+150,25+550,0,0,0],['B',25+200,25+550,0,0,0],['B',25+250,25+550,0,0,0],['B',25+300,25+550,0,0,0],['B',25+350,25+550,0,0,0],['B',25+250,25+500,0,0,0],
-        ['B',25+0,25+150,0,0,0],['B',25+0,25+200,0,0,0],['B',25+0,25+250,0,0,0],['B',25+0,25+300,0,0,0],['B',25+0,25+350,0,0,0],['B',25+50,25+250,0,0,0],
-        ['B',25+550,25+150,0,0,0],['B',25+550,25+200,0,0,0],['B',25+550,25+250,0,0,0],['B',25+550,25+300,0,0,0],['B',25+550,25+350,0,0,0],['B',25+500,25+250,0,0,0],
+        //[txt, x, y, whoseTurn]
+        ['B',150,0,0],['B',200,0,0],['B',250,0,0],['B',300,0,0],['B',350,0,0],['B',250,50,0],
+        ['B',150,550,0],['B',200,550,0],['B',250,550,0],['B',300,550,0],['B',350,550,0],['B',250,500,0],
+        ['B',0,150,0],['B',0,200,0],['B',0,250,0],['B',0,300,0],['B',0,350,0],['B',50,250,0],
+        ['B',550,150,0],['B',550,200,0],['B',550,250,0],['B',550,300,0],['B',550,350,0],['B',500,250,0],
 
-        ['W',25+250,25+150,0,1,1],['W',25+250,25+350,0,1,1],
-        ['W',25+200,25+200,0,1,1],['W',25+250,25+200,0,1,1],['W',25+300,25+200,0,1,1],['W',25+200,25+300,0,1,1],['W',25+250,25+300,0,1,1],['W',25+300,25+300,0,1,1],
-        ['W',25+150,25+250,0,1,1],['W',25+200,25+250,0,1,1],['W',25+300,25+250,0,1,1],['W',25+350,25+250,0,1,1],
+        ['W',250,150,0],['W',250,350,0],
+        ['W',200,200,0],['W',250,200,0],['W',300,200,0],['W',200,300,0],['W',250,300,0],['W',300,300,0],
+        ['W',150,250,0],['W',200,250,0],['W',300,250,0],['W',350,250,0],
 
-        ['K',25+250,25+250,0,1,2]
+        ['K',250,250,0]
     ];
 
-    //建一个数组来存放我们点击的那个棋子的所有参数
-    //参数：x坐标，y坐标，哪边下子，判断是红棋还是黑棋，判断是什么棋
-    var desc_click = [0,0,0,-1,0];
+    //index, x，y
+    var desc_click = [-1,-1,-1];
     //0 black; 1 white
     var whose = 0;
 
@@ -73,70 +69,96 @@
         var canvas = document.getElementById("canvas");
         var canvas1 = document.getElementById("canvas1");
 
-        canvas.width = 600;
-        canvas.height = 600;
+        canvas.width = 550;
+        canvas.height = 550;
 
-        canvas1.width = 600;
-        canvas1.height = 600;
+        canvas1.width = 550;
+        canvas1.height = 550;
 
         var context = canvas.getContext("2d");
         var context1 = canvas1.getContext("2d");
 
         draw_ChessBoard(context1);
         draw_Chess_All(context);
-        update_h2();//更换当前的出手的人
+        // update_h2();//更换当前的出手的人
 
         canvas.onclick = function(e){
-            //三个参数 第一个是当前的context，第二个是点击的棋子到画板左边的距离，第三个是当前点击的棋子到画板上边的距离
-            get_Chess(context,e.clientX - canvas.offsetLeft,e.clientY - canvas.offsetTop);
-            update_h2();
+            // alert("e.clientX="+e.clientX+",e.clientY="+e.clientY);
+            // alert("canvas.offsetLeft="+canvas.offsetLeft+",canvas.offsetTop="+canvas.offsetTop);
+            if(desc_click[0]==-1){
+                get_Chess(context,e.clientX - canvas.offsetLeft,e.clientY - canvas.offsetTop);
+            }else{
+                // update_h2();
+                put_Chess(context,e.clientX - canvas.offsetLeft,e.clientY - canvas.offsetTop);
+            }
         };
     }
 
-    //获取棋子 三个参数 第一个是在canvas上画 第二个是坐标x第三个是坐标y
-    function get_Chess(context,x,y){
-        //定义俩个变量
-        var sub_x = 0,sub_y = 0;
-        if (x<30||y<30||x>470||y>570) {return false};
-        //这里就是一个四舍五入和向下取整，以便棋子能在棋盘上按格走
+    function put_Chess(context,x,y){
+        var sub_x = 0,sub_y = 0, i, turn;
         if (x%100>80||x%100<20) {sub_x = 100*Math.round(x/100)};
         if (x%100>30&&x%100<70) {sub_x = x>100?(Math.floor(x/100)*100 + 50):50};
         if (y%100>80||y%100<20) {sub_y = 100*Math.round(y/100)};
         if (y%100>30&&y%100<70) {sub_y = y>100?(Math.floor(y/100)*100 + 50):50};
 
-        if(sub_x > 0 && sub_y > 0){
-            for (var i = 0;i < chess.length; i++) {
-                if (chess[i][1] == sub_x && chess[i][2] == sub_y && chess[i][3] > 0) {
-                    if (chess[i][4] == whose) {//可见第5个参数是判断当前该哪边出手的数
-                        draw_check(context,sub_x,sub_y);//画棋子
-                        //参数：x坐标,y坐标，数组里的第几个，数组的第五个参数即该哪边下，第六个参数
-                        desc_click = [sub_x,sub_y,i,chess[i][4],chess[i][5]];
-                        return false;
-                    }
-                    if(desc_click[3] == whose&&chess[i][4]!=whose){
-                        //这一步判断是否成功换人下子
-                        if(go(sub_x,sub_y,desc_click[4],true)){
-                            chess[desc_click[2]][1] = sub_x;//
-                            chess[desc_click[2]][2] = sub_y;//
-                            chess[i][3] = 0;//棋子第三个参数赋值为0
-                            whose = whose == 0?1:0;//是不是"楚"如果是就换，如果不是就是"楚"
-                            repaint(context);//调用函数重新画整个棋盘
-                            if(chess[i][5] == 5) {document.getElementById("canvas").onclick = null;}//
-                        }
-                    }
-                    return false;
-                }
+        for (i = 0;i < chess.length; i++) {
+            if (chess[i][1] == desc_click[1] && chess[i][2] == desc_click[2]) {
+                alert("move before:x="+chess[i][1]+",y="+chess[i][2]);
+                chess[i][1] = sub_x;
+                chess[i][2] = sub_y;
+                alert("move after:x="+chess[i][1]+",y="+chess[i][2]);
+                desc_click=[-1,-1,-1];
+                break;
             }
         }
-        if(sub_x >= 50&&sub_x<=450&&sub_y>=50&&sub_y<=550&&desc_click[3] == whose){
-            if(go(sub_x,sub_y,desc_click[4])){
+        repaint(context);
+        whose = whose==0?1:0;
+    }
+    function get_Chess(context,x,y){
+        var sub_x = 0,sub_y = 0, i, turn;
+        if (x%100>80||x%100<20) {sub_x = 100*Math.round(x/100)};
+        if (x%100>30&&x%100<70) {sub_x = x>100?(Math.floor(x/100)*100 + 50):50};
+        if (y%100>80||y%100<20) {sub_y = 100*Math.round(y/100)};
+        if (y%100>30&&y%100<70) {sub_y = y>100?(Math.floor(y/100)*100 + 50):50};
+        // alert("sub_x="+sub_x+",sub_y="+sub_y);
+        for (i = 0;i < chess.length; i++) {
+            if (chess[i][1] == sub_x && chess[i][2] == sub_y) {
+                turn = (whose==0)?"B":"W,K";
+                // alert("whoseTurn:"+turn);
+                if(turn.indexOf(chess[i][0])!= -1){
+                    draw_check(context,sub_x,sub_y);
+                    desc_click = [i,sub_x,sub_y];
+                    return false;
+                }else{
+                    alert("it's not your turn! ");
+                }
+
+                // if(desc_click[3] == whose&&chess[i][4]!=whose){
+                    //这一步判断是否成功换人下子
+                    // if(go(sub_x,sub_y,desc_click[4],true)){
+                        // if(go(sub_x,sub_y,desc_click[4],true)){
+
+                        // chess[desc_click[2]][1] = sub_x;//
+                        // chess[desc_click[2]][2] = sub_y;//
+                        // chess[i][3] = 0;
+                        // whose = whose == 0?1:0;
+                        // repaint(context);
+                        // if(chess[i][5] == 5) {document.getElementById("canvas").onclick = null;}
+                    // }
+                // }
+                // return false;
+            }
+        }
+
+        // if(sub_x >= 50&&sub_x<=450&&sub_y>=50&&sub_y<=550){
+            // if(go(sub_x,sub_y,desc_click[4])){
                 chess[desc_click[2]][1] = sub_x;
                 chess[desc_click[2]][2] = sub_y;
                 repaint(context);
-                desc_click = [0,0,0,-1,0];
+                desc_click = [0,0,0];
                 whose = whose ==0?1:0;
-            }
-        }
+            // }
+        // }
     }
 
     function repaint(context){
@@ -146,40 +168,35 @@
 
     function draw_ChessBoard(context){
         context.lineWidth = 2;
-        context.clearRect(25,25,600,600);
+        context.clearRect(0,0,550,550);
         context.fillStyle = "#b3b37d";
-        context.fillRect(25,25,600,600);
+        context.fillRect(0,0,550,550);
         context.beginPath();
         for(var i = 0; i <12; i++) {
-            context.moveTo(25+i * 50, 25);
-            context.lineTo(25+i * 50, 25+550);
+            context.moveTo(i * 50, 0);
+            context.lineTo(i * 50, 550);
             context.stroke();
-            context.moveTo(25, 25+i * 50);
-            context.lineTo(25+550, 25+i * 50);
+            context.moveTo(0, i * 50);
+            context.lineTo(550, i * 50);
             context.stroke();
         }
-
-        // context.save();
-        // context.font = "bold 40px KaiTi_GB2312";
-        // context.translate(400,255);
-        // context.rotate(90*Math.PI/180);
-        // context.fillText("汉",0,40);
-        // context.restore();
-
     }
-    //
+
     function draw_Chess_All(context){
         for (var i = 0;i < chess.length; i++) {
-            // if (chess[i][3]>0) {
-                draw_Chess_One(context,chess[i][0],chess[i][1],chess[i][2],chess[i][4]);
-            // }
+                draw_Chess_One_Piece(context,chess[i][0],chess[i][1],chess[i][2]);
         }
     }
 
-    //绘制棋子 参数：context即当前的画板 x坐标 y坐标 填充的文字 判断是红棋还是黑棋
-    function draw_Chess_One(context,txt,x,y,team){
-        //team=0 black; team=1 white
-        var color = team>0?"#ff0000":"#000000";
+    function draw_Chess_One_Piece(context, txt, x, y){
+        var color;
+        if(txt=='B'){
+            color = "Black";
+        }else if(txt=='W'){
+            color = "White";
+        }else if(txt=='K'){
+            color = "Red";
+        }
         context.save();
         context.beginPath();
         var b_Color = context.createLinearGradient(x+15,y-15,x-15,y+15);
@@ -200,26 +217,23 @@
         context.font = "900 24px KaiTi_GB2312";
         context.fillText(txt,x-12,y+8);
         context.restore();
-
     }
-    //绘制选中某个棋子的那个框
+
     function draw_check(context,x,y){
-        //重新画整个棋盘
         repaint(context);
-        //开始画左上角
         context.beginPath();
         context.moveTo(x-23,y-10);
         context.lineTo(x-23,y-23);
         context.lineTo(x-10,y-23);
-        //开始画右上角
+
         context.moveTo(x+10,y-23);
         context.lineTo(x+23,y-23);
         context.lineTo(x+23,y-10);
-        //开始画左下角
+
         context.moveTo(x-23,y+10);
         context.lineTo(x-23,y+23);
         context.lineTo(x-10,y+23);
-        //开始画右下角
+
         context.moveTo(x+23,y+10);
         context.lineTo(x+23,y+23);
         context.lineTo(x+10,y+23);
@@ -263,76 +277,7 @@
                     }
                 }
                 break;
-            case 2://如果是马怎么走
-                can_go = false;
-                if(x1-50==x2&&y1-100==y2&&!is_chess(x1,y1-50)){can_go = true};
-                if(x1+50==x2&&y1-100==y2&&!is_chess(x1,y1-50)){can_go = true};
-                if(x1-50==x2&&y1+100==y2&&!is_chess(x1,y1+50)){can_go = true};
-                if(x1+50==x2&&y1+100==y2&&!is_chess(x1,y1+50)){can_go = true};
-                if(x1-100==x2&&y1-50==y2&&!is_chess(x1-50,y1)){can_go = true};
-                if(x1-100==x2&&y1+50==y2&&!is_chess(x1-50,y1)){can_go = true};
-                if(x1+100==x2&&y1-50==y2&&!is_chess(x1+50,y1)){can_go = true};
-                if(x1+100==x2&&y1+50==y2&&!is_chess(x1+50,y1)){can_go = true};
-                break;
-            case 3://象怎么走
-                can_go = false;
-                if(whose == 1 && y2 > 250) {break};
-                if(whose == 0 && y2 < 300) {break};
-                if(x1-100==x2&&y1-100==y2&&!is_chess(x1-50,y1-50)) {can_go=true};
-                if(x1+100==x2&&y1-100==y2&&!is_chess(x1+50,y1-50)) {can_go=true};
-                if(x1-100==x2&&y1+100==y2&&!is_chess(x1-50,y1+50)) {can_go=true};
-                if(x1+100==x2&&y1+100==y2&&!is_chess(x1+50,y1+50)) {can_go=true};
-                break;
-            case 4://士怎么走
-                can_go= false;
-                if(x2<200||x2>300){break};
-                if(whose == 1&&y2>150){break};
-                if(x1+50==x2&&y1+50==y2){can_go = true};
-                if(x1+50==x2&&y1-50==y2){can_go = true};
-                if(x1-50==x2&&y1+50==y2){can_go = true};
-                if(x1-50==x2&&y1-50==y2){can_go = true};
-                break;
-            case 5://帅怎么走
-                can_go = false;
-                if(x2<200||x2>300){break};
-                //红棋的帅
-                if(whose == 1&&y2>150){break};
-                //黑棋的将
-                if(whose==0&&y2<400){break};
-                //判断怎么能走
-                if(x1+50==x2&&y1==y2){can_go=true};
-                if(x1-50==x2&&y1==y2){can_go=true};
-                if(x1==x2&&y1+50==y2){can_go=true};
-                if(x1==x2&&y1-50==y2){can_go=true};
-                break;
-            case 6://炮怎么走
-                //不能原地走
-                if(x1!=x2&&y1!=y2){
-                    can_go = false;
-                    break;
-                }
-                //如果吃子
-                if(eat){
-                    for(var i = 0;i < chess.length; i++){
-                        if(chess[i][1]==x1&&chess[i][2]>min_y&&chess[i][2]<max_y&&chess[i][3]!=0){num++};
-                        if(chess[i][2]==y1&&chess[i][1]>min_x&&chess[i][1]<max_x&&chess[i][3]!=0){num++};
-                    }
-                    if(num!=1){can_go = false};
-                    break;
-                }
-                //
-                for(var i=0;i<chess.length;i++){
-                    if(chess[i][1]==x1&&chess[i][2]>min_y&&chess[i][2]<max_y&&chess[i][3]!=0){can_go = false};
-                    if(chess[i][2]==y1&&chess[i][1]>min_x&&chess[i][1]<max_x&&chess[i][3]!=0){can_go = false};
-                }
-                break;
-            case 7://兵怎么走
-                if(whose==1&&y1>y2){can_go = false};
-                if(whose==0&&y1<y2){can_go = false};
-                if(whose==1&&y1<=250&&x1!=x2){can_go = false};
-                if(whose==0&&y1>=300&&x1!=x2){can_go = false};
-                if(max_x-min_x+max_y-min_y>50){can_go = false};
-                break;
+
         }
         return can_go;
     }
