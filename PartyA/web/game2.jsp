@@ -57,7 +57,7 @@
         ['W',150,250,0],['W',200,250,0],['W',300,250,0],['W',350,250,0],
         ['K',250,250,0]
     ];
-    //index, x，y
+    //current piece: index, x，y
     var desc_click = [-1,-1,-1];
     //0 black; 1 white
     var whose = 0;
@@ -72,7 +72,7 @@
         var context1 = canvas1.getContext("2d");
         draw_ChessBoard(context1);
         draw_Chess_All(context);
-        // update_h2();//更换当前的出手的人
+        // update_h2();
         canvas.onclick = function(e){
             // alert("e.clientX="+e.clientX+",e.clientY="+e.clientY);
             // alert("canvas.offsetLeft="+canvas.offsetLeft+",canvas.offsetTop="+canvas.offsetTop);
@@ -92,10 +92,10 @@
         if (y%100>30&&y%100<70) {sub_y = y>100?(Math.floor(y/100)*100 + 50):50};
         for (i = 0;i < chess.length; i++) {
             if (chess[i][1] == desc_click[1] && chess[i][2] == desc_click[2]) {
-                alert("move before:x="+chess[i][1]+",y="+chess[i][2]);
+                // alert("move before:x="+chess[i][1]+",y="+chess[i][2]);
                 chess[i][1] = sub_x;
                 chess[i][2] = sub_y;
-                alert("move after:x="+chess[i][1]+",y="+chess[i][2]);
+                // alert("move after:x="+chess[i][1]+",y="+chess[i][2]);
                 desc_click=[-1,-1,-1];
                 break;
             }
@@ -109,7 +109,6 @@
         if (x%100>30&&x%100<70) {sub_x = x>100?(Math.floor(x/100)*100 + 50):50};
         if (y%100>80||y%100<20) {sub_y = 100*Math.round(y/100)};
         if (y%100>30&&y%100<70) {sub_y = y>100?(Math.floor(y/100)*100 + 50):50};
-        // alert("sub_x="+sub_x+",sub_y="+sub_y);
         for (i = 0;i < chess.length; i++) {
             if (chess[i][1] == sub_x && chess[i][2] == sub_y) {
                 turn = (whose==0)?"B":"W,K";
@@ -121,29 +120,8 @@
                 }else{
                     alert("it's not your turn! ");
                 }
-                // if(desc_click[3] == whose&&chess[i][4]!=whose){
-                // if(go(sub_x,sub_y,desc_click[4],true)){
-                // if(go(sub_x,sub_y,desc_click[4],true)){
-                // chess[desc_click[2]][1] = sub_x;//
-                // chess[desc_click[2]][2] = sub_y;//
-                // chess[i][3] = 0;
-                // whose = whose == 0?1:0;
-                // repaint(context);
-                // if(chess[i][5] == 5) {document.getElementById("canvas").onclick = null;}
-                // }
-                // }
-                // return false;
             }
         }
-        // if(sub_x >= 50&&sub_x<=450&&sub_y>=50&&sub_y<=500){
-        // if(go(sub_x,sub_y,desc_click[4])){
-        chess[desc_click[2]][1] = sub_x;
-        chess[desc_click[2]][2] = sub_y;
-        repaint(context);
-        desc_click = [0,0,0];
-        whose = whose ==0?1:0;
-        // }
-        // }
     }
     function repaint(context){
         context.clearRect(0,0,500,500);
@@ -214,90 +192,6 @@
         context.lineTo(x+23,y+23);
         context.lineTo(x+10,y+23);
         context.stroke();
-    }
-    //吃子
-    function go(x2,y2,txt,eat){
-        //定义x1是点击的那个对象数组的第一个值 y1是第二个值
-        var x1 = desc_click[0];
-        var y1 = desc_click[1];
-        //定义最大值和最小值
-        var min_x = x1 > x2?x2:x1;
-        var max_x = x1 > x2?x1:x2;
-        var min_y = y1 > y2?y2:y1;
-        var max_y = y1 > y2?y1:y2;
-        //定义是否可以吃子
-        var can_go = true;
-        var num = 0;
-        //判断是不是俩个将帅面对面
-        if (is_face_to_face(x2)) {
-            return false;
-        }
-        //下棋
-        switch (txt){
-            case 1:
-                // 如果俩车不在同一条直线上
-                if(x1!=x2&&y1!=y2){
-                    //不能吃子
-                    can_go = false;
-                    break;
-                }
-                //开始遍历
-                for(var i = 0;i < chess.length; i++){
-                    //
-                    if(chess[i][1] == x1 && chess[i][2] > min_y && chess[i][2] < max_y && chess[i][3] != 0){
-                        can_go = false;
-                    }
-                    //
-                    if(chess[i][2] == y1 && chess[i][1] > min_x && chess[i][1] < max_x && chess[i][3] != 0){
-                        can_go = false;
-                    }
-                }
-                break;
-        }
-        return can_go;
-    }
-    //判断这颗棋子是否存在
-    function is_chess(x,y){
-        //定义existe判断是否这颗棋子还活着默认是死了
-        var existe = false;
-        for(var i = 0;i<chess.length;i++){
-            //如果某颗棋子的横纵坐标都有并且chess[i][3]任然等于1这个参数是true表示活着
-            if(chess[i][1]==x && chess[i][2]==y && chess[i][3]==1){existe = true;};
-        }
-        return existe;
-    }
-    //这是一个判断俩个帅是否是面对面（有bug）
-    function is_face_to_face(x){
-        //定义四个参数红色的和黑色的x,y坐标
-        var r_x = 0,r_y=0,b_x=0,b_y=0,num=0;
-        //定义一个状态
-        var state = false;
-        //
-        for(var i=0;i<chess.length;i++){
-            //chess[i][5]值就是从1到7分别代表不同的棋子，例如1表示军7表示兵卒
-            //5表示将帅
-            if(chess[i][5]==5 && chess[i][4]==1){//如果将帅活着并且1表示红棋
-                //获取到这个棋子的横纵坐标
-                r_x=chess[i][1];
-                r_y=chess[i][2];
-            }
-            if(chess[i][5]==5 && chess[i][4]==0){//如果将帅活着并且1表示黑棋
-                //获取到当前棋子的横纵坐标
-                b_x=chess[i][1];
-                b_y=chess[i][2];
-            }
-        }
-        //如果红色和黑色的横坐标相同时
-        if(r_x == b_x){
-            //遍历一遍chess数组
-            for(var i = 0;i<chess.length;i++){
-                //如果当前棋子的位置没变并且是红棋落子时
-                if(chess[i][1] == r_x && chess[i][3] > 0){num++;}
-            }
-            //？？有问题
-            if(num - 2 == 1 && x != r_x){state = true;}
-        }
-        return state;
     }
     function update_h2(){
         var h2 = document.getElementById("title");
