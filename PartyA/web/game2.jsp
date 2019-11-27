@@ -1,5 +1,11 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://"
+            + request.getServerName() + ":" + request.getServerPort()
+            + path + "/";
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,6 +40,8 @@
             text-align: center;
         }
     </style>
+    <script type="text/javascript" src="<%=basePath %>js/jquery-1.3.2.js"></script>
+
 </head>
 <body onselectstart="return false;">
 <h2 id="whoseTurn"></h2>
@@ -42,10 +50,18 @@
 </body>
 </html>
 <script type="text/javascript">
-    function setMove(startX, startY, endX, endY){
-        var request = new XMLHttpRequest();
-        request.open('POST', 'http://localhost:8080/PartyA_war_exploded/game2.jsp/move/' +startX +',' + startY + ',' + endX + ',' + endY);
-        request.send();
+    function setMove(fromX, fromY, toX, toY){
+        $.ajax({
+            url: "move?fromX="+fromX+"&fromY="+fromY+"&toX="+toX+"&toY="+toY,
+            contentType : "application/json;charset=utf-8",
+            dataType: "json",
+            type: "get",
+            async: true,
+            success : function(data) {
+                alert(data);　　　　　
+                // mycallback(data,name);//回调函数　　　　
+            }
+        });
     }
     var chess = [
         //[txt, x, y]
@@ -93,7 +109,7 @@
         for (i = 0;i < chess.length; i++) {
             if (chess[i][1] == desc_click[0] && chess[i][2] == desc_click[1]) {
                 // alert("move before:x="+chess[i][1]+",y="+chess[i][2]);
-                setMove(chess[i][1], chess[i][2], sub_x, sub_y);
+                setMove(chess[i][1], chess[i][2], to_x, to_y);
                 chess[i][1] = to_x;
                 chess[i][2] = to_y;
                 //reset desc_click
