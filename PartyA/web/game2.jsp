@@ -42,6 +42,11 @@
 </body>
 </html>
 <script type="text/javascript">
+    function setMove(startX, startY, endX, endY){
+        var request = new XMLHttpRequest();
+        request.open('POST', 'http://localhost:8080/PartyA_war_exploded/game2.jsp/move/' +startX +',' + startY + ',' + endX + ',' + endY);
+        request.send();
+    }
     var chess = [
         //[txt, x, y]
         ['B',150,0],['B',200,0],['B',250,0],['B',300,0],['B',350,0],['B',250,50],
@@ -88,6 +93,7 @@
         for (i = 0;i < chess.length; i++) {
             if (chess[i][1] == desc_click[0] && chess[i][2] == desc_click[1]) {
                 // alert("move before:x="+chess[i][1]+",y="+chess[i][2]);
+                setMove(chess[i][1], chess[i][2], sub_x, sub_y);
                 chess[i][1] = to_x;
                 chess[i][2] = to_y;
                 //reset desc_click
