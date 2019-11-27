@@ -53,7 +53,7 @@
         ['W',150,250],['W',200,250],['W',300,250],['W',350,250],
         ['K',250,250]
     ];
-    //current piece: index, x，y
+    //store current piece info: x，y
     var desc_click = [-1,-1];
     //0 black; 1 white
     var whoseTurn = 0;
