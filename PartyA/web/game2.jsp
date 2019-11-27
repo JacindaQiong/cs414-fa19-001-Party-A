@@ -46,6 +46,11 @@
 </body>
 </html>
 <script type="text/javascript">
+    function setMove(startX, startY, endX, endY){
+        var ajaxRequest = new XMLHttpRequest();
+        ajaxRequest.open('POST', 'move/' +startX +',' + startY + ',' + endX + ',' + endY);
+        ajaxRequest.send();
+    }
     var chess = [
         //[txt, x, y, whoseTurn]
         ['B',150,0,0],['B',200,0,0],['B',250,0,0],['B',300,0,0],['B',350,0,0],['B',250,50,0],
@@ -93,6 +98,7 @@
         for (i = 0;i < chess.length; i++) {
             if (chess[i][1] == desc_click[1] && chess[i][2] == desc_click[2]) {
                 // alert("move before:x="+chess[i][1]+",y="+chess[i][2]);
+                setMove(chess[i][1], chess[i][2], sub_x, sub_y);
                 chess[i][1] = sub_x;
                 chess[i][2] = sub_y;
                 // alert("move after:x="+chess[i][1]+",y="+chess[i][2]);
