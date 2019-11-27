@@ -54,7 +54,7 @@
         $.ajax({
             url: "move?fromX="+fromX+"&fromY="+fromY+"&toX="+toX+"&toY="+toY,
             contentType : "application/json;charset=utf-8",
-            dataType: "json",
+            dataType: "text",
             type: "get",
             async: true,
             success : function(data) {
