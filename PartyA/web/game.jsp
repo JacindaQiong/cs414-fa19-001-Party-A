@@ -1,3 +1,6 @@
+<%@ page import="com.partyA.bean.Piece" %>
+<%@ page import="com.partyA.bean.King" %>
+<%@ page import="com.partyA.bean.Pawn" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <meta charset="utf-8">
@@ -8,8 +11,11 @@ partyA
 </canvas>  <br/>
 <button id="reset" onclick="controller.init(ctx)">reset</button>
 </body>
-<script>
+<%--<script type="text/javascript" src="${pageContext.request.contextPath}/js/jQuery.js"></script>--%>
 
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+<script>
+    var dragok = false;
 
     var controller = {
         turn:0,
@@ -199,6 +205,22 @@ partyA
             }
         },
         initPiece:function() {
+            // $.ajax({
+            //     type:"POST",
+            //     url:"initialGame",
+            //     success:function(data){
+            //         alert(data);
+            //
+            //         // if(data.success){
+            //         //     $("#createResult").html(data.msg);
+            //         // }else{
+            //         //     $("#createResult").html("出现错误"+data.msg);
+            //         // }
+            //     },
+            //     error:function(jqXHR){
+            //         // console.log("发生错误："+jqXHR.status);
+            //     }
+            // });
             // initial black pieces
             ctx.beginPath();
             ctx.arc(0.5*ratio, 3.5*ratio, 0.5*ratio, 0, 2*Math.PI);
@@ -206,13 +228,13 @@ partyA
             ctx.fill();
             ctx.stroke();
 
-            ctx.beginPath();
+            // ctx.beginPath();
             ctx.arc(0.5*ratio, 4.5*ratio, 0.5*ratio, 0, 2*Math.PI);
             ctx.fillStyle = "black";
             ctx.fill();
             ctx.stroke();
 
-            ctx.beginPath();
+            // ctx.beginPath();
             ctx.arc(0.5*ratio, 5.5*ratio, 0.5*ratio, 0, 2*Math.PI);
             ctx.fillStyle = "black";
             ctx.fill();
@@ -498,8 +520,11 @@ partyA
     var ratio = 40;
     var width = (lineNums - 1) * ratio;
 
+    var x;
+    var y;
     controller.init();
-
+    canvas.onmousedown = myDown;
+    canvas.onmouseup = myUp;
     // canvas.addEventListener("dblclick", function (evt) {
     //     var mousePos = getMousePos(canvas, evt);
     //     mousePos.x = getNode(mousePos.x);
@@ -513,24 +538,54 @@ partyA
     //     }
     // }, false);
 
-    canvas.addEventListener("click", function (evt) {
-        var mousePos = getMousePos(canvas, evt);
-        mousePos.x = getNode(mousePos.x);
-        mousePos.y = getNode(mousePos.y);
-        var exist = controller.exist(mousePos.x, mousePos.y);
-        if (exist && !controller.over) {
-            alert(" move from : x="+mousePos.x+",y="+mousePos.y);
-            controller.clearPiece(mousePos.x, mousePos.y);
-            alert(controller.turn);
+    // canvas.addEventListener("click", function (evt) {
+    //     var mousePos = getMousePos(canvas, evt);
+    //     mousePos.x = getNode(mousePos.x);
+    //     mousePos.y = getNode(mousePos.y);
+    //     var exist = controller.exist(mousePos.x, mousePos.y);
+    //     if (exist && !controller.over) {
+    //         alert(" move from : x="+mousePos.x+",y="+mousePos.y);
+    //         controller.clearPiece(mousePos.x, mousePos.y);
+    //         alert(controller.turn);
+    //
+    //     }
+    //     if (!exist && !controller.over) {
+    //         alert(" move to : x="+mousePos.x+",y="+mousePos.y);
+    //         controller.placePiece(mousePos.x, mousePos.y,controller.turn);
+    //         controller.trans();
+    //         alert(controller.turn);
+    //
+    //     }
+    // }, false);
 
-        }
-        if (!exist && !controller.over) {
-            alert(" move to : x="+mousePos.x+",y="+mousePos.y);
-            controller.placePiece(mousePos.x, mousePos.y,controller.turn);
-            controller.trans();
-            alert(controller.turn);
+    function myMove(e){
+        alert("myMove");
 
+        if (dragok){
+            x = e.pageX - canvas.offsetLeft;
+            y = e.pageY - canvas.offsetTop;
         }
-    }, false);
+    }
+
+    function myDown(e){
+        alert("myDown");
+
+        // if (e.pageX < x + 15 + canvas.offsetLeft && e.pageX > x - 15 +
+        //     canvas.offsetLeft && e.pageY < y + 15 + canvas.offsetTop &&
+        //     e.pageY > y -15 + canvas.offsetTop){
+        //     x = e.pageX - canvas.offsetLeft;
+        //     y = e.pageY - canvas.offsetTop;
+        //     dragok = true;
+        //     canvas.onmousemove = myMove;
+        // }
+        dragok = true;
+        canvas.onmousemove = myMove;
+    }
+
+    function myUp(){
+        alert("myup");
+        dragok = false;
+        canvas.onmousemove = null;
+    }
 </script>
 </html>

@@ -24,6 +24,9 @@ public class GameBoard {
     * */
     private static int whoseTurn=0;
 
+    public Piece[][] getBoardArray(){
+        return board;
+    }
     public GameBoard(Match match) {
         this.match = match;
         board= new Piece[11][11];
