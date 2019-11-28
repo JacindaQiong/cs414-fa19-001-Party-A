@@ -1,31 +1,69 @@
 package com.partyA.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 import com.partyA.bean.User;
 import com.partyA.db.DBUtil;
 
 
 public class UserDao {
+	public static final String DBDRIVER = "com.mysql.cj.jdbc.Driver" ;
+	public static final String DBURL = "jdbc:mysql://localhost:3306/mysql?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC" ;
+	public static final String DBUSER = "root" ;
+	public static final String DBPASS = "Xiankesong198912" ;
 
 	public User searchByNameAndPass(String name, String pass) {
-		User user=null;
-		String sql="select * from game_user where user_name=? and user_password=?";
-		DBUtil db=new DBUtil();
-		ResultSet rs=db.query(sql,name,pass);
-		
+		String sql="select u.user_id, user_name, u.user_password, u.user_email from game_user u where u.user_name=? and u.user_password=? ";//
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs= null;
 		try {
-			if(rs.next()){
-				user=new User(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4));
-				
+			Class.forName(DBDRIVER);
+			conn= DriverManager.getConnection(DBURL, DBUSER, DBPASS);
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,name);
+			pstmt.setString(2,pass);
+
+			rs = pstmt.executeQuery();
+			while(rs.next()){
+				int id = rs.getInt(1);
+				String userName = rs.getString(2);
+				String password = rs.getString(3);
+				String email = rs.getString(4);
+				User user=new User(id, userName, password,email);
+				return user;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
-			db.close();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally{
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(conn!=null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
-		return user;
+
+
+		return null;
 	}
 public int add(User user){
 	int temp=-1;
