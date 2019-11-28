@@ -43,7 +43,7 @@
     <script type="text/javascript" src="<%=basePath %>js/jquery-1.3.2.js"></script>
 
 </head>
-<body onselectstart="return false;">
+<body onselectstart="return false;" style="background: rgba(220,227,137,0.4)">
 <h2 id="whoseTurn"></h2>
 <canvas id="canvas" width="" height=""></canvas>
 <canvas id="canvas1" width="" height=""></canvas>
