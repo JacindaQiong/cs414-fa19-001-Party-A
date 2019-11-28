@@ -58,7 +58,7 @@
             type: "get",
             async: true,
             success : function(data) {
-                alert(data);　　　　　
+                // alert(data);　　　　　
                 // mycallback(data,name);//回调函数　　　　
             }
         });
