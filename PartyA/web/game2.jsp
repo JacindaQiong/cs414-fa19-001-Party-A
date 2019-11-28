@@ -63,16 +63,20 @@
             }
         });
     }
+    var offset = 50;
+    var unit = 50;
+    var width = 600;
+    var height = 600;
     var chess = [
         //[txt, x, y]
-        ['B',150,0],['B',200,0],['B',250,0],['B',300,0],['B',350,0],['B',250,50],
-        ['B',150,500],['B',200,500],['B',250,500],['B',300,500],['B',350,500],['B',250,450],
-        ['B',0,150],['B',0,200],['B',0,250],['B',0,300],['B',0,350],['B',50,250],
-        ['B',500,150],['B',500,200],['B',500,250],['B',500,300],['B',500,350],['B',450,250],
-        ['W',250,150],['W',250,350],
-        ['W',200,200],['W',250,200],['W',300,200],['W',200,300],['W',250,300],['W',300,300],
-        ['W',150,250],['W',200,250],['W',300,250],['W',350,250],
-        ['K',250,250]
+        ['B',offset+3*unit,offset],['B',offset+4*unit,offset],['B',offset+5*unit,offset],['B',offset+6*unit,offset],['B',offset+7*unit,offset],['B',offset+5*unit,offset+1*unit],
+        ['B',offset+3*unit,offset+10*unit],['B',offset+4*unit,offset+10*unit],['B',offset+5*unit,offset+10*unit],['B',offset+6*unit,offset+10*unit],['B',offset+7*unit,offset+10*unit],['B',offset+5*unit,offset+9*unit],
+        ['B',offset,offset+3*unit],['B',offset,offset+4*unit],['B',offset,offset+5*unit],['B',offset,offset+6*unit],['B',offset,offset+7*unit],['B',offset,offset+5*unit],
+        ['B',offset+10*unit,offset+3*unit],['B',offset+10*unit,offset+4*unit],['B',offset+10*unit,offset+5*unit],['B',offset+10*unit,offset+6*unit],['B',offset+10*unit,offset+7*unit],['B',offset+9*unit,offset+5*unit],
+        ['W',offset+5*unit,offset+3*unit],['W',offset+5*unit,offset+7*unit],
+        ['W',offset+4*unit,offset+4*unit],['W',offset+5*unit,offset+4*unit],['W',offset+6*unit,offset+4*unit],['W',offset+4*unit,offset+6*unit],['W',offset+5*unit,offset+6*unit],['W',offset+6*unit,offset+6*unit],
+        ['W',offset+3*unit,offset+5*unit],['W',offset+4*unit,offset+5*unit],['W',offset+6*unit,offset+5*unit],['W',offset+7*unit,offset+5*unit],
+        ['K',offset+5*unit,offset+5*unit]
     ];
     //store current piece info: x，y
     var desc_click = [-1,-1];
@@ -81,10 +85,10 @@
     window.onload = function (){
         var canvas = document.getElementById("canvas");
         var canvas1 = document.getElementById("canvas1");
-        canvas.width = 500;
-        canvas.height = 500;
-        canvas1.width = 500;
-        canvas1.height = 500;
+        canvas.width = width;
+        canvas.height = height;
+        canvas1.width = width;
+        canvas1.height = height;
         var context = canvas.getContext("2d");
         var context1 = canvas1.getContext("2d");
         draw_ChessBoard(context1);
@@ -144,21 +148,52 @@
     
     function draw_ChessBoard(context){
         context.lineWidth = 2;
-        context.clearRect(0,0,500,500);
+        context.clearRect(0,0,width,height);
         context.fillStyle = "#b3b37d";
-        context.fillRect(0,0,500,500);
+        context.fillRect(0,0,width,height);
         context.beginPath();
         for(var i = 0; i <11; i++) {
-            context.moveTo(i * 50, 0);
-            context.lineTo(i * 50, 500);
+            context.moveTo(offset+i * 50, offset+0);
+            context.lineTo(offset+i * 50, offset+500);
             context.stroke();
-            context.moveTo(0, i * 50);
-            context.lineTo(500, i * 50);
+            context.moveTo(offset+0, offset+i * 50);
+            context.lineTo(offset+500, offset+i * 50);
             context.stroke();
         }
+        context.restore();
+        // draw cross: left-top
+        context.beginPath();
+        context.moveTo(offset, offset);
+        context.lineTo(offset+unit, offset+unit);
+        context.stroke();
+        context.moveTo(offset+unit, offset);
+        context.lineTo(offset, offset+unit);
+        context.stroke();
+        //right-top
+        context.moveTo(offset+9*unit, offset);
+        context.lineTo(offset+10*unit, offset+unit);
+        context.stroke();
+        context.moveTo(offset+10*unit, offset);
+        context.lineTo(offset+9*unit, offset+unit);
+        context.stroke();
+        //left-bottom
+        context.moveTo(offset, offset+9*unit);
+        context.lineTo(offset+unit, offset+10*unit);
+        context.stroke();
+        context.moveTo(offset+unit, offset+9*unit);
+        context.lineTo(offset, offset+10*unit);
+        context.stroke();
+        //right-bottom
+        context.moveTo(offset+9*unit, offset+9*unit);
+        context.lineTo(offset+10*unit, offset+10*unit);
+        context.stroke();
+        context.moveTo(offset+10*unit, offset+9*unit);
+        context.lineTo(offset+9*unit, offset+10*unit);
+        context.stroke();
+
     }
     function draw_all_pieces(context){
-        context.clearRect(0,0,500,500);
+        context.clearRect(0,0,width,height);
         for (var i = 0;i < chess.length; i++) {
             draw_one_piece(context,chess[i][0],chess[i][1],chess[i][2]);
         }
@@ -170,7 +205,7 @@
         }else if(txt=='W'){
             color = "White";
         }else if(txt=='K'){
-            color = "Red";
+            color = "#fe687a";
         }
         context.save();
         context.beginPath();
