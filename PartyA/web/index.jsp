@@ -12,7 +12,7 @@
       <script type="text/javascript">
           function playGame(){
               alert("you are going to play game.");
-              window.location.href="<%=basePath %>game2.jsp";
+              window.location.href="<%=basePath %>jsp/play_game.jsp";
           }
           function invite(){
               alert("you are going to invite others.");
