@@ -1,69 +1,33 @@
 package com.partyA.dao;
 
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.partyA.bean.User;
 import com.partyA.db.DBUtil;
 
 
 public class UserDao {
-	public static final String DBDRIVER = "com.mysql.cj.jdbc.Driver" ;
-	public static final String DBURL = "jdbc:mysql://localhost:3306/mysql?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC" ;
-	public static final String DBUSER = "root" ;
-	public static final String DBPASS = "Xiankesong198912" ;
 
 	public User searchByNameAndPass(String name, String pass) {
-		String sql="select u.user_id, user_name, u.user_password, u.user_email from game_user u where u.user_name=? and u.user_password=? ";//
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs= null;
+		User user=null;
+		String sql="select * from game_user where user_name=? and user_password=?";
+		DBUtil db=new DBUtil();
+		ResultSet rs=db.query(sql,name,pass);
+		
 		try {
-			Class.forName(DBDRIVER);
-			conn= DriverManager.getConnection(DBURL, DBUSER, DBPASS);
-
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1,name);
-			pstmt.setString(2,pass);
-
-			rs = pstmt.executeQuery();
-			while(rs.next()){
-				int id = rs.getInt(1);
-				String userName = rs.getString(2);
-				String password = rs.getString(3);
-				String email = rs.getString(4);
-				User user=new User(id, userName, password,email);
-				return user;
+			if(rs.next()){
+				user=new User(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4));
+				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} finally{
-			if(pstmt!=null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if(rs!=null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if(conn!=null) {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+		}finally{
+			db.close();
 		}
-
-
-		return null;
+		return user;
 	}
 public int add(User user){
 	int temp=-1;
@@ -73,5 +37,36 @@ public int add(User user){
 	db.close();
 	return temp;
 }
-
+	public List<User> searchAll(int page, int show){
+		List<User> list=new ArrayList<User>();
+		String sql="select * from game_user LIMIT ?,?";
+		DBUtil db=new DBUtil();
+		ResultSet rs=db.query(sql,(page-1)*show,show);
+		try {
+			while(rs.next()){
+				list.add(new User(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4)));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		db.close();
+		return list;
+	}
+	public int searchCount() {
+		int temp=0;
+		String sql="select count(*) from game_user";
+		DBUtil db=new DBUtil();
+		ResultSet rs=db.query(sql);
+		try {
+			if(rs.next()){
+				temp=rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		db.close();
+		return temp;
+	}
 }
