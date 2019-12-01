@@ -64,6 +64,7 @@
             }
         });
     }
+
     var offset = 50;
     var unit = 50;
     var width = 600;
@@ -72,7 +73,7 @@
         //[txt, x, y]
         ['B',offset+3*unit,offset],['B',offset+4*unit,offset],['B',offset+5*unit,offset],['B',offset+6*unit,offset],['B',offset+7*unit,offset],['B',offset+5*unit,offset+1*unit],
         ['B',offset+3*unit,offset+10*unit],['B',offset+4*unit,offset+10*unit],['B',offset+5*unit,offset+10*unit],['B',offset+6*unit,offset+10*unit],['B',offset+7*unit,offset+10*unit],['B',offset+5*unit,offset+9*unit],
-        ['B',offset,offset+3*unit],['B',offset,offset+4*unit],['B',offset,offset+5*unit],['B',offset,offset+6*unit],['B',offset,offset+7*unit],['B',offset,offset+5*unit],
+        ['B',offset,offset+3*unit],['B',offset,offset+4*unit],['B',offset,offset+5*unit],['B',offset,offset+6*unit],['B',offset,offset+7*unit],['B',offset+1*unit,offset+5*unit],
         ['B',offset+10*unit,offset+3*unit],['B',offset+10*unit,offset+4*unit],['B',offset+10*unit,offset+5*unit],['B',offset+10*unit,offset+6*unit],['B',offset+10*unit,offset+7*unit],['B',offset+9*unit,offset+5*unit],
         ['W',offset+5*unit,offset+3*unit],['W',offset+5*unit,offset+7*unit],
         ['W',offset+4*unit,offset+4*unit],['W',offset+5*unit,offset+4*unit],['W',offset+6*unit,offset+4*unit],['W',offset+4*unit,offset+6*unit],['W',offset+5*unit,offset+6*unit],['W',offset+6*unit,offset+6*unit],
