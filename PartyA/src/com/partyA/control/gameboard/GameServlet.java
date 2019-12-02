@@ -2,8 +2,8 @@ package com.partyA.control.gameboard;
 
 import com.partyA.bean.*;
 import com.partyA.service.UserService;
-import org.json.JSONArray;
-import org.json.JSONObject;
+//import org.json.JSONArray;
+//import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -63,8 +63,8 @@ Map<String, String> map = new HashMap<String, String>();
         // Writing the message on the web page
         PrintWriter out = response.getWriter();
         String str = board.getBoardArray().toString();
-        JSONObject jsonObj=new JSONObject(map);
-        out.println(jsonObj.toString());
+//        JSONObject jsonObj=new JSONObject(map);
+//        out.println(jsonObj.toString());
 
 
     }

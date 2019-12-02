@@ -28,21 +28,21 @@ public class GameBoard {
     }
 
     //Used for getting the board in json
-    public ArrayList<String> getPieceLocations(){
-        ArrayList<String> theBoard = new ArrayList<String>();
-        String temp = "";
-        for(int i=0; i<board.length; i++){
-            for(int j=0; j<board[i].length; j++){
-                if(board[i][j] != null) {
-                    temp = board[i][j].toString();
-                    temp += board[i][j].getPosition();
-                    theBoard.add(temp);
-                    temp = "";
-                }
-            }
-        }
-        return theBoard;
-    }
+//    public ArrayList<String> getPieceLocations(){
+//        ArrayList<String> theBoard = new ArrayList<String>();
+//        String temp = "";
+//        for(int i=0; i<board.length; i++){
+//            for(int j=0; j<board[i].length; j++){
+//                if(board[i][j] != null) {
+//                    temp = board[i][j].toString();
+//                    temp += board[i][j].getPosition();
+//                    theBoard.add(temp);
+//                    temp = "";
+//                }
+//            }
+//        }
+//        return theBoard;
+//    }
 
     public GameBoard(Match match) {
         this.match = match;
@@ -151,11 +151,9 @@ public class GameBoard {
         if (!(pos_column >= 'a' && pos_column <= 'k' && pos_row >= 'a' && pos_row <= 'k'))
             throw new IllegalPositionException("this position contains illegal characters or it's outside of the board !!");
 
-        //2. transfer the position(two-character string) into row/column values
-        int row = pos_row - 'a';
-        int column = pos_column - 'a';
+        //2. transfer the position(two-character string) into x/y values
         //3. find the piece at a given position
-        return board[row][column];
+        return board[pos_column - 'a'][pos_row - 'a'];
     }
 
     public boolean placePiece(Piece piece, String position) {
@@ -176,9 +174,7 @@ public class GameBoard {
 
             //2 TRUE: set the piece's position && update the board
             piece.setPosition(position);
-            int row = pos_row - 'a';
-            int column = pos_column - 'a';
-            board[row][column] = piece;
+            board[pos_column - 'a'][pos_row - 'a'] = piece;
             return true;
         } catch (IllegalPositionException e) {
             e.printStackTrace();
@@ -187,33 +183,33 @@ public class GameBoard {
 
     }
     //Returns 0 if illegal, 1 if legal
-    public int checkIsLegal(String fromPosition, String toPosition) throws IllegalPositionException {
-            Piece piece = getPiece(fromPosition);
-            if (piece != null) {
-                int whoseTurn = this.getWhoseTurn();
-                Piece.Color co = Piece.Color.BLACK;
-                if (whoseTurn % 2 == 1) {
-                    co = Piece.Color.WHITE;
-                }
-                if (piece.getColor().toString().equals(co.toString())) {
-                    ArrayList<String> legalMoves = piece.legalMoves();
-                    if (legalMoves.size() > 0 && legalMoves.contains(toPosition)) {
-                        //2. it's legal---> execute moving
-                       return 1;
-                    } else {
-                        return 0;
-                    }
-                } else {
-                    return 0;
-                }
-            } else {
-                return 0;
-            }
-        }
+//    public int checkIsLegal(String fromPosition, String toPosition) throws IllegalPositionException {
+//            Piece piece = getPiece(fromPosition);
+//            if (piece != null) {
+//                int whoseTurn = this.getWhoseTurn();
+//                Piece.Color co = Piece.Color.BLACK;
+//                if (whoseTurn % 2 == 1) {
+//                    co = Piece.Color.WHITE;
+//                }
+//                if (piece.getColor().toString().equals(co.toString())) {
+//                    ArrayList<String> legalMoves = piece.legalMoves();
+//                    if (legalMoves.size() > 0 && legalMoves.contains(toPosition)) {
+//                        //2. it's legal---> execute moving
+//                       return 1;
+//                    } else {
+//                        return 0;
+//                    }
+//                } else {
+//                    return 0;
+//                }
+//            } else {
+//                return 0;
+//            }
+//        }
 
     //-1 no change; 0 black wins; 1 white wins; 2 kill opponent  999:it's not your turn
     public int move(String fromPosition, String toPosition) throws IllegalMoveException {
-        System.out.println("from: " + fromPosition + " to: " + toPosition);
+//        System.out.println("from: " + fromPosition + " to: " + toPosition);
         try {
             //1. check if this moving is a legal move
             Piece piece = getPiece(fromPosition);
@@ -230,9 +226,7 @@ public class GameBoard {
                         placePiece(piece, toPosition);
 
                         char[] pos = fromPosition.toCharArray();
-                        int row = pos[1] - 'a';
-                        int column = pos[0] - 'a';
-                        board[row][column] = null;
+                        board[pos[0] - 'a'][pos[1] - 'a'] = null;
                         whoseTurn++;
                         setWhoseTurn(whoseTurn);
                         return this.checkStatus(toPosition);
@@ -327,12 +321,12 @@ public class GameBoard {
                         Piece top_piece2 = getPiece(top_pos2);
 
                         if (top_piece2 != null && top_piece2.getColor().equals(currColor)) {
-                            board[row + 1][column] = null;
+                            board[column][row + 1] = null;
                             flag = true;
                         }
                         if (top_piece2 == null) {
                             if ("aa".equals(top_pos2) || "ak".equals(top_pos2) || "ka".equals(top_pos2) || "kk".equals(top_pos2) || "ff".equals(top_pos2)) {
-                                board[row + 1][column] = null;
+                                board[column][row + 1] = null;
                                 flag = true;
                             }
                         }
@@ -353,12 +347,12 @@ public class GameBoard {
                         if (!(bottom_piece2 instanceof King)) {
 
                             if (bottom_piece2 != null && bottom_piece2.getColor().equals(currColor)) {
-                                board[row - 1][column] = null;
+                                board[column][row - 1] = null;
                                 flag = true;
                             }
                             if (bottom_piece2 == null) {
                                 if ("aa".equals(bottom_pos2) || "ak".equals(bottom_pos2) || "ka".equals(bottom_pos2) || "kk".equals(bottom_pos2) || "ff".equals(bottom_pos2)) {
-                                    board[row - 1][column] = null;
+                                    board[column][row - 1] = null;
                                     flag = true;
                                 }
                             }
@@ -377,12 +371,12 @@ public class GameBoard {
                         Piece left_piece2 = getPiece(left_pos2);
                         if (!(left_piece2 instanceof King)) {
                             if (left_piece2 != null && left_piece2.getColor().equals(currColor)) {
-                                board[row][column - 1] = null;
+                                board[column - 1][row] = null;
                                 flag = true;
                             }
                             if (left_piece2 == null) {
                                 if ("aa".equals(left_pos2) || "ak".equals(left_pos2) || "ka".equals(left_pos2) || "kk".equals(left_pos2) || "ff".equals(left_pos2)) {
-                                    board[row][column - 1] = null;
+                                    board[column - 1][row] = null;
                                     flag = true;
                                 }
                             }
@@ -404,12 +398,12 @@ public class GameBoard {
                         Piece right_piece2 = getPiece(right_pos2);
                         if (!(right_piece2 instanceof King)) {
                             if (right_piece2 != null && right_piece2.getColor().equals(currColor)) {
-                                board[row][column + 1] = null;
+                                board[column + 1][row] = null;
                                 flag = true;
                             }
                             if (right_piece2 == null) {
                                 if ("aa".equals(right_pos2) || "ak".equals(right_pos2) || "ka".equals(right_pos2) || "kk".equals(right_pos2) || "ff".equals(right_pos2)) {
-                                    board[row][column + 1] = null;
+                                    board[column + 1][row] = null;
                                     flag = true;
                                 }
                             }
@@ -441,118 +435,7 @@ public class GameBoard {
         }
         return msg;
     }
-    public String toString(){
-        String chess="";
-        String upperLeft = "\u250C";
-        String upperRight = "\u2510";
-        String horizontalLine = "\u2500";
-        String horizontal3 = horizontalLine + horizontalLine;
-        String verticalLine = "\u2502";
-        String upperT = "\u252C";
-        String bottomLeft = "\u2514";
-        String bottomRight = "\u2518";
-        String bottomT = "\u2534";
-        String plus = "\u253C";
-        String leftT = "\u251C";
-        String rightT = "\u2524";
 
-        String topLine = upperLeft;
-        for (int i = 0; i<10; i++){
-            topLine += horizontal3 + upperT;
-        }
-        topLine += horizontal3 + upperRight;
-
-        String bottomLine = bottomLeft;
-        for (int i = 0; i<10; i++){
-            bottomLine += horizontal3 + bottomT;
-        }
-        bottomLine += horizontal3 + bottomRight;
-        chess+=topLine + "\n";
-
-        for (int row = 10; row >=0; row--){
-            String midLine = "";
-            for (int col = 0; col < 11; col++){
-                if(board[row][col]==null) {
-                    if((row==0&&col==0)||(row==10&&col==0)||(row==0&&col==10)||(row==10&&col==10)){
-                        midLine += verticalLine + "\u274C";
-                    }else{
-                        midLine += verticalLine + "  ";
-                    }
-                } else {
-                    midLine += verticalLine + " "+board[row][col];
-                }
-            }
-            midLine += verticalLine;
-            String midLine2 = leftT;
-            for (int i = 0; i<10; i++){
-                midLine2 += horizontal3 + plus;
-            }
-            midLine2 += horizontal3 + rightT;
-            chess+=midLine+ "\n";
-            if(row>=1)
-                chess+=midLine2+ "\n";
-        }
-
-        chess+=bottomLine;
-        return chess;
-    }
-
-//    public String toString() {
-//        String chess = "";
-//        String upperLeft = "\u250C";
-//        String upperRight = "\u2510";
-//        String horizontalLine = "\u2500";
-//        String horizontal3 = horizontalLine + "\u3000" + horizontalLine;
-//        String verticalLine = "\u2502";
-//        String upperT = "\u252C";
-//        String bottomLeft = "\u2514";
-//        String bottomRight = "\u2518";
-//        String bottomT = "\u2534";
-//        String plus = "\u253C";
-//        String leftT = "\u251C";
-//        String rightT = "\u2524";
-//
-//        String topLine = upperLeft;
-//        for (int i = 0; i < 10; i++) {
-//            topLine += horizontal3 + upperT;
-//        }
-//        topLine += horizontal3 + upperRight;
-//
-//        String bottomLine = bottomLeft;
-//        for (int i = 0; i < 10; i++) {
-//            bottomLine += horizontal3 + bottomT;
-//        }
-//        bottomLine += horizontal3 + bottomRight;
-//        chess += topLine + "\n";
-//
-//        for (int row = 10; row >= 0; row--) {
-//            String midLine = "";
-//            for (int col = 0; col < 11; col++) {
-//                if (board[row][col] == null) {
-//                    if ((row == 0 && col == 0) || (row == 10 && col == 0) || (row == 0 && col == 10) || (row == 10 && col == 10)) {
-//                        midLine += verticalLine + " \u274C ";
-//                    } else {
-//                        midLine += verticalLine + " \u3000 ";
-//                    }
-////                    midLine += verticalLine + "";
-//                } else {
-//                    midLine += verticalLine + " " + board[row][col] + " ";
-//                }
-//            }
-//            midLine += verticalLine;
-//            String midLine2 = leftT;
-//            for (int i = 0; i < 10; i++) {
-//                midLine2 += horizontal3 + plus;
-//            }
-//            midLine2 += horizontal3 + rightT;
-//            chess += midLine + "\n";
-//            if (row >= 1)
-//                chess += midLine2 + "\n";
-//        }
-//
-//        chess += bottomLine;
-//        return chess;
-//    }
 /*
     public static void main(String[] args) {
         /* king wins:

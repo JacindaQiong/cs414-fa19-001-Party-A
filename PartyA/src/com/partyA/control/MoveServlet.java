@@ -1,9 +1,7 @@
 package com.partyA.control;
 
-import com.partyA.bean.GameBoard;
-import com.partyA.bean.Match;
-import com.partyA.bean.MoveConverter;
-import com.partyA.bean.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.partyA.bean.*;
 import com.partyA.exception.IllegalMoveException;
 import com.partyA.exception.IllegalPositionException;
 
@@ -17,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @WebServlet("/move")
 public class MoveServlet extends HttpServlet {
@@ -53,45 +54,44 @@ public class MoveServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("application/json;charset=utf-8");
         PrintWriter out = response.getWriter();
-        String fromX = request.getParameter("fromX");
-        String fromY = request.getParameter("fromY");
-        String toX = request.getParameter("toX");
-        String toY = request.getParameter("toY");
-        System.out.println("Move: fromX=" + fromX + "，fromY=" + fromY + "，toX=" + toX + "，toY=" + toY);
-        int status = 0;
-        String result = "";
-        ArrayList<String> boardArray = new ArrayList<String>();
-        String tempBoard = "";
-        int isLegal = 0;
+        int fromX = Integer.parseInt(request.getParameter("fromX"));
+        int fromY = Integer.parseInt(request.getParameter("fromY"));
+        int toX = Integer.parseInt(request.getParameter("toX"));
+        int toY = Integer.parseInt(request.getParameter("toY"));
         try {
-            if (board.checkIsLegal(convert.toBackend(Integer.parseInt(fromX), Integer.parseInt(fromY)), convert.toBackend(Integer.parseInt(toX), Integer.parseInt(toY))) == 1) {
-                isLegal = 1;
-                status = board.move(convert.toBackend(Integer.parseInt(fromX), Integer.parseInt(fromY)), convert.toBackend(Integer.parseInt(toX), Integer.parseInt(toY)));
-                System.out.println(board.toString());
+            String fromPos = String.valueOf((char) ('a' + fromX)) + (char) ('a' + fromY);
+            String toPos = String.valueOf((char) ('a' + toX)) + (char) ('a' + toY);
+            int status = board.move(fromPos,toPos);
+
+            List<Map> list = new ArrayList<>();
+            Piece[][] array  =board.getBoardArray();
+            for(int x=0; x<11; x++){
+                for(int y=0; y<11;y++){
+                    if(array[x][y]!=null){
+                        Map item = new HashMap();
+                        Piece p = array[x][y];
+                        item.put("txt",p.toString());
+                        item.put("x",x);
+                        item.put("y",y);
+                        list.add(item);
+                    }
+                }
             }
-            boardArray = board.getPieceLocations();
-            for (int i = 0; i < boardArray.size(); i++) {
-                tempBoard += boardArray.get(i);
-            }
-        } catch (IllegalMoveException | IllegalPositionException e) {
+
+            Map data = new HashMap();
+            data.put("status",status);
+            data.put("board",list);
+            ObjectMapper mapper = new ObjectMapper();
+//            JsonObject output = Json.createObjectBuilder()
+//                    .add("", )
+//                    .add("", mapper.writeValueAsString(list))
+//                    .build();
+            System.out.println(mapper.writeValueAsString(data));
+            out.write( mapper.writeValueAsString(data));
+            out.flush();
+            out.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        //Convert tempBoard to board that gets returned to client
-        for (int i = 0; i < tempBoard.length(); i += 3) {
-            String temp = "";
-            temp += "['" + tempBoard.charAt(i + 0) + "' , ";
-            temp += convert.toFrontEndCol(tempBoard.charAt(i + 1)) + " , ";
-            temp += convert.toFrontEndRow(tempBoard.charAt(i + 2)) + "] ";
-            result += temp;
-        }
-        JsonObject output = Json.createObjectBuilder()
-                .add("legal",isLegal)
-                .add("status", status)
-                .add("board", result)
-                .build();
-        out.write("" + output);
-        out.flush();
-        out.close();
-
     }
 }

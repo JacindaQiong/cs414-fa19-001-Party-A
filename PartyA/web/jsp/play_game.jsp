@@ -50,21 +50,6 @@
 </body>
 </html>
 <script type="text/javascript">
-    function setMove(fromX, fromY, toX, toY){
-        $.ajax({
-            url: "move?fromX="+fromX+"&fromY="+fromY+"&toX="+toX+"&toY="+toY,
-            contentType : "text/html;charset=utf-8",
-            dataType: "text",
-            type: "post",
-            async: true,
-            success : function(data) {
-                 alert(data);　　　　　
-                 //mycallback(data,name);
-                //回调函数　　　　
-            }
-        });
-    }
-
     var offset = 50;
     var unit = 50;
     var width = 600;
@@ -106,24 +91,45 @@
             }
         };
     }
+
+    function setMove(context,fromX, fromY, toX, toY){
+        var x0 = (fromX-offset)/unit;
+        var x1 = (toX-offset)/unit;
+        var y0 = (fromY-offset)/unit;
+        var y1 = (toY-offset)/unit;
+        // alert("input fromX="+fromX+",fromY="+fromY+",toX="+toX+",toY="+toY);
+
+        // alert("fromX="+x0+",fromY="+y0+",toX="+x1+",toY="+y1);
+        $.ajax({
+            url: "move?fromX="+x0+"&fromY="+y0+"&toX="+x1+"&toY="+y1,
+            contentType : "text/html;charset=utf-8",
+            dataType: "json",
+            type: "post",
+            async: true,
+            success : function(data) {
+                // var parsedJson = jQuery.parseJSON(data);
+                var status = data.status;
+
+                var board =eval(data.board);
+
+                context.clearRect(0,0,width,height);
+                $.each(board, function(idx, obj) {
+                    // alert(obj.txt+',x:'+obj.x+',y:'+obj.y);
+                    draw_one_piece(context, obj.txt, obj.x*unit+offset, obj.y*unit+offset);
+                });　　　　
+            }
+        });
+    }
     function put_Chess(context,x,y){
         var to_x = 0,to_y = 0, i;
         if (x%100>80||x%100<20) {to_x = 100*Math.round(x/100)};
         if (x%100>30&&x%100<70) {to_x = x>100?(Math.floor(x/100)*100 + 50):50};
         if (y%100>80||y%100<20) {to_y = 100*Math.round(y/100)};
         if (y%100>30&&y%100<70) {to_y = y>100?(Math.floor(y/100)*100 + 50):50};
-        for (i = 0;i < chess.length; i++) {
-            if (chess[i][1] == desc_click[0] && chess[i][2] == desc_click[1]) {
-                // alert("move before:x="+chess[i][1]+",y="+chess[i][2]);
-                setMove(chess[i][1], chess[i][2], to_x, to_y);
-                chess[i][1] = to_x;
-                chess[i][2] = to_y;
-                //reset desc_click
-                desc_click=[-1,-1];
-                break;
-            }
-        }
-        draw_all_pieces(context);
+        setMove(context, desc_click[0], desc_click[1], to_x, to_y);
+
+        desc_click=[-1,-1];
+        // draw_all_pieces(context);
         whoseTurn = (whoseTurn===0?1:0);
         update_h2();
     }
