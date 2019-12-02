@@ -17,11 +17,8 @@ public abstract class Piece {
 
     protected GameBoard board = null;
 
-    //0-10
-    protected int row;
-
-    //0-10
-    protected int column;
+    protected int x;
+    protected int y;
 
     protected Color color;
 
@@ -35,7 +32,7 @@ public abstract class Piece {
     }
 
     public String getPosition(){
-        String position = String.valueOf((char)('a'+this.column))+ (char)('a'+this.row);
+        String position = String.valueOf((char)('a'+this.x))+ (char)('a'+this.y);
         return position;
     }
 
@@ -51,8 +48,8 @@ public abstract class Piece {
             throw new IllegalPositionException("this position contains illegal characters or it's outside of the board !!");
 
         //2. set row/column
-        this.row = pos_row-'a';
-        this.column = pos_column-'a';
+        this.x = pos_column-'a';
+        this.y = pos_row-'a';
     }
 
     abstract public ArrayList<String> legalMoves();

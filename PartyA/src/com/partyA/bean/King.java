@@ -16,10 +16,7 @@ public class King extends Piece {
 
     @Override
     public String toString() {
-        if(Color.WHITE.equals(this.color))
-            return "\u2654";
-        else
-            return "\u265A";
+            return "K";
     }
 
     @Override
@@ -28,8 +25,8 @@ public class King extends Piece {
         try {
             int i,j;
             //vertically: up
-            for(i=row+1;i<=10;i++){
-                String position = String.valueOf((char)('a'+column))+ (char)('a'+i);
+            for(i= y +1; i<=10; i++){
+                String position = String.valueOf((char)('a'+ x))+ (char)('a'+i);
                 Piece p = board.getPiece(position);
                 if(p==null)
                     legalMoves.add(position);
@@ -37,8 +34,8 @@ public class King extends Piece {
                     break;
             }
             //vertically: down
-            for(i=row-1;i>=0;i--){
-                String position = String.valueOf((char)('a'+column))+ (char)('a'+i);
+            for(i= y -1; i>=0; i--){
+                String position = String.valueOf((char)('a'+ x))+ (char)('a'+i);
                 Piece p = board.getPiece(position);
                 if(p==null)
                     legalMoves.add(position);
@@ -47,8 +44,8 @@ public class King extends Piece {
 
             }
             //horizontally: left
-            for(j=column-1;j>=0;j--){
-                String position = String.valueOf((char)('a'+j))+ (char)('a'+row);
+            for(j= x -1; j>=0; j--){
+                String position = String.valueOf((char)('a'+j))+ (char)('a'+ y);
                 Piece p = board.getPiece(position);
                 if(p==null)
                     legalMoves.add(position);
@@ -56,8 +53,8 @@ public class King extends Piece {
                     break;
             }
             //horizontally: right
-            for(j=column+1;j<=10;j++){
-                String position = String.valueOf((char)('a'+j))+ (char)('a'+row);
+            for(j= x +1; j<=10; j++){
+                String position = String.valueOf((char)('a'+j))+ (char)('a'+ y);
                 Piece p = board.getPiece(position);
                 if(p==null)
                     legalMoves.add(position);
