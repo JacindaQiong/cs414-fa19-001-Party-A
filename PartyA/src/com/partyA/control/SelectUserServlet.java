@@ -12,14 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.partyA.service.UserService;
 
 
-
 /**
  * Servlet implementation class SelectUserServlet
  */
 @WebServlet("/back/selectUser")
 public class SelectUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -44,7 +43,6 @@ public class SelectUserServlet extends HttpServlet {
 		PrintWriter out=response.getWriter();
 		UserService service =new UserService();
 		String temp=service.searchUser(Integer.parseInt(page), Integer.parseInt(rows));
-		out.print(333);
 	    out.print(temp);
 	    out.flush();
 	}
