@@ -256,9 +256,7 @@ public class GameBoard {
                                 flag = true;
                             }
                         }
-
                     }
-
                 }
             }
 
@@ -307,10 +305,7 @@ public class GameBoard {
                                 }
                             }
                         }
-
                     }
-
-
                 }
             }
 
@@ -336,8 +331,6 @@ public class GameBoard {
                         }
 
                     }
-
-
                 }
             }
             if (flag) {
@@ -346,8 +339,6 @@ public class GameBoard {
         } catch (IllegalPositionException e) {
             e.printStackTrace();
         }
-
         return -1;
-
     }
 }
