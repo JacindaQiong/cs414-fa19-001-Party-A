@@ -103,9 +103,9 @@
         canvas1.height = height;
         var context = canvas.getContext("2d");
         var context1 = canvas1.getContext("2d");
-        draw_ChessBoard(context1);
-        draw_all_pieces(context);
-        update_h2();
+        draw_board(context1);
+        draw_pieces(context);
+        $("#whoseTurn").html(whoseTurn === 0?"WhoseTurn:Black":"WhoseTurn:White");
         canvas.onclick = function(e){
             var flag = get_Chess(context,e.clientX - canvas.offsetLeft,e.clientY - canvas.offsetTop);
             if(flag==0){
@@ -128,32 +128,31 @@
             type: "post",
             async: true,
             success : function(data) {
+                var msg;
                 var status = data.status;
-                /*
-                -1 no change; 0 black wins; 1 white wins; 2 kill opponent 3:illegal(no change)  4:it's not your turn
-                * */
-                if(0==status){
-                    alert("game over______ black wins");
-                    return;
-                }else if(1==status){
-                    alert("game over______ white wins");
-                    return;
-                }else if(3==status){
+                //-1 no change; 0 black wins; 1 white wins; 2 kill opponent 3:illegal(no change)  4:it's not your turn
+                if(3==status){
                     alert("it's not a legal move.");
-                    draw_all_pieces(context);
+                    draw_pieces(context);
                     desc_click=[-1,-1];
                     return;
+                } else if(0==status){
+                    msg = "Black:wins!";
+                }else if(1==status){
+                    msg = "White:wins!";
+                }else{
+                    desc_click=[-1,-1];
+                    whoseTurn = (whoseTurn===0?1:0);
+                    msg = whoseTurn === 0?"WhoseTurn:Black":"WhoseTurn:White";
                 }
+
                 var result =eval(data.chess);
                 chess = result;
-                draw_all_pieces(context);
-                desc_click=[-1,-1];
-                whoseTurn = (whoseTurn===0?1:0);
-                update_h2();
+                draw_pieces(context);
+
+                $("#whoseTurn").html(msg);
             }
         });
-
-
     }
     function get_Chess(context,x,y){
         var from_x = 0,from_y = 0, i;
@@ -167,7 +166,7 @@
             if (piece.x == from_x && piece.y == from_y) {
                 var txt = (whoseTurn===0)?"B":"W,K";
                 if(txt.indexOf(piece.txt)!= -1){
-                    draw_all_pieces(context);
+                    draw_pieces(context);
                     draw_chosen_piece(context,from_x,from_y);
                     desc_click = [from_x,from_y];
                     flag = 1;
@@ -179,7 +178,7 @@
         return flag;
     }
 
-    function draw_ChessBoard(context){
+    function draw_board(context){
         context.lineWidth = 2;
         context.clearRect(0,0,width,height);
         context.fillStyle = "#b3b37d";
@@ -225,41 +224,39 @@
         context.stroke();
 
     }
-    function draw_all_pieces(context){
+    function draw_pieces(context){
         context.clearRect(0,0,width,height);
         $.each(chess, function(idx, piece) {
-            draw_one_piece(context, piece.txt, piece.x, piece.y );
+            var color;
+            if(piece.txt=='B'){
+                color = "Black";
+            }else if(piece.txt=='W'){
+                color = "White";
+            }else if(piece.txt=='K'){
+                color = "#fe687a";
+            }
+            context.save();
+            context.beginPath();
+            var b_Color = context.createLinearGradient(piece.x+15,piece.y-15,piece.x-15,piece.y+15);
+            b_Color.addColorStop(0,"#f3f5d5");
+            b_Color.addColorStop(1,"#8c834d");
+            context.arc(piece.x, piece.y, 22, 0, 2*Math.PI);
+            context.fillStyle = b_Color;
+            context.fill();
+            context.beginPath();
+            context.arc(piece.x, piece.y, 17, 0, 2*Math.PI);
+            context.fillStyle = "#f5da94";
+            context.strokeStyle = "#c9c876";
+            context.stroke();
+            context.fill();
+            context.beginPath();
+            context.fillStyle = color;
+            context.font = "900 24px KaiTi_GB2312";
+            context.fillText(piece.txt, piece.x-12, piece.y+8);
+            context.restore();
         });
     }
-    function draw_one_piece(context, txt, x, y){
-        var color;
-        if(txt=='B'){
-            color = "Black";
-        }else if(txt=='W'){
-            color = "White";
-        }else if(txt=='K'){
-            color = "#fe687a";
-        }
-        context.save();
-        context.beginPath();
-        var b_Color = context.createLinearGradient(x+15,y-15,x-15,y+15);
-        b_Color.addColorStop(0,"#f3f5d5");
-        b_Color.addColorStop(1,"#8c834d");
-        context.arc(x,y,22,0,2*Math.PI);
-        context.fillStyle = b_Color;
-        context.fill();
-        context.beginPath();
-        context.arc(x,y,17,0,2*Math.PI);
-        context.fillStyle = "#f5da94";
-        context.strokeStyle = "#c9c876";
-        context.stroke();
-        context.fill();
-        context.beginPath();
-        context.fillStyle = color;
-        context.font = "900 24px KaiTi_GB2312";
-        context.fillText(txt,x-12,y+8);
-        context.restore();
-    }
+
     function draw_chosen_piece(context, x, y){
         context.beginPath();
         context.moveTo(x-23,y-10);
@@ -275,11 +272,6 @@
         context.lineTo(x+23,y+23);
         context.lineTo(x+10,y+23);
         context.stroke();
-    }
-    function update_h2(){
-        var h2 = document.getElementById("whoseTurn");
-        h2.innerHTML = (whoseTurn === 0?"WhoseTurn:Black":"WhoseTurn:White");
-        h2.style.color = whoseTurn == 0?"#000000":"#ff0000";
     }
 </script>
 </body>

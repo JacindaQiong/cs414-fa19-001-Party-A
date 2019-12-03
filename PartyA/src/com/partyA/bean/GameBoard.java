@@ -21,7 +21,7 @@ public class GameBoard {
      * odd numbers represent white's turn
      * black moves first
      * */
-    private static int whoseTurn = 0;
+//    private static int whoseTurn = 0;
 
     public Piece[][] getBoardArray() {
         return board;
@@ -125,7 +125,6 @@ public class GameBoard {
      * @throws IllegalPositionException
      */
     public Piece getPiece(String position) throws IllegalPositionException {
-        //1. check the position is illegal or not
         if (position == null || position.length() != 2)
             throw new IllegalPositionException("this position is null or its length()!=2 !!");
         char[] pos = position.toCharArray();
@@ -134,8 +133,6 @@ public class GameBoard {
         if (!(pos_column >= 'a' && pos_column <= 'k' && pos_row >= 'a' && pos_row <= 'k'))
             throw new IllegalPositionException("this position contains illegal characters or it's outside of the board !!");
 
-        //2. transfer the position(two-character string) into x/y values
-        //3. find the piece at a given position
         return board[pos_column - 'a'][pos_row - 'a'];
     }
 
@@ -163,36 +160,23 @@ public class GameBoard {
             e.printStackTrace();
             return false;
         }
-
     }
 
-    //-1 no change; 0 black wins; 1 white wins; 2 kill opponent 3:illegal(no change)  4:it's not your turn
+    //-1 no change; 0 black wins; 1 white wins; 2 kill opponent 3:illegal(no change)
     public int move(String fromPosition, String toPosition) throws IllegalMoveException {
         try {
             //1. check if this moving is a legal move
             Piece piece = getPiece(fromPosition);
             if (piece != null) {
-                int whoseTurn = this.getWhoseTurn();
-                Piece.Color co = Piece.Color.BLACK;
-                if (whoseTurn % 2 == 1) {
-                    co = Piece.Color.WHITE;
-                }
-                if (piece.getColor().toString().equals(co.toString())) {
-                    ArrayList<String> legalMoves = piece.legalMoves();
-                    if (legalMoves.size() > 0 && legalMoves.contains(toPosition)) {
-                        //2. it's legal---> execute moving
-                        placePiece(piece, toPosition);
-
-                        char[] pos = fromPosition.toCharArray();
-                        board[pos[0] - 'a'][pos[1] - 'a'] = null;
-                        whoseTurn++;
-                        setWhoseTurn(whoseTurn);
-                        return this.checkStatus(toPosition);
-                    } else {
-                        return 3;
-                    }
+                ArrayList<String> legalMoves = piece.legalMoves();
+                if (legalMoves.size() > 0 && legalMoves.contains(toPosition)) {
+                    //2. it's legal---> execute moving
+                    placePiece(piece, toPosition);
+                    char[] pos = fromPosition.toCharArray();
+                    board[pos[0] - 'a'][pos[1] - 'a'] = null;
+                    return this.checkStatus(toPosition);
                 } else {
-                    return 4;
+                    return 3;
                 }
             } else {
                 throw new IllegalMoveException("fromPosition is illegal!!! cannot get a piece!!  it's illegal move!!");
@@ -200,14 +184,6 @@ public class GameBoard {
         } catch (IllegalPositionException e) {
             throw new IllegalMoveException("legalMoves List doesn't contain toPosition!! it's illegal move!!");
         }
-    }
-
-    public int getWhoseTurn() {
-        return whoseTurn;
-    }
-
-    public static void setWhoseTurn(int whoseTurn) {
-        GameBoard.whoseTurn = whoseTurn;
     }
 
     private boolean isBlack(int row, int column) {
@@ -383,75 +359,14 @@ public class GameBoard {
 
     }
 
-    public String prompt() {
-        String msg = "";
-        int whoseTurn = getWhoseTurn();
-        if (whoseTurn % 2 == 0) {
-            msg = match.getBlackUser().getName() + ", please move.";
-        } else {
-            msg = match.getWhiteUser().getName() + ", please move.";
-        }
-        return msg;
-    }
-
-/*
-    public static void main(String[] args) {
-        /* king wins:
-        1. black: bf,bi
-        2. white: df,bf
-        3. black: da,dc
-        4. white: ef,cf
-        5. black: ad,ed
-        6. white: ff,df
-        7. black: dc,ic
-        8. white: df,da
-        9. black: ea,ec
-        10. white: da,aa
-        * */
-
-    /*black wins:
-    1. black:bf,bg
-    2. white:df,dh
-    3. black:ae,ce
-    4. white:ef,df
-    5. black:ad,bd
-    6. white:df,dg
-    7. black:bd,be
-    8. white:ff,bf
-    9. black:ce,cf
-    * */ /*
-    User black = new User(1, "AAA", "abcx", "AAA@gamil.com");
-    User white = new User(2, "BBB", "fgfd", "BBB@gamil.com");
-    Match match = new Match(black, white);
-    GameBoard board = new GameBoard(match);
-
-        board.initialize();
-
-        while(true)
-
-    {
-        Scanner scanner = new Scanner(System.in);
-        String input = scanner.next();
-        String[] parameters = input.split(",");
-        System.out.println("from：" + parameters[0] + ",to: " + parameters[1]);
-        try {
-            int result = board.move(parameters[0], parameters[1]);
-            System.out.println(board.toString());
-            if (result == 999) {
-                System.out.println("it's not your turn!");
-            } else if (result == 0) {
-                System.out.println("black team wins!");
-                break;
-            } else if (result == 1) {
-                System.out.println("white team wins!");
-                break;
-            } else if (result == 2) {
-                System.out.println("kill an opponent successfully");
-            }
-        } catch (IllegalMoveException e) {
-            e.printStackTrace();
-        }
-    }
-}
-    */
+//    public String prompt() {
+//        String msg = "";
+//        int whoseTurn = getWhoseTurn();
+//        if (whoseTurn % 2 == 0) {
+//            msg = match.getBlackUser().getName() + ", please move.";
+//        } else {
+//            msg = match.getWhiteUser().getName() + ", please move.";
+//        }
+//        return msg;
+//    }
 }
