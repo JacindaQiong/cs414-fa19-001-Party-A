@@ -34,19 +34,7 @@ public class MoveServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        //set to application/json later
-        response.setContentType("text/html;charset=utf-8");
-        PrintWriter out = response.getWriter();
-
-        String fromX = request.getParameter("fromX");
-        String fromY = request.getParameter("fromY");
-        String toX = request.getParameter("toX");
-        String toY = request.getParameter("toY");
-        System.out.println("Move: fromX=" + fromX + "，fromY=" + fromY + "，toX=" + toX + "，toY=" + toY);
-
-        out.write("okay!!");
-        out.flush();
-        out.close();
+        doPost(request,response);
     }
 
 
@@ -58,6 +46,11 @@ public class MoveServlet extends HttpServlet {
         int fromY = Integer.parseInt(request.getParameter("fromY"));
         int toX = Integer.parseInt(request.getParameter("toX"));
         int toY = Integer.parseInt(request.getParameter("toY"));
+        fromX = (fromX-50)/50;
+        fromY = (fromY-50)/50;
+        toX = (toX-50)/50;
+        toY = (toY-50)/50;
+
         try {
             String fromPos = String.valueOf((char) ('a' + fromX)) + (char) ('a' + fromY);
             String toPos = String.valueOf((char) ('a' + toX)) + (char) ('a' + toY);
@@ -71,8 +64,8 @@ public class MoveServlet extends HttpServlet {
                         Map item = new HashMap();
                         Piece p = array[x][y];
                         item.put("txt",p.toString());
-                        item.put("x",x);
-                        item.put("y",y);
+                        item.put("x",x*50+50);
+                        item.put("y",y*50+50);
                         list.add(item);
                     }
                 }
@@ -80,13 +73,8 @@ public class MoveServlet extends HttpServlet {
 
             Map data = new HashMap();
             data.put("status",status);
-            data.put("board",list);
+            data.put("chess",list);
             ObjectMapper mapper = new ObjectMapper();
-//            JsonObject output = Json.createObjectBuilder()
-//                    .add("", )
-//                    .add("", mapper.writeValueAsString(list))
-//                    .build();
-            System.out.println(mapper.writeValueAsString(data));
             out.write( mapper.writeValueAsString(data));
             out.flush();
             out.close();

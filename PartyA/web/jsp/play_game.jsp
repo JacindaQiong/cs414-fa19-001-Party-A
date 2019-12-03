@@ -47,24 +47,49 @@
 <h2 id="whoseTurn"></h2>
 <canvas id="canvas" width="" height=""></canvas>
 <canvas id="canvas1" width="" height=""></canvas>
-</body>
-</html>
 <script type="text/javascript">
     var offset = 50;
     var unit = 50;
     var width = 600;
     var height = 600;
     var chess = [
-        //[txt, x, y]
-        ['B',offset+3*unit,offset],['B',offset+4*unit,offset],['B',offset+5*unit,offset],['B',offset+6*unit,offset],['B',offset+7*unit,offset],['B',offset+5*unit,offset+1*unit],
-        ['B',offset+3*unit,offset+10*unit],['B',offset+4*unit,offset+10*unit],['B',offset+5*unit,offset+10*unit],['B',offset+6*unit,offset+10*unit],['B',offset+7*unit,offset+10*unit],['B',offset+5*unit,offset+9*unit],
-        ['B',offset,offset+3*unit],['B',offset,offset+4*unit],['B',offset,offset+5*unit],['B',offset,offset+6*unit],['B',offset,offset+7*unit],['B',offset+1*unit,offset+5*unit],
-        ['B',offset+10*unit,offset+3*unit],['B',offset+10*unit,offset+4*unit],['B',offset+10*unit,offset+5*unit],['B',offset+10*unit,offset+6*unit],['B',offset+10*unit,offset+7*unit],['B',offset+9*unit,offset+5*unit],
-        ['W',offset+5*unit,offset+3*unit],['W',offset+5*unit,offset+7*unit],
-        ['W',offset+4*unit,offset+4*unit],['W',offset+5*unit,offset+4*unit],['W',offset+6*unit,offset+4*unit],['W',offset+4*unit,offset+6*unit],['W',offset+5*unit,offset+6*unit],['W',offset+6*unit,offset+6*unit],
-        ['W',offset+3*unit,offset+5*unit],['W',offset+4*unit,offset+5*unit],['W',offset+6*unit,offset+5*unit],['W',offset+7*unit,offset+5*unit],
-        ['K',offset+5*unit,offset+5*unit]
-    ];
+        {"txt": "B", "x": 0*50+50, "y": 3*50+50 },
+        {"txt": "B", "x": 0*50+50, "y": 4*50+50 },
+        {"txt": "B", "x": 0*50+50, "y": 5*50+50 },
+        {"txt": "B", "x": 0*50+50, "y": 6*50+50 },
+        {"txt": "B", "x": 0*50+50, "y": 7*50+50 },
+        {"txt": "B", "x": 1*50+50, "y": 5*50+50 },
+        {"txt": "B", "x": 3*50+50, "y": 0*50+50 },
+        {"txt": "W", "x": 3*50+50, "y": 5*50+50 },
+        {"txt": "B", "x": 3*50+50, "y": 10*50+50},
+        {"txt": "B", "x": 4*50+50, "y": 0*50+50 },
+        {"txt": "W", "x": 4*50+50, "y": 4*50+50 },
+        {"txt": "W", "x": 4*50+50, "y": 5*50+50 },
+        {"txt": "W", "x": 4*50+50, "y": 6*50+50 },
+        {"txt": "B", "x": 4*50+50, "y": 10*50+50},
+        {"txt": "B", "x": 5*50+50, "y": 0*50+50 },
+        {"txt": "B", "x": 5*50+50, "y": 1*50+50 },
+        {"txt": "W", "x": 5*50+50, "y": 3*50+50 },
+        {"txt": "W", "x": 5*50+50, "y": 4*50+50 },
+        {"txt": "K", "x": 5*50+50, "y": 5*50+50 },
+        {"txt": "W", "x": 5*50+50, "y": 6*50+50 },
+        {"txt": "W", "x": 5*50+50, "y": 7*50+50 },
+        {"txt": "B", "x": 5*50+50, "y": 9*50+50 },
+        {"txt": "B", "x": 5*50+50, "y": 10*50+50 },
+        {"txt": "B", "x": 6*50+50, "y": 0*50+50 },
+        {"txt": "W", "x": 6*50+50, "y": 4*50+50 },
+        {"txt": "W", "x": 6*50+50, "y": 5*50+50 },
+        {"txt": "W", "x": 6*50+50, "y": 6*50+50 },
+        {"txt": "B", "x": 6*50+50, "y": 10*50+50 },
+        {"txt": "B", "x": 7*50+50, "y": 0*50+50 },
+        {"txt": "W", "x": 7*50+50, "y": 5*50+50 },
+        {"txt": "B", "x": 7*50+50, "y": 10*50+50 },
+        {"txt": "B", "x": 9*50+50, "y": 5*50+50 },
+        {"txt": "B", "x": 10*50+50, "y": 3*50+50 },
+        {"txt": "B", "x": 10*50+50, "y": 4*50+50 },
+        {"txt": "B", "x": 10*50+50, "y": 5*50+50 },
+        {"txt": "B", "x": 10*50+50, "y": 6*50+50 },
+        {"txt": "B", "x": 10*50+50, "y": 7*50+50 }];
     //store current piece info: x，y
     var desc_click = [-1,-1];
     //0 black; 1 white
@@ -82,56 +107,53 @@
         draw_all_pieces(context);
         update_h2();
         canvas.onclick = function(e){
-            // alert("e.clientX="+e.clientX+",e.clientY="+e.clientY);
-            // alert("canvas.offsetLeft="+canvas.offsetLeft+",canvas.offsetTop="+canvas.offsetTop);
-            if(desc_click[0]==-1&&desc_click[1]==-1){
-                get_Chess(context,e.clientX - canvas.offsetLeft,e.clientY - canvas.offsetTop);
-            }else{
-                put_Chess(context,e.clientX - canvas.offsetLeft,e.clientY - canvas.offsetTop);
+            var flag = get_Chess(context,e.clientX - canvas.offsetLeft,e.clientY - canvas.offsetTop);
+            if(flag==0){
+                move(context,e.clientX - canvas.offsetLeft,e.clientY - canvas.offsetTop);
             }
         };
     }
 
-    function setMove(context,fromX, fromY, toX, toY){
-        var x0 = (fromX-offset)/unit;
-        var x1 = (toX-offset)/unit;
-        var y0 = (fromY-offset)/unit;
-        var y1 = (toY-offset)/unit;
-        // alert("input fromX="+fromX+",fromY="+fromY+",toX="+toX+",toY="+toY);
-
-        // alert("fromX="+x0+",fromY="+y0+",toX="+x1+",toY="+y1);
-        $.ajax({
-            url: "move?fromX="+x0+"&fromY="+y0+"&toX="+x1+"&toY="+y1,
-            contentType : "text/html;charset=utf-8",
-            dataType: "json",
-            type: "post",
-            async: true,
-            success : function(data) {
-                // var parsedJson = jQuery.parseJSON(data);
-                var status = data.status;
-
-                var board =eval(data.board);
-
-                context.clearRect(0,0,width,height);
-                $.each(board, function(idx, obj) {
-                    // alert(obj.txt+',x:'+obj.x+',y:'+obj.y);
-                    draw_one_piece(context, obj.txt, obj.x*unit+offset, obj.y*unit+offset);
-                });　　　　
-            }
-        });
-    }
-    function put_Chess(context,x,y){
+    function move(context,x,y){
         var to_x = 0,to_y = 0, i;
         if (x%100>80||x%100<20) {to_x = 100*Math.round(x/100)};
         if (x%100>30&&x%100<70) {to_x = x>100?(Math.floor(x/100)*100 + 50):50};
         if (y%100>80||y%100<20) {to_y = 100*Math.round(y/100)};
         if (y%100>30&&y%100<70) {to_y = y>100?(Math.floor(y/100)*100 + 50):50};
-        setMove(context, desc_click[0], desc_click[1], to_x, to_y);
 
-        desc_click=[-1,-1];
-        // draw_all_pieces(context);
-        whoseTurn = (whoseTurn===0?1:0);
-        update_h2();
+        $.ajax({
+            url: "move?fromX="+desc_click[0]+"&fromY="+desc_click[1]+"&toX="+to_x+"&toY="+to_y,
+            contentType : "text/html;charset=utf-8",
+            dataType: "json",
+            type: "post",
+            async: true,
+            success : function(data) {
+                var status = data.status;
+                /*
+                -1 no change; 0 black wins; 1 white wins; 2 kill opponent 3:illegal(no change)  4:it's not your turn
+                * */
+                if(0==status){
+                    alert("game over______ black wins");
+                    return;
+                }else if(1==status){
+                    alert("game over______ white wins");
+                    return;
+                }else if(3==status){
+                    alert("it's not a legal move.");
+                    draw_all_pieces(context);
+                    desc_click=[-1,-1];
+                    return;
+                }
+                var result =eval(data.chess);
+                chess = result;
+                draw_all_pieces(context);
+                desc_click=[-1,-1];
+                whoseTurn = (whoseTurn===0?1:0);
+                update_h2();
+            }
+        });
+
+
     }
     function get_Chess(context,x,y){
         var from_x = 0,from_y = 0, i;
@@ -139,21 +161,24 @@
         if (x%100>30&&x%100<70) {from_x = x>100?(Math.floor(x/100)*100 + 50):50};
         if (y%100>80||y%100<20) {from_y = 100*Math.round(y/100)};
         if (y%100>30&&y%100<70) {from_y = y>100?(Math.floor(y/100)*100 + 50):50};
-        for (i = 0;i < chess.length; i++) {
-            if (chess[i][1] == from_x && chess[i][2] == from_y) {
+
+        var flag = 0;
+        $.each(chess, function(idx, piece) {
+            if (piece.x == from_x && piece.y == from_y) {
                 var txt = (whoseTurn===0)?"B":"W,K";
-                // alert("whoseTurn:"+turn);
-                if(txt.indexOf(chess[i][0])!= -1){
+                if(txt.indexOf(piece.txt)!= -1){
+                    draw_all_pieces(context);
                     draw_chosen_piece(context,from_x,from_y);
                     desc_click = [from_x,from_y];
-                    return false;
+                    flag = 1;
                 }else{
                     alert("it's not your turn! ");
                 }
             }
-        }
+        });
+        return flag;
     }
-    
+
     function draw_ChessBoard(context){
         context.lineWidth = 2;
         context.clearRect(0,0,width,height);
@@ -202,9 +227,9 @@
     }
     function draw_all_pieces(context){
         context.clearRect(0,0,width,height);
-        for (var i = 0;i < chess.length; i++) {
-            draw_one_piece(context,chess[i][0],chess[i][1],chess[i][2]);
-        }
+        $.each(chess, function(idx, piece) {
+            draw_one_piece(context, piece.txt, piece.x, piece.y );
+        });
     }
     function draw_one_piece(context, txt, x, y){
         var color;
@@ -257,3 +282,5 @@
         h2.style.color = whoseTurn == 0?"#000000":"#ff0000";
     }
 </script>
+</body>
+</html>

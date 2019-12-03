@@ -27,23 +27,6 @@ public class GameBoard {
         return board;
     }
 
-    //Used for getting the board in json
-//    public ArrayList<String> getPieceLocations(){
-//        ArrayList<String> theBoard = new ArrayList<String>();
-//        String temp = "";
-//        for(int i=0; i<board.length; i++){
-//            for(int j=0; j<board[i].length; j++){
-//                if(board[i][j] != null) {
-//                    temp = board[i][j].toString();
-//                    temp += board[i][j].getPosition();
-//                    theBoard.add(temp);
-//                    temp = "";
-//                }
-//            }
-//        }
-//        return theBoard;
-//    }
-
     public GameBoard(Match match) {
         this.match = match;
         board = new Piece[11][11];
@@ -182,34 +165,9 @@ public class GameBoard {
         }
 
     }
-    //Returns 0 if illegal, 1 if legal
-//    public int checkIsLegal(String fromPosition, String toPosition) throws IllegalPositionException {
-//            Piece piece = getPiece(fromPosition);
-//            if (piece != null) {
-//                int whoseTurn = this.getWhoseTurn();
-//                Piece.Color co = Piece.Color.BLACK;
-//                if (whoseTurn % 2 == 1) {
-//                    co = Piece.Color.WHITE;
-//                }
-//                if (piece.getColor().toString().equals(co.toString())) {
-//                    ArrayList<String> legalMoves = piece.legalMoves();
-//                    if (legalMoves.size() > 0 && legalMoves.contains(toPosition)) {
-//                        //2. it's legal---> execute moving
-//                       return 1;
-//                    } else {
-//                        return 0;
-//                    }
-//                } else {
-//                    return 0;
-//                }
-//            } else {
-//                return 0;
-//            }
-//        }
 
-    //-1 no change; 0 black wins; 1 white wins; 2 kill opponent  999:it's not your turn
+    //-1 no change; 0 black wins; 1 white wins; 2 kill opponent 3:illegal(no change)  4:it's not your turn
     public int move(String fromPosition, String toPosition) throws IllegalMoveException {
-//        System.out.println("from: " + fromPosition + " to: " + toPosition);
         try {
             //1. check if this moving is a legal move
             Piece piece = getPiece(fromPosition);
@@ -231,10 +189,10 @@ public class GameBoard {
                         setWhoseTurn(whoseTurn);
                         return this.checkStatus(toPosition);
                     } else {
-                        throw new IllegalMoveException("legalMoves List doesn't contain toPosition!! it's illegal move!!");
+                        return 3;
                     }
                 } else {
-                    return 999;
+                    return 4;
                 }
             } else {
                 throw new IllegalMoveException("fromPosition is illegal!!! cannot get a piece!!  it's illegal move!!");
