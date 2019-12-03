@@ -2,11 +2,6 @@ package com.partyA.control;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.partyA.bean.*;
-import com.partyA.exception.IllegalMoveException;
-import com.partyA.exception.IllegalPositionException;
-
-import javax.json.Json;
-import javax.json.JsonObject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,7 +21,6 @@ public class MoveServlet extends HttpServlet {
     User white = new User(2, "BBB", "fgfd", "BBB@gamil.com");
     Match m = new Match(black, white);
     GameBoard board = new GameBoard(m);
-//    MoveConverter convert = new MoveConverter();
 
     public void init() throws ServletException {
         board.initialize();
@@ -36,7 +30,6 @@ public class MoveServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         doPost(request,response);
     }
-
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
