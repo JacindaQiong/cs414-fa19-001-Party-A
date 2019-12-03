@@ -26,7 +26,7 @@ public class MoveServlet extends HttpServlet {
     User white = new User(2, "BBB", "fgfd", "BBB@gamil.com");
     Match m = new Match(black, white);
     GameBoard board = new GameBoard(m);
-    MoveConverter convert = new MoveConverter();
+//    MoveConverter convert = new MoveConverter();
 
     public void init() throws ServletException {
         board.initialize();
