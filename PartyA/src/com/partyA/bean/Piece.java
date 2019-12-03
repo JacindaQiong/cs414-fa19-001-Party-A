@@ -36,7 +36,6 @@ public abstract class Piece {
         return position;
     }
 
-
     public void setPosition(String position) throws IllegalPositionException {
         //1. check position
         if(position==null||position.length()!=2)

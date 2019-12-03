@@ -16,13 +16,6 @@ public class GameBoard {
 
     private Match match;
 
-    /*
-     * even numbers represent black's turn
-     * odd numbers represent white's turn
-     * black moves first
-     * */
-//    private static int whoseTurn = 0;
-
     public Piece[][] getBoardArray() {
         return board;
     }
@@ -245,7 +238,6 @@ public class GameBoard {
             Piece p = getPiece(toPosition);
             Piece.Color currColor = p.getColor();
             //top
-
             String top_pos1 = String.valueOf((char) ('a' + column)) + (char) ('a' + row + 1);
             if (top_pos1.charAt(0) >= 'a' && top_pos1.charAt(0) <= 'k' && top_pos1.charAt(1) >= 'a' && top_pos1.charAt(1) <= 'k' && !kingPos.equals(top_pos1)) {
                 Piece top_piece1 = getPiece(top_pos1);
@@ -358,15 +350,4 @@ public class GameBoard {
         return -1;
 
     }
-
-//    public String prompt() {
-//        String msg = "";
-//        int whoseTurn = getWhoseTurn();
-//        if (whoseTurn % 2 == 0) {
-//            msg = match.getBlackUser().getName() + ", please move.";
-//        } else {
-//            msg = match.getWhiteUser().getName() + ", please move.";
-//        }
-//        return msg;
-//    }
 }
