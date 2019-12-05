@@ -32,7 +32,6 @@
 </table>
 <div id="tb">
     <div id="btnNED">
-     <a href="../addInvitation.jsp" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">invite</a>
      <a href="index.jsp" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">exit</a>
     </div>
 
@@ -42,6 +41,26 @@
 </table>
     </div>
 </div>
+<script>$('#tbUser').datagrid({
+    onClickRow: function (index,row){
+        var invitee = row.name
+        sendInvite(invitee)
+    }
+});
 
+function sendInvite(name){
+    var Invitee = name;
+    var Inviter = ${userInfo.name};
+    $.ajax({
+        url: "sendInvite?invitee=" +Invitee+ "&inviter=" +Inviter,
+        contentType : "text/html;charset=utf-8",
+        dataType: "json",
+        type: "post",
+        async: true,
+        success : function(data) {
+
+        }
+    });
+}</script>
 </body>
 </html>
