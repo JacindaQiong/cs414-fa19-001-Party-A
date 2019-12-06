@@ -1,20 +1,19 @@
 package com.partyA.control;
 
-import com.partyA.bean.Invitation;
 import com.partyA.service.InvitationService;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebServlet("/back/selectInvitation")
-public class SelectInviationServlet {
+public class SelectInvitationServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    public SelectInviationServlet() {
+    public SelectInvitationServlet(){
         super();
         // TODO Auto-generated constructor stub
     }
