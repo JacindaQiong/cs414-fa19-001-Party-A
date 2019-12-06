@@ -44,11 +44,12 @@
 
 </head>
 <body onselectstart="return false;" style="background: rgba(220,227,137,0.4)">
+<h4>Black:${blackUser.name}  White:${whiteUser.name}</h4>
 <h2 id="whoseTurn"></h2>
-${blackUser.name}
+
 <canvas id="canvas" width="" height=""></canvas>
 <canvas id="canvas1" width="" height=""></canvas>
-${whiteUser.name}
+
 <script type="text/javascript">
     var offset = 50;
     var unit = 50;
@@ -124,7 +125,7 @@ ${whiteUser.name}
         if (y%100>30&&y%100<70) {to_y = y>100?(Math.floor(y/100)*100 + 50):50};
 
         $.ajax({
-            url: "move?fromX="+desc_click[0]+"&fromY="+desc_click[1]+"&toX="+to_x+"&toY="+to_y,
+            url: "<%=basePath%>move?flag=1&fromX="+desc_click[0]+"&fromY="+desc_click[1]+"&toX="+to_x+"&toY="+to_y,
             contentType : "text/html;charset=utf-8",
             dataType: "json",
             type: "post",
