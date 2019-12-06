@@ -12,7 +12,7 @@
       <script type="text/javascript">
           function playGame(){
               alert("you are going to play game.");
-              window.location.href="<%=basePath %>jsp/play_game.jsp";
+              window.location.href="<%=basePath %>move?flag=0&blackID=1&whiteID=2";
           }
           function invite(){
               alert("you are going to invite others.");

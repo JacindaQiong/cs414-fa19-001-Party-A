@@ -45,8 +45,10 @@
 </head>
 <body onselectstart="return false;" style="background: rgba(220,227,137,0.4)">
 <h2 id="whoseTurn"></h2>
+${blackUser.name}
 <canvas id="canvas" width="" height=""></canvas>
 <canvas id="canvas1" width="" height=""></canvas>
+${whiteUser.name}
 <script type="text/javascript">
     var offset = 50;
     var unit = 50;

@@ -2,6 +2,8 @@ package com.partyA.control;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.partyA.bean.*;
+import com.partyA.service.UserService;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,15 +18,15 @@ import java.util.Map;
 
 @WebServlet("/move")
 public class MoveServlet extends HttpServlet {
-    //Temp initialization to get communication working
-    User black = new User(1, "AAA", "abcx", "AAA@gamil.com");
-    User white = new User(2, "BBB", "fgfd", "BBB@gamil.com");
-    Match m = new Match(black, white);
-    GameBoard board = new GameBoard(m);
 
-    public void init() throws ServletException {
-        board.initialize();
-    }
+    private Match match;
+    private GameBoard board;
+
+    private UserService userService=new UserService();
+
+//    public void init() throws ServletException {
+//        board.initialize();
+//    }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -33,18 +35,37 @@ public class MoveServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        response.setContentType("application/json;charset=utf-8");
-        PrintWriter out = response.getWriter();
-        int fromX = Integer.parseInt(request.getParameter("fromX"));
-        int fromY = Integer.parseInt(request.getParameter("fromY"));
-        int toX = Integer.parseInt(request.getParameter("toX"));
-        int toY = Integer.parseInt(request.getParameter("toY"));
-        fromX = (fromX-50)/50;
-        fromY = (fromY-50)/50;
-        toX = (toX-50)/50;
-        toY = (toY-50)/50;
-
         try {
+        String flag = request.getParameter("flag");
+        if("0".equals(flag)){
+            //begin a game
+            String blackID = request.getParameter("blackID");
+            String whiteID = request.getParameter("whiteID");
+
+            User blackUser = userService.getUserById(blackID);
+            User whiteUser = userService.getUserById(whiteID);
+
+            match = new Match(blackUser, whiteUser);
+            board = new GameBoard(match);
+            board.initialize();
+
+            request.getSession().setAttribute("blackUser",blackUser);
+            request.getSession().setAttribute("whiteUser",whiteUser);
+
+            response.sendRedirect("jsp/play_game.jsp");
+        }else{
+            //move
+            response.setContentType("application/json;charset=utf-8");
+            PrintWriter out = response.getWriter();
+            int fromX = Integer.parseInt(request.getParameter("fromX"));
+            int fromY = Integer.parseInt(request.getParameter("fromY"));
+            int toX = Integer.parseInt(request.getParameter("toX"));
+            int toY = Integer.parseInt(request.getParameter("toY"));
+            fromX = (fromX-50)/50;
+            fromY = (fromY-50)/50;
+            toX = (toX-50)/50;
+            toY = (toY-50)/50;
+
             String fromPos = String.valueOf((char) ('a' + fromX)) + (char) ('a' + fromY);
             String toPos = String.valueOf((char) ('a' + toX)) + (char) ('a' + toY);
             int status = board.move(fromPos,toPos);
@@ -71,6 +92,7 @@ public class MoveServlet extends HttpServlet {
             out.write( mapper.writeValueAsString(data));
             out.flush();
             out.close();
+        }
         } catch (Exception e) {
             e.printStackTrace();
         }

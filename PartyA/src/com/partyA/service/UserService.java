@@ -12,6 +12,8 @@ import com.partyA.bean.User;
 import com.partyA.dao.UserDao;
 
 public class UserService {
+	private UserDao userDao=new UserDao();
+
 	public User login(String name, String pass) {
 		UserDao dao=new UserDao();
 		User user=dao.searchByNameAndPass(name,pass);
@@ -45,4 +47,10 @@ public class UserService {
 		}
 		return temp;
 	}
+
+    public User getUserById(String userID) {
+		if(userID==null||"".equals(userID))
+			return null;
+		return userDao.getUserById(Integer.parseInt(userID));
+    }
 }
