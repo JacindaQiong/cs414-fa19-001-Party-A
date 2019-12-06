@@ -1,5 +1,8 @@
 package com.partyA.control;
 
+import com.partyA.bean.Invitation;
+import com.partyA.service.InvitationService;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,10 +24,15 @@ public class InviteServlet extends HttpServlet{
         PrintWriter out = response.getWriter();
         String invitee = request.getParameter("invitee");
         String inviter = request.getParameter("inviter");
-        //Still needs to start new instance of game and add to invite database
-        System.out.println("Inviter: "+ inviter + " Invitee: " +invitee);
-        out.write("...");
+        Invitation invitation=new Invitation();
+        invitation.setInviter(inviter);
+        invitation.setInvitee(invitee);
+        invitation.setTime(Long.toString(System.currentTimeMillis()));
+        InvitationService service=new InvitationService();
+        boolean flag=service.addInvitation(invitation);
+        response.sendRedirect("index.jsp");
+        out.print(flag);
         out.flush();
-        out.close();
+        System.out.println("Inviter: "+ inviter + " Invitee: " +invitee);
     }
 }
