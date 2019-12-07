@@ -20,9 +20,9 @@ public class PawnTest {
 
     @BeforeEach
     public void setUp(){
-        User black = new User(1,"AAA","abcx","AAA@gamil.com");
-        User white = new User(2,"BBB","fgfd","BBB@gamil.com");
-        Match match = new Match(black,white);
+//        User black = new User(1,"AAA","abcx","AAA@gamil.com");
+//        User white = new User(2,"BBB","fgfd","BBB@gamil.com");
+        Match match = new Match(1,2);
         GameBoard board = new GameBoard(match);
 
         pawn=new Pawn(board, Piece.Color.WHITE);
