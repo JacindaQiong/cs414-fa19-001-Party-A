@@ -11,26 +11,26 @@
  Target Server Version : 80018
  File Encoding         : 65001
 
- Date: 05/12/2019 22:47:18
+ Date: 06/12/2019 20:11:56
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for game_record
+-- Table structure for game_match
 -- ----------------------------
-DROP TABLE IF EXISTS `game_record`;
-CREATE TABLE `game_record` (
+DROP TABLE IF EXISTS `game_match`;
+CREATE TABLE `game_match` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `white_id` int(11) NOT NULL,
   `white_name` varchar(255) NOT NULL,
   `black_id` int(11) NOT NULL,
   `black_name` varchar(255) NOT NULL,
   `result` varchar(255) NOT NULL,
-  `begin_time` varchar(255) NOT NULL,
+  `start_time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `end_time` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 SET FOREIGN_KEY_CHECKS = 1;
