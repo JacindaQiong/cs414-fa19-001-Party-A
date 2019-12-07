@@ -1,8 +1,8 @@
 package com.partyA.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.partyA.bean.Invitation;
 import com.partyA.dao.InvitationDao;
-import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
 import java.util.HashMap;
