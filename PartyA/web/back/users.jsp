@@ -31,13 +31,14 @@
                     </thead>
                     <div id="tb">
                         <div id="btnNED">
+                            <a href="" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">Send Invite</a>
                             <a href="index.jsp" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">exit</a>
                         </div>
                     </div>
                 </table>
                 <div>View My Invitations</div>
                 <div>
-                    <table id="" class="easyui-datagrid" data-options="url:'selectInvitation',pageList:[3,5,7], pageSize:3, fit:true,pagination:true,singleSelect:true,toolbar:'#tb'">
+                    <table id="tbInvites" class="easyui-datagrid" data-options="url:'selectInvitation?current=${userInfo.name}',pageList:[3,5,7], pageSize:3, fit:true,pagination:true,singleSelect:true,toolbar:'#tb'">
                         <thead>
                         <tr>
                             <th data-options="field:'inviter'" width="100px">Inviter</th>
@@ -48,34 +49,60 @@
                     </table>
 
                     <div >
-                        <a href="" class="easyui-linkbutton" data-options=""><button>Accept</button></a>
-                        <a href="" class="easyui-linkbutton" data-options=""><button>Ignore</button></a>
+                        <a id ="actBtn" href="#" class="easyui-linkbutton" class="easyui-linkbutton">Accept</a>
+                        <a href="" class="easyui-linkbutton" data-options="">Ignore</a>
                     </div>
                 </div>
 
         </table>
     </div>
 </div>
-<script>$('#tbUser').datagrid({
+<script>
+    var Invitee;
+    var Inviter;
+    var invite_requester;
+    var invite_responder;
+    $('#tbUser').datagrid({
     onClickRow: function (index,row){
-        var invitee = row.name
-        sendInvite(invitee)
+        var inviter = row.name
+        getDetails(inviter)
     }
 });
 
-function sendInvite(name){
-    var Invitee = name;
-    var Inviter = ${userInfo.name};
+    $('#tbInvites').datagrid({
+        onClickRow: function (index,row){
+            var invite_name = row.invitee
+            setInviteRequest(invite_name)
+        }
+    });
+    $(function(){
+        $('#actBtn').bind('click', function(){
+            alert(invite_requester);
+            alert(invite_responder);
+           window.location = "../move?flag=0&blackID="+invite_requester+"&whiteID="+invite_responder;
+        });
+    });
+function getDetails(name){
+    Invitee = name;
+    Inviter = ${userInfo.name};
+    }
+function sendInvite() {
     $.ajax({
-        url: "sendInvite?invitee=" +Invitee+ "&inviter=" +Inviter,
-        contentType : "text/html;charset=utf-8",
+        url: "sendInvite?invitee=" + Invitee + "&inviter=" + Inviter,
+        contentType: "text/html;charset=utf-8",
         dataType: "text",
         type: "post",
         async: true,
-        success : function(data) {
-
+        success: function (data) {
         }
     });
-}</script>
+}
+function setInviteRequest(invite_name) {
+    invite_requester = invite_name;
+    invite_responder = ${userInfo.name};
+}
+
+
+</script>
 </body>
 </html>

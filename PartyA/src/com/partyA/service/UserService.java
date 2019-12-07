@@ -1,15 +1,15 @@
 package com.partyA.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.partyA.bean.User;
+import com.partyA.dao.UserDao;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 //import org.codehaus.jackson.map.ObjectMapper;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.partyA.bean.User;
-import com.partyA.dao.UserDao;
 
 public class UserService {
 	private UserDao userDao=new UserDao();
@@ -53,4 +53,10 @@ public class UserService {
 			return null;
 		return userDao.getUserById(Integer.parseInt(userID));
     }
+
+    public User getUserByUsername(String username){
+		if(username ==null ||"".equals(username))
+			return null;
+		return userDao.getUserByUsername(username);
+	}
 }

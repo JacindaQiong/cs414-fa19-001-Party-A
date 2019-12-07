@@ -21,9 +21,9 @@ public class InvitationService {
         }
     }
 
-    public String searchInvitation(int page,int show){
+    public String searchInvitation(int page,int show, String user){
         InvitationDao dao=new InvitationDao();
-        List<Invitation> list=dao.searchAll(page, show);
+        List<Invitation> list=dao.searchAll(page, show, user);
         int number=dao.searchCount();
         Map<String,Object> map=new HashMap<String,Object>();
         map.put("page", page);

@@ -1,12 +1,12 @@
 package com.partyA.dao;
 
+import com.partyA.bean.User;
+import com.partyA.db.DBUtil;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.partyA.bean.User;
-import com.partyA.db.DBUtil;
 
 
 public class UserDao {
@@ -16,6 +16,24 @@ public class UserDao {
 		String sql="select * from game_user where user_name=? and user_password=?";
 		DBUtil db=new DBUtil();
 		ResultSet rs=db.query(sql,name,pass);
+
+		try {
+			if(rs.next()){
+				user=new User(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4));
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			db.close();
+		}
+		return user;
+	}
+	public User getUserByUsername(String name) {
+		User user=null;
+		String sql="select * from game_user where user_name=?";
+		DBUtil db=new DBUtil();
+		ResultSet rs=db.query(sql,name);
 
 		try {
 			if(rs.next()){

@@ -42,8 +42,8 @@ public class MoveServlet extends HttpServlet {
             String blackID = request.getParameter("blackID");
             String whiteID = request.getParameter("whiteID");
 
-            User blackUser = userService.getUserById(blackID);
-            User whiteUser = userService.getUserById(whiteID);
+            User blackUser = userService.getUserByUsername(blackID);
+            User whiteUser = userService.getUserByUsername(whiteID);
 
             match = new Match(blackUser, whiteUser);
             board = new GameBoard(match);

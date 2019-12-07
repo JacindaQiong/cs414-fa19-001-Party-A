@@ -9,15 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InvitationDao {
-    public List<Invitation> searchAll(int page, int show){
+    public List<Invitation> searchAll(int page, int show, String user){
         List<Invitation> list=new ArrayList<Invitation>();
         String sql="select * from game_invitation LIMIT ?,?";
         DBUtil db=new DBUtil();
         ResultSet rs=db.query(sql,(page-1)*show,show);
         try {
             while(rs.next()){
-                list.add(new Invitation(rs.getString(1),rs.getString(2),rs.getString(3)));
-            }
+                if(rs.getString(2).equals(user)) {
+                    list.add(new Invitation(rs.getString(1), rs.getString(2), rs.getString(3)));
+                }
+                }
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
