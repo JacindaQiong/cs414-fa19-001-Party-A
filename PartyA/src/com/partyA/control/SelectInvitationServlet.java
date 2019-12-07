@@ -28,6 +28,8 @@ public class SelectInvitationServlet extends HttpServlet {
         String page=request.getParameter("page");
         String rows=request.getParameter("rows");
         String currentUser = request.getParameter("current");
+        String invitee_id=request.getParameter("invitee_id");
+        String inviter_id=request.getParameter("inviter_id");
         PrintWriter out=response.getWriter();
         InvitationService service =new InvitationService();
         String temp=service.searchInvitation(Integer.parseInt(page), Integer.parseInt(rows), currentUser);

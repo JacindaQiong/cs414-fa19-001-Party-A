@@ -51,10 +51,4 @@ public class UserService {
     public User getUserById(int userID) {
 		return userDao.getUserById(userID);
     }
-
-    public User getUserByUsername(String username){
-		if(username ==null ||"".equals(username))
-			return null;
-		return userDao.getUserByUsername(username);
-	}
 }
