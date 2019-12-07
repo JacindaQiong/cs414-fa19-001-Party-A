@@ -2,6 +2,7 @@ package com.partyA.control;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.partyA.bean.*;
+import com.partyA.service.MatchService;
 import com.partyA.service.UserService;
 
 import javax.servlet.ServletException;
@@ -11,10 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @WebServlet("/move")
 public class MoveServlet extends HttpServlet {
@@ -23,10 +22,8 @@ public class MoveServlet extends HttpServlet {
     private GameBoard board;
 
     private UserService userService=new UserService();
-
-//    public void init() throws ServletException {
-//        board.initialize();
-//    }
+    private MatchService matchService=new MatchService();
+    private SimpleDateFormat sdf = new SimpleDateFormat();
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -39,15 +36,21 @@ public class MoveServlet extends HttpServlet {
         String flag = request.getParameter("flag");
         if("0".equals(flag)){
             //begin a game
-            String blackID = request.getParameter("blackID");
-            String whiteID = request.getParameter("whiteID");
+            int blackID = Integer.parseInt(request.getParameter("blackID"));
+            int whiteID = Integer.parseInt(request.getParameter("whiteID"));
+            User blackUser = userService.getUserById(blackID);
+            User whiteUser = userService.getUserById(whiteID);
 
-            User blackUser = userService.getUserByUsername(blackID);
-            User whiteUser = userService.getUserByUsername(whiteID);
+            match = new Match(blackID, whiteID);
+            sdf.applyPattern("yyyy-MM-dd HH:mm:ss a");
+            Date begin_date = new Date();
 
-            match = new Match(blackUser, whiteUser);
+            match.setStartTime(sdf.format(begin_date));
+            match.setBlackName(blackUser.getName());
+            match.setWhiteName(whiteUser.getName());
             board = new GameBoard(match);
             board.initialize();
+
 
             request.getSession().setAttribute("blackUser",blackUser);
             request.getSession().setAttribute("whiteUser",whiteUser);
@@ -69,7 +72,15 @@ public class MoveServlet extends HttpServlet {
             String fromPos = String.valueOf((char) ('a' + fromX)) + (char) ('a' + fromY);
             String toPos = String.valueOf((char) ('a' + toX)) + (char) ('a' + toY);
             int status = board.move(fromPos,toPos);
+            if(status==0||status==1){
+                //store the result into database
+                sdf.applyPattern("yyyy-MM-dd HH:mm:ss a");
+                Date end_date = new Date();
 
+                match.setEndTime(sdf.format(end_date));
+                match.setResult(status==0?"black won":"white won");
+                matchService.saveResult(match);
+            }
             List<Map> list = new ArrayList<>();
             Piece[][] array  =board.getBoardArray();
             for(int x=0; x<11; x++){

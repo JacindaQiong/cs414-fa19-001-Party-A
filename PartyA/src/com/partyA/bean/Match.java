@@ -1,36 +1,87 @@
 package com.partyA.bean;
 
-import com.partyA.exception.IllegalMoveException;
-
-import java.util.Date;
-
 /**
  * User: Nana Yin
  * Date: 10/30/19
  */
 public class Match {
-    private User whiteUser;
-    private User blackUser;
+    private int ID;
 
-    //0 black win, 1 white win
-    private int result;
-    private Date startTime;
-    private Date endTime;
+    private int whiteID;
+    private String whiteName;
+    private int blackID;
+    private String blackName;
 
-    public Match( User blackUser,User whiteUser) {
-        this.whiteUser = whiteUser;
-        this.blackUser = blackUser;
+    private String result;
+    private String startTime;
+    private String endTime;
+
+    public Match( int blackID, int whiteID) {
+        this.blackID = blackID;
+        this.whiteID = whiteID;
     }
 
-    public User getWhiteUser() {
-        return whiteUser;
+    public int getWhiteID() {
+        return whiteID;
     }
 
-    public User getBlackUser() {
-        return blackUser;
+    public void setWhiteID(int whiteID) {
+        this.whiteID = whiteID;
     }
 
-    public void record(){
-        // BlackUser  WhiteUser   result
+    public String getWhiteName() {
+        return whiteName;
+    }
+
+    public void setWhiteName(String whiteName) {
+        this.whiteName = whiteName;
+    }
+
+    public int getBlackID() {
+        return blackID;
+    }
+
+    public void setBlackID(int blackID) {
+        this.blackID = blackID;
+    }
+
+    public String getBlackName() {
+        return blackName;
+    }
+
+    public void setBlackName(String blackName) {
+        this.blackName = blackName;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 }

@@ -48,10 +48,8 @@ public class UserService {
 		return temp;
 	}
 
-    public User getUserById(String userID) {
-		if(userID==null||"".equals(userID))
-			return null;
-		return userDao.getUserById(Integer.parseInt(userID));
+    public User getUserById(int userID) {
+		return userDao.getUserById(userID);
     }
 
     public User getUserByUsername(String username){
