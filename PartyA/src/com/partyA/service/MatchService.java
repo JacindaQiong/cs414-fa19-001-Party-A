@@ -8,9 +8,9 @@ import com.partyA.dao.MatchDao;
  * Date: 12/5/19
  */
 public class MatchService {
-    private MatchDao userDao=new MatchDao();
+    private MatchDao matchDao=new MatchDao();
 
-    public void saveResult(Match match) {
-        userDao.add(match);
+    public int saveResult(Match match) {
+        return matchDao.add(match);
     }
 }
