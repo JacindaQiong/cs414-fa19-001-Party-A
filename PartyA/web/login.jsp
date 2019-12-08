@@ -24,7 +24,7 @@
 
 	<body>
 		<div id="title" style="font-size: 30px; color: rgb(0,0,0)">
-			Welcome to play Hnefatafl
+			Welcome to Hnefatafl
 		</div>
 		<div id="ant" style="padding-top: 5px; margin-bottom: 5px;">
 			<form action="login" method="post">
@@ -39,7 +39,7 @@
 			       </tr>
 					<tr>
 	               <td height="30" style="font-size: 20px;">
-	               	Passward&nbsp;&nbsp;&nbsp;&nbsp;£º
+	               	Password&nbsp;&nbsp;&nbsp;&nbsp;£º
 				   </td>
 					<td>
 		           <input style="font-size: 20px;" name="upass" type="password"/>
@@ -56,7 +56,7 @@
 					</tr>
 				</table>
 				<table>
-				<tr>I don't have account!<a href="page-register.jsp"><small>register</small></a>
+				<tr>I don't have account!<a href="page-register.jsp"><small> register</small></a>
 				</tr>
 				</table>
           </div>
