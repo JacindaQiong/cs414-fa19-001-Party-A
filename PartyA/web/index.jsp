@@ -14,6 +14,10 @@
               alert("you are going to play game.");
               window.location.href="<%=basePath %>move?flag=0&blackID=1&whiteID=2";
           }
+
+          function getHistory(){
+              window.location.href="history.jsp";
+          }
           function invite(){
               alert("you are going to invite others.");
           }
@@ -23,5 +27,7 @@
   <h1>partyA project</h1>
   <button id="invite" onclick="invite();">invite others</button>
  <button id="playGame" onclick="playGame();">play game</button>
+  <button id="matchHistory" onclick="getHistory();">match history</button>
+
   </body>
 </html>
