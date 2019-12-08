@@ -11,20 +11,23 @@
     <title>$Title$</title>
       <script type="text/javascript">
           function playGame(){
+              alert("you are going to play game.");
               window.location.href="<%=basePath %>move?flag=0&blackID=1&whiteID=2";
           }
-          function invite(){
-              window.location.href="<%=basePath%>back/users.jsp";
+
+          function getHistory(){
+              window.location.href="history.jsp";
           }
-          function history(){
-              window.location.href="<%=basePath%>";
+          function invite(){
+              alert("you are going to invite others.");
           }
       </script>
   </head>
   <body>
-  <h1>Hnefatafl</h1>
-  <button id="invite" onclick="invite();">Invite Others</button>
- <button id="playGame" onclick="playGame();">Play Game</button>
-  <button id="history" onclick="history();">History</button>
+  <h1>partyA project</h1>
+  <button id="invite" onclick="invite();">invite others</button>
+ <button id="playGame" onclick="playGame();">play game</button>
+  <button id="matchHistory" onclick="getHistory();">match history</button>
+
   </body>
 </html>

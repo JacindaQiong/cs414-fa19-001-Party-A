@@ -79,7 +79,7 @@ public class MoveServlet extends HttpServlet {
 
                 match.setEndTime(sdf.format(end_date));
                 match.setResult(status==0?"black won":"white won");
-                matchService.saveResult(match);
+                matchService.saveMatch(match);
             }
             List<Map> list = new ArrayList<>();
             Piece[][] array  =board.getBoardArray();

@@ -16,11 +16,26 @@ public class Match {
     private String startTime;
     private String endTime;
 
+
+    public Match() {
+        super();
+    }
+
     public Match( int blackID, int whiteID) {
         this.blackID = blackID;
         this.whiteID = whiteID;
     }
-
+    public Match(int id,int whiteId,int blackId, String whiteName, String blackName, String result, String startTime, String endTime) {
+        super();
+        this.ID = id;
+        this.whiteID=whiteId;
+        this.blackID = blackId;
+        this.whiteName=whiteName;
+        this.blackName=blackName;
+        this.result=result;
+        this.startTime=startTime;
+        this.endTime=endTime;
+    }
     public int getWhiteID() {
         return whiteID;
     }
