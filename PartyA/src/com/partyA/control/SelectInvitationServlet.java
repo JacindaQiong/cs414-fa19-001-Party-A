@@ -27,9 +27,12 @@ public class SelectInvitationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String page=request.getParameter("page");
         String rows=request.getParameter("rows");
+        String currentUser = request.getParameter("current");
+        String invitee_id=request.getParameter("invitee_id");
+        String inviter_id=request.getParameter("inviter_id");
         PrintWriter out=response.getWriter();
         InvitationService service =new InvitationService();
-        String temp=service.searchInvitation(Integer.parseInt(page), Integer.parseInt(rows));
+        String temp=service.searchInvitation(Integer.parseInt(page), Integer.parseInt(rows), currentUser);
         out.print(temp);
         out.flush();
     }

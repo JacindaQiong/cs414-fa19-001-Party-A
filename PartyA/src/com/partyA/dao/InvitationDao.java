@@ -9,15 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InvitationDao {
-    public List<Invitation> searchAll(int page, int show){
+    public List<Invitation> searchAll(int page, int show, String user){
         List<Invitation> list=new ArrayList<Invitation>();
         String sql="select * from game_invitation LIMIT ?,?";
         DBUtil db=new DBUtil();
         ResultSet rs=db.query(sql,(page-1)*show,show);
         try {
             while(rs.next()){
-                list.add(new Invitation(rs.getString(1),rs.getString(2),rs.getString(3)));
-            }
+                if(rs.getString(2).equals(user)) {
+                    list.add(new Invitation(rs.getString(1), rs.getString(2), rs.getString(3),rs.getString(4),rs.getString(5)));
+                }
+                }
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -45,9 +47,9 @@ public class InvitationDao {
 
     public int add(Invitation invitation){
         int temp=-1;
-        String sql="insert into game_invitation(game_inviter,game_invitee,invitation_time)values(?,?,?)";
+        String sql="insert into game_invitation(game_inviter,game_invitee,invitation_time,inviter_id,invitee_id)values(?,?,?,?,?)";
         DBUtil db=new DBUtil();
-        temp=db.update(sql,invitation.getInviter(),invitation.getInvitee(),invitation.getTime());
+        temp=db.update(sql,invitation.getInviter(),invitation.getInvitee(),invitation.getTime(),invitation.getInviterID(),invitation.getInviteeID());
         db.close();
         return temp;
     }

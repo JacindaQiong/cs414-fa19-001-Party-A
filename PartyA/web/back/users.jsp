@@ -31,51 +31,90 @@
                     </thead>
                     <div id="tb">
                         <div id="btnNED">
+                            <a id="sndBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">Send Invite</a>
                             <a href="index.jsp" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">exit</a>
                         </div>
                     </div>
                 </table>
                 <div>View My Invitations</div>
                 <div>
-                    <table id="" class="easyui-datagrid" data-options="url:'selectInvitation',pageList:[3,5,7], pageSize:3, fit:true,pagination:true,singleSelect:true,toolbar:'#tb'">
+                    <table id="tbInvites" class="easyui-datagrid" data-options="url:'selectInvitation?current=${userInfo.name}',pageList:[3,5,7], pageSize:5, fit:true,pagination:true,singleSelect:true,toolbar:'#tb'">
                         <thead>
                         <tr>
                             <th data-options="field:'inviter'" width="100px">Inviter</th>
                             <th data-options="field:'invitee'" width="100px">Invitee</th>
                             <th data-options="field:'time'" width="100px">Time</th>
+                            <th data-options="field:'inviterID'" width="100px">InviterID</th>
+                            <th data-options="field:'inviteeID'" width="100px">InviteeID</th>
                         </tr>
                         </thead>
                     </table>
 
                     <div >
-                        <a href="" class="easyui-linkbutton" data-options=""><button>Accept</button></a>
-                        <a href="" class="easyui-linkbutton" data-options=""><button>Ignore</button></a>
+                        <a id ="actBtn" href="#" class="easyui-linkbutton" class="easyui-linkbutton">Accept</a>
+                        <a href="" class="easyui-linkbutton" data-options="">Ignore</a>
                     </div>
                 </div>
 
         </table>
     </div>
 </div>
-<script>$('#tbUser').datagrid({
+<script>
+    var Invitee;
+    var Invitee_id;
+    var Inviter;
+    var Inviter_id;
+    var invite_requester;
+    var invite_responder;
+    $('#tbUser').datagrid({
     onClickRow: function (index,row){
-        var invitee = row.name
-        sendInvite(invitee)
+        var inviter_id =row.id;
+        var inviter = row.name;
+        getDetails(inviter,inviter_id)
     }
 });
 
-function sendInvite(name){
-    var Invitee = name;
-    var Inviter = ${userInfo.name};
+    $('#tbInvites').datagrid({
+        onClickRow: function (index,row){
+            var inviter_id= row.inviterID;
+            var invitee_id = row.inviteeID;
+            setInviteRequest(inviter_id, invitee_id)
+        }
+    });
+    $(function(){
+        $('#actBtn').bind('click', function(){
+           window.location = "../move?flag=0&blackID="+Inviter_id+"&whiteID="+Invitee_id;
+        });
+    });
+    $(function(){
+        $('#sndBtn').bind('click', function(){
+            sendInvite();
+            alert("Invite sent!");
+        });
+    });
+function getDetails(name,id){
+    Invitee = name;
+    Invitee_id=id;
+    Inviter = ${userInfo.name};
+    Inviter_id=${userInfo.id};
+    }
+function sendInvite() {
     $.ajax({
-        url: "sendInvite?invitee=" +Invitee+ "&inviter=" +Inviter,
-        contentType : "text/html;charset=utf-8",
+        url: "sendInvite?invitee=" + Invitee + "&inviter=" + Inviter +"&inviter_id=" +Inviter_id+"&invitee_id="+Invitee_id,
+        contentType: "text/html;charset=utf-8",
         dataType: "text",
         type: "post",
         async: true,
-        success : function(data) {
-
+        success: function (data) {
         }
     });
-}</script>
+}
+function setInviteRequest(inviterID, inviteeID) {
+    Inviter_id = inviterID;
+    Invitee_id = inviteeID;
+}
+
+
+</script>
 </body>
 </html>
