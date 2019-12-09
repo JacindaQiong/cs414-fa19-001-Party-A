@@ -33,21 +33,21 @@
                 <tr><h1>GuideBook</h1></tr>
                 <tr><h2>1. Chess Move</h2></tr>
                 <tr><h3>Whether you are white or black, each piece can only move horizontally and vertically </h3></tr>
-                <tr> <img src="" alt="" sizes="" srcset=""></tr>
+
                 <tr><h2>2.White Wins</h2></tr>
                 <tr><h3>Protect the king from moving to any corner</h3></tr>
-                <tr> <img src="" alt="" sizes="" srcset=""></tr>
-                <tr><h2>2.Black Wins</h2></tr>
+                <tr> <img src="${pageContext.request.contextPath}/images/king_win.JPG" alt="king wins" width="350px"></tr>
+                <tr><h2>3.Black Wins</h2></tr>
                 <tr><h3>Kill the king</h3></tr>
                 <tr><h3>a. four black pieces surround the king</h3></tr>
-                <tr> <img src="" alt="" sizes="" srcset=""></tr>
+                <tr> <img src="${pageContext.request.contextPath}/images/king_capture.JPG" alt="king captured" width="350px"></tr>
                 <tr><h3>b. three black pieces surround the king on the edge</h3></tr>
-                <tr> <img src="" alt="" sizes="" srcset=""></tr>
+
                 <tr><h2>4. Methods of destroying enemy soldiers</h2></tr>
                 <tr><h3>a. Two horizontal pieces surround opposing pieces</h3></tr>
-                <tr> <img src="" alt="" sizes="" srcset=""></tr>
+
                 <tr><h3>b. A chess piece and a corner box surround enemy pieces</h3></tr>
-                <tr> <img src="" alt="" sizes="" srcset=""></tr>
+
             </table>
         </div>
     </div>
