@@ -23,14 +23,14 @@ public class AddUserServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
       User user=new User();
       user.setName(request.getParameter("uname"));
       user.setPass(request.getParameter("upass"));
@@ -38,7 +38,10 @@ public class AddUserServlet extends HttpServlet {
 
       boolean flag=userService.addUser(user);
       PrintWriter out=response.getWriter();
-      response.sendRedirect("http://localhost:8080/PartyA_war_exploded/login.jsp");
+      String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/";
+      System.out.println("**********baseUrl:"+baseUrl);
+      String url = baseUrl+"login.jsp";
+      response.sendRedirect(url);
       out.print(flag);
       out.flush();  
 	}

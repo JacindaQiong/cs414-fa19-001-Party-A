@@ -17,11 +17,11 @@ import java.util.Map;
 public class SelectHistoryServlet extends HttpServlet {
     private MatchService matchService = new MatchService();
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String page=request.getParameter("page");
         String rows=request.getParameter("rows");
         PrintWriter out=response.getWriter();

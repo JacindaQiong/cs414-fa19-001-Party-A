@@ -14,12 +14,11 @@ public class SelectInvitationServlet extends HttpServlet {
 
     private InvitationService invitationService =new InvitationService();
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         doPost(request, response);
     }
 
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String page=request.getParameter("page");
         String rows=request.getParameter("rows");
         String currentUser = request.getParameter("current");
