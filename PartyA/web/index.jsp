@@ -29,6 +29,11 @@
         function guidebook(){
             window.location.href="guidebook.jsp";
         }
+        function logout(){
+            if(confirm("comfirm logout？")){
+                window.location.href="<%=basePath %>logout";
+            }
+        }
     </script>
     <style type="text/css">
         #title{
@@ -42,7 +47,7 @@
 <body class="easyui-layout">
 <div data-options="region:'north'" style="height:50px;">
     <div style="float:left;">
-        <h3>Account:${userInfo.name}&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<a href="logout">【logout】</a></h3>
+        <h3>Account:${userInfo.name}&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="logout()">【logout】</a></h3>
     </div>
 </div>
 <div data-options="region:'center'" style="padding:5px;background:#eee;">
