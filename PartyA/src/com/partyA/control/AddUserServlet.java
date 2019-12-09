@@ -1,16 +1,15 @@
 package com.partyA.control;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import com.partyA.bean.User;
+import com.partyA.service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.partyA.bean.User;
-import com.partyA.service.UserService;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 
 
@@ -48,7 +47,7 @@ public class AddUserServlet extends HttpServlet {
       UserService service=new UserService();
       boolean flag=service.addUser(user);
       PrintWriter out=response.getWriter();
-      response.sendRedirect("http://localhost:8080/login.jsp");
+      response.sendRedirect("http://localhost:8080/PartyA_war_exploded/login.jsp");
       out.print(flag);
       out.flush();  
 	}

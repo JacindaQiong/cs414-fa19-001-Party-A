@@ -32,17 +32,17 @@
 								<form action="addUser" id="fm" method="post">
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 									<div >
-										<label style="font-size: 20px;">username:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+										<label style="font-size: 20px;">Username:&nbsp;&nbsp;&nbsp;&nbsp;</label>
 										<input style="font-size: 10px;" name="uname" type="text"  title="username"/>
 									</div>
                                     &nbsp;&nbsp;&nbsp;&nbsp;
 											<div >
-												<label style="font-size: 20px;">password:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+												<label style="font-size: 20px;">Password:&nbsp;&nbsp;&nbsp;&nbsp;</label>
 												<input style="font-size: 10px;" name="upass" type="password" title="password"/>
 											</div>
                                     &nbsp;&nbsp;&nbsp;&nbsp;
 									<div >
-										<label style="font-size: 20px;">email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+										<label style="font-size: 20px;">Email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 										<input style="font-size: 10px;" name="uemail" type="email" title="email_address"/>
 									</div>
                                     &nbsp;&nbsp;&nbsp;&nbsp;

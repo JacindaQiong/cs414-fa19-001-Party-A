@@ -21,7 +21,7 @@
                 Account:${userInfo.name}&nbsp;&nbsp; <a href="../logout">【logout】</a>
             </div>
             <div>
-                <table id="tbUser" class="easyui-datagrid" data-options="url:'selectUser',pageList:[3,5,7], pageSize:3, fit:true,pagination:true,singleSelect:true,toolbar:'#tb'">
+                <table id="tbUser" class="easyui-datagrid" style="width:100%;height:250px" data-options="url:'selectUser',pageList:[3,5,7], pageSize:3, fit:false,pagination:true,singleSelect:true,toolbar:'#tb'">
                     <thead>
                     <tr>
                         <th data-options="field:'id'" width="100px">ID</th>
