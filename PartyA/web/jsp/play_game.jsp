@@ -41,9 +41,16 @@
         }
     </style>
     <script type="text/javascript" src="<%=basePath %>js/jquery-1.3.2.js"></script>
+    <script type="text/javascript">
 
+        function goBackIndex(){
+            window.location.href="<%=basePath %>index.jsp";
+        }
+
+    </script>
 </head>
 <body onselectstart="return false;" style="background: rgba(220,227,137,0.4)">
+<button id="invite" onclick="goBackIndex();">Go back to Index</button>
 <h4>Black:${blackUser.name}  White:${whiteUser.name}</h4>
 <h2 id="whoseTurn"></h2>
 
