@@ -30,7 +30,7 @@
             window.location.href="guidebook.jsp";
         }
         function logout(){
-            if(confirm("comfirm logout？")){
+            if(confirm("Confirm logout？")){
                 window.location.href="<%=basePath %>logout";
             }
         }

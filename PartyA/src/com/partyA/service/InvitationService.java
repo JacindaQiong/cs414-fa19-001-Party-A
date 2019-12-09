@@ -31,7 +31,6 @@ public class InvitationService {
         map.put("total", number);
         ObjectMapper mapper=new ObjectMapper();
         String temp=null;
-
         try{
             temp=mapper.writeValueAsString(map);
         }catch(IOException e){

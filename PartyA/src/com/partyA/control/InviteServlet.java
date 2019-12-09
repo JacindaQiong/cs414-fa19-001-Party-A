@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.Instant;
 
 @WebServlet("/back/sendInvite")
 public class InviteServlet extends HttpServlet{
@@ -32,7 +33,7 @@ public class InviteServlet extends HttpServlet{
         invitation.setInvitee(invitee);
         invitation.setInviterID(inviter_id);
         invitation.setInviteeID(invitee_id);
-        invitation.setTime(Long.toString(System.currentTimeMillis()));
+        invitation.setTime(Instant.now().toString());
         boolean flag=invitationService.addInvitation(invitation);
         response.sendRedirect("index.jsp");
         out.print(flag);
