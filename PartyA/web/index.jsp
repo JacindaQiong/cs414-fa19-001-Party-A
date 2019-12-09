@@ -11,7 +11,6 @@
     <title>$Title$</title>
       <script type="text/javascript">
           function playGame(){
-              alert("you are going to play game.");
               window.location.href="<%=basePath %>move?flag=0&blackID=1&whiteID=2";
           }
 
@@ -19,7 +18,7 @@
               window.location.href="history.jsp";
           }
           function invite(){
-              alert("you are going to invite others.");
+             window.location.href="<%=basePath %>back/users.jsp";
           }
       </script>
   </head>
