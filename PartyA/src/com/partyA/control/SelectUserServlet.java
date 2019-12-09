@@ -17,17 +17,8 @@ import com.partyA.service.UserService;
  */
 @WebServlet("/back/selectUser")
 public class SelectUserServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 
 	private UserService userService =new UserService();
-
-	/**
-     * @see HttpServlet#HttpServlet()
-     */
-    public SelectUserServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)

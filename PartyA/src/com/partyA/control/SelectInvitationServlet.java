@@ -11,15 +11,8 @@ import java.io.PrintWriter;
 
 @WebServlet("/back/selectInvitation")
 public class SelectInvitationServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
 
     private InvitationService invitationService =new InvitationService();
-
-    public SelectInvitationServlet(){
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         doPost(request, response);

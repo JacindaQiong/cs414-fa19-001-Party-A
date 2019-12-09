@@ -72,23 +72,7 @@ public class DBUtil {
 		}
 		return rs;
 	}
-		/*public static void main(String [] args){
-					String sql="select * from user_login where userName=? and userPwd=md5(?)";
-					DBUtil db=new DBUtil();
-					ResultSet rs=db.query(sql,"admin","11");
-					try {
-						while(rs.next()){
-							System.out.print(rs.getString(1)+"\t");
-							System.out.print(rs.getString(2)+"\t");
-							System.out.print(rs.getString(3)+"\t");
-							System.out.println(rs.getString(4));
-						}
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					db.close();
-				}*/
+
 
 	public ResultSet query(String sql,Object ... arr){
 		  ResultSet rs=null;		

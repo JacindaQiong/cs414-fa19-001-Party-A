@@ -18,17 +18,7 @@ import java.io.PrintWriter;
  */
 @WebServlet("/addUser")
 public class AddUserServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 	private UserService userService=new UserService();
-
-
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public AddUserServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)

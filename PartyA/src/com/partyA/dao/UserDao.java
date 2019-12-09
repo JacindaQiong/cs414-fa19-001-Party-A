@@ -29,24 +29,7 @@ public class UserDao {
 		}
 		return user;
 	}
-	public User getUserByUsername(String name) {
-		User user=null;
-		String sql="select * from game_user where user_name=?";
-		DBUtil db=new DBUtil();
-		ResultSet rs=db.query(sql,name);
 
-		try {
-			if(rs.next()){
-				user=new User(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4));
-
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally{
-			db.close();
-		}
-		return user;
-	}
 	public int add(User user){
 		int temp=-1;
 		String sql="insert into game_user(user_name,user_password,user_email)values(?,?,?)";

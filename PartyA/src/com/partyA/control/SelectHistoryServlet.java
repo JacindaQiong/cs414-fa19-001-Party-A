@@ -16,7 +16,6 @@ import java.util.Map;
 @WebServlet("/selectHistory")
 public class SelectHistoryServlet extends HttpServlet {
     private MatchService matchService = new MatchService();
-    private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
