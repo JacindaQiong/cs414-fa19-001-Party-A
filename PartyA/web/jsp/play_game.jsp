@@ -54,7 +54,6 @@
         }
     </style>
     <script type="text/javascript" src="<%=basePath %>js/jquery-1.3.2.js"></script>
-
 </head>
 <body onselectstart="return false;" style="background: rgba(220,227,137,0.4)">
 <a href="<%=basePath%>index.jsp" class="button">Home</a>

@@ -13,6 +13,8 @@ import java.io.PrintWriter;
 public class SelectInvitationServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
+    private InvitationService invitationService =new InvitationService();
+
     public SelectInvitationServlet(){
         super();
         // TODO Auto-generated constructor stub
@@ -31,8 +33,7 @@ public class SelectInvitationServlet extends HttpServlet {
         String invitee_id=request.getParameter("invitee_id");
         String inviter_id=request.getParameter("inviter_id");
         PrintWriter out=response.getWriter();
-        InvitationService service =new InvitationService();
-        String temp=service.searchInvitation(Integer.parseInt(page), Integer.parseInt(rows), currentUser);
+        String temp=invitationService.searchInvitation(Integer.parseInt(page), Integer.parseInt(rows), currentUser);
         out.print(temp);
         out.flush();
     }

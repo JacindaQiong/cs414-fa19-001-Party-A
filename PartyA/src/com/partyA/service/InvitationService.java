@@ -11,9 +11,10 @@ import java.util.Map;
 
 public class InvitationService {
 
+    private InvitationDao invitationDao=new InvitationDao();
+
     public boolean addInvitation(Invitation invitation) {
-        InvitationDao dao=new InvitationDao();
-        int temp=dao.add(invitation);
+        int temp=invitationDao.add(invitation);
         if(temp>0){
             return true;
         }else{
@@ -22,9 +23,8 @@ public class InvitationService {
     }
 
     public String searchInvitation(int page,int show, String user){
-        InvitationDao dao=new InvitationDao();
-        List<Invitation> list=dao.searchAll(page, show, user);
-        int number=dao.searchCount();
+        List<Invitation> list=invitationDao.searchAll(page, show, user);
+        int number=invitationDao.searchCount();
         Map<String,Object> map=new HashMap<String,Object>();
         map.put("page", page);
         map.put("rows", list);

@@ -19,7 +19,9 @@ import java.io.PrintWriter;
 @WebServlet("/addUser")
 public class AddUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	private UserService userService=new UserService();
+
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -44,8 +46,7 @@ public class AddUserServlet extends HttpServlet {
       user.setPass(request.getParameter("upass"));
       user.setEmail(request.getParameter("uemail"));
 
-      UserService service=new UserService();
-      boolean flag=service.addUser(user);
+      boolean flag=userService.addUser(user);
       PrintWriter out=response.getWriter();
       response.sendRedirect("http://localhost:8080/PartyA_war_exploded/login.jsp");
       out.print(flag);
