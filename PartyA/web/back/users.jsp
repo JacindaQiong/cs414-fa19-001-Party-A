@@ -4,22 +4,23 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>user</title>
+    <title>Invite Users</title>
     <script type="text/javascript" src="../easyui/jquery.min.js"></script>
     <script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="../easyui/locale/easyui-lang-en.js"></script>
     <link rel="stylesheet" href="../easyui/themes/icon.css"/>
-    <link rel="stylesheet" href="../easyui/themes/default/easyui.css"/>
+    <link rel="stylesheet" href="../easyui/themes/bootstrap/easyui.css"/>
 </head>
 <body>
 <div class="easyui-tabs">
-    <div title="HOME" style="padding:80px;" data-options="closable:false">
+    <div title="Invite" style="padding:80px;" data-options="closable:false">
         <table>
-            <div>Invite Users to Play With</div>
+            <h1>Invite Users to Play With</h1>
 
             <div style="float:right;padding-right:20px;padding-top:20px;">
                 Account:${userInfo.name}&nbsp;&nbsp; <a href="../logout">【logout】</a>
             </div>
+            <div><button id="gohome" class="easyui-linkbutton" style="height: 30px;width: 45px" data-options="" onclick="goHome();">Home</button></div>
             <div>
                 <table id="tbUser" class="easyui-datagrid" style="width:100%;height:250px" data-options="url:'selectUser',pageList:[3,5,7], pageSize:3, fit:false,pagination:true,singleSelect:true,toolbar:'#tb'">
                     <thead>
@@ -36,7 +37,7 @@
                         </div>
                     </div>
                 </table>
-                <div>View My Invitations</div>
+                <h1>View My Invitations</h1>
                 <div>
                     <table id="tbInvites" class="easyui-datagrid" data-options="url:'selectInvitation?current=${userInfo.name}',pageList:[3,5,7], pageSize:5, fit:true,pagination:true,singleSelect:true,toolbar:'#tb'">
                         <thead>
@@ -68,9 +69,9 @@
     var invite_responder;
     $('#tbUser').datagrid({
     onClickRow: function (index,row){
-        var inviter_id =row.id;
-        var inviter = row.name;
-        getDetails(inviter,inviter_id)
+        var invitee_id =row.id;
+        var invitee = row.name;
+        getDetails(invitee,invitee_id)
     }
 });
 
@@ -89,22 +90,23 @@
     $(function(){
         $('#sndBtn').bind('click', function(){
             sendInvite();
-            alert("Invite sent!");
+            alert("Invite sent to " +Invitee+"!");
         });
     });
 function getDetails(name,id){
     Invitee = name;
     Invitee_id=id;
-    Inviter = ${userInfo.name};
+    Inviter = '<%= session.getAttribute("name") %>';
     Inviter_id=${userInfo.id};
-    }
+
+}
 function sendInvite() {
     $.ajax({
         url: "sendInvite?invitee=" + Invitee + "&inviter=" + Inviter +"&inviter_id=" +Inviter_id+"&invitee_id="+Invitee_id,
         contentType: "text/html;charset=utf-8",
         dataType: "text",
         type: "post",
-        async: true,
+        async: false,
         success: function (data) {
         }
     });
@@ -112,6 +114,9 @@ function sendInvite() {
 function setInviteRequest(inviterID, inviteeID) {
     Inviter_id = inviterID;
     Invitee_id = inviteeID;
+}
+function goHome(){
+        window.location.href="http://localhost:8080/PartyA_war_exploded/index.jsp";
 }
 
 

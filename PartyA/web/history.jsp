@@ -22,13 +22,10 @@
     <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="easyui/locale/easyui-lang-zh_CN.js"></script>
     <link rel="stylesheet" href="easyui/themes/icon.css"/>
-    <link rel="stylesheet" href="easyui/themes/default/easyui.css"/>
+    <link rel="stylesheet" href="easyui/themes/bootstrap/easyui.css"/>
     <script type="text/javascript" src="js/mainAction.js"></script>
 </head>
 <body class="easyui-layout">
-<div data-options="region:'north'" style="height:90px;">
-    <div style="float:left;"> <img src="" height="85px" width="1360px"></div>
-</div>
 
 <div style="float:right;padding-right:20px;padding-top:20px;">
     Account:${userInfo.name}&nbsp;&nbsp; <a href="../logout">【logout】</a>
@@ -37,7 +34,8 @@
 <div data-options="region:'center'" style="padding:5px;background:#eee;">
 
     <div id="myTabs" class="easyui-tabs" data-options="fit:true">
-        <div title="HOME" style="padding:20px;" data-options="closable:false">
+        <div title="History" style="padding:20px;" data-options="closable:false">
+            <div><button id="gohome" class="easyui-linkbutton" style="height: 30px;width: 45px" data-options="" onclick="goHome();">Home</button></div>
             <table id="" class="easyui-datagrid" data-options="url:'selectHistory',pageList:[3,5,7], pageSize:3, fit:true,pagination:true,singleSelect:true,toolbar:'#tb'">
                 <thead>
                 <tr>
@@ -55,5 +53,10 @@
         </div>
     </div>
 </div>
+<script>
+    function goHome(){
+        window.location.href="index.jsp";
+    }
+</script>
 </body>
 </html>

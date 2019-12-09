@@ -19,7 +19,7 @@
 				text-align: center;
 			}
 		</style>
-		<title>Chess Game</title>
+		<title>Hnefatafl</title>
 	</head>
 
 	<body>

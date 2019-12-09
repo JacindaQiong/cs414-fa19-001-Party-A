@@ -1,15 +1,15 @@
 package com.partyA.control;
 
-import java.io.IOException;
+import com.partyA.bean.User;
+import com.partyA.service.UserService;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import com.partyA.bean.User;
-import com.partyA.service.UserService;
+import java.io.IOException;
 
 /**
  * Servlet implementation class LoginServlet
@@ -48,6 +48,7 @@ public class LoginServlet extends HttpServlet {
 		}else{
 			HttpSession session=request.getSession();
 			session.setAttribute("userInfo",user);
+			session.setAttribute("name",user.getName());
 			response.sendRedirect("index.jsp");
 //			response.sendRedirect("back/index.jsp");
 		}
