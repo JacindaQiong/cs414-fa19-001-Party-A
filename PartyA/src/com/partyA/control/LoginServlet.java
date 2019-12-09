@@ -17,6 +17,7 @@ import com.partyA.service.UserService;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private UserService userService =new UserService();
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -40,8 +41,7 @@ public class LoginServlet extends HttpServlet {
 		String name=request.getParameter("uname");
 		String pass=request.getParameter("upass");
 
-		UserService service=new UserService();
-		User user=service.login(name,pass);
+		User user=userService.login(name,pass);
 
 		if(user==null){
 			response.sendRedirect("login.jsp?msg=0");

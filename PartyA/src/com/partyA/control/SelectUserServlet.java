@@ -18,8 +18,10 @@ import com.partyA.service.UserService;
 @WebServlet("/back/selectUser")
 public class SelectUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
+
+	private UserService userService =new UserService();
+
+	/**
      * @see HttpServlet#HttpServlet()
      */
     public SelectUserServlet() {
@@ -41,8 +43,7 @@ public class SelectUserServlet extends HttpServlet {
 		String page=request.getParameter("page");
 		String rows=request.getParameter("rows");
 		PrintWriter out=response.getWriter();
-		UserService service =new UserService();
-		String temp=service.searchUser(Integer.parseInt(page), Integer.parseInt(rows));
+		String temp=userService.searchUser(Integer.parseInt(page), Integer.parseInt(rows));
 	    out.print(temp);
 	    out.flush();
 	}

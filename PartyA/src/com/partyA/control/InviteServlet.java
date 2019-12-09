@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 
 @WebServlet("/back/sendInvite")
 public class InviteServlet extends HttpServlet{
+    private InvitationService invitationService=new InvitationService();
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -32,8 +33,7 @@ public class InviteServlet extends HttpServlet{
         invitation.setInviterID(inviter_id);
         invitation.setInviteeID(invitee_id);
         invitation.setTime(Long.toString(System.currentTimeMillis()));
-        InvitationService service=new InvitationService();
-        boolean flag=service.addInvitation(invitation);
+        boolean flag=invitationService.addInvitation(invitation);
         response.sendRedirect("index.jsp");
         out.print(flag);
         out.flush();
