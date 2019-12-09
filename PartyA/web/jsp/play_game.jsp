@@ -10,7 +10,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Game board</title>
+    <title>Hnefatafl</title>
     <style type="text/css">
         body{
             background: #eee;
@@ -39,18 +39,24 @@
             margin-top: -280px;
             text-align: center;
         }
+        a.button{
+            -webkit-appearance: button;
+            -moz-appearance: button;
+             background-color: #e7e7e7;
+             border: none;
+            color: black;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+
+        }
     </style>
     <script type="text/javascript" src="<%=basePath %>js/jquery-1.3.2.js"></script>
-    <script type="text/javascript">
-
-        function goBackIndex(){
-            window.location.href="<%=basePath %>index.jsp";
-        }
-
-    </script>
 </head>
 <body onselectstart="return false;" style="background: rgba(220,227,137,0.4)">
-<button id="invite" onclick="goBackIndex();">Go back to Index</button>
+<a href="<%=basePath%>index.jsp" class="button">Home</a>
 <h4>Black:${blackUser.name}  White:${whiteUser.name}</h4>
 <h2 id="whoseTurn"></h2>
 
