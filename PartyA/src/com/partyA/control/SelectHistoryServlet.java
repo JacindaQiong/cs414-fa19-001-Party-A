@@ -1,5 +1,6 @@
 package com.partyA.control;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.partyA.service.MatchService;
 
 import javax.servlet.ServletException;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 
 @WebServlet("/selectHistory")
 public class SelectHistoryServlet extends HttpServlet {
@@ -23,8 +25,9 @@ public class SelectHistoryServlet extends HttpServlet {
         String page=request.getParameter("page");
         String rows=request.getParameter("rows");
         PrintWriter out=response.getWriter();
-        MatchService service =new MatchService();
-        String result=matchService.searchMatch(Integer.parseInt(page), Integer.parseInt(rows));
+        ObjectMapper mapper=new ObjectMapper();
+        Map<String,Object> map=matchService.searchMatch(Integer.parseInt(page), Integer.parseInt(rows));
+        String result = mapper.writeValueAsString(map);
         out.print(result);
         out.flush();
     }

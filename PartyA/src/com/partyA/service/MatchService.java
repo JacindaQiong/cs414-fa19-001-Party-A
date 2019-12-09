@@ -20,7 +20,7 @@ public class MatchService {
         return matchDao.add(match);
     }
 
-    public String searchMatch(int page,int show){
+    public Map<String,Object> searchMatch(int page,int show){
         MatchDao dao=new MatchDao();
         List<Match> list=dao.searchAll(page, show);
         int number=dao.searchCount();
@@ -28,14 +28,6 @@ public class MatchService {
         map.put("page", page);
         map.put("rows", list);
         map.put("total", number);
-        ObjectMapper mapper=new ObjectMapper();
-        String temp=null;
-
-        try{
-            temp=mapper.writeValueAsString(map);
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-        return temp;
+        return map;
     }
 }
