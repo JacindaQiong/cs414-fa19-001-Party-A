@@ -1,6 +1,7 @@
 package com.partyA.control;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.partyA.bean.User;
 import com.partyA.service.MatchService;
 
 import javax.servlet.ServletException;
@@ -26,9 +27,12 @@ public class SelectHistoryServlet extends HttpServlet {
         String rows=request.getParameter("rows");
         PrintWriter out=response.getWriter();
         ObjectMapper mapper=new ObjectMapper();
-        Map<String,Object> map=matchService.searchMatch(Integer.parseInt(page), Integer.parseInt(rows));
-        String result = mapper.writeValueAsString(map);
-        out.print(result);
-        out.flush();
+        User user = (User) request.getSession().getAttribute("userInfo");
+        if(user != null){
+            Map<String,Object> map=matchService.searchMatch(user.getId(),Integer.parseInt(page), Integer.parseInt(rows));
+            String result = mapper.writeValueAsString(map);
+            out.print(result);
+            out.flush();
+        }
     }
 }

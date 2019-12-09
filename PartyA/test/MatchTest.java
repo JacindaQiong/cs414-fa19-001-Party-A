@@ -31,7 +31,7 @@ public class MatchTest {
 
     @Test
     public void testSearch(){
-        Map<String,Object> map =  matchService.searchMatch(1,5);
+        Map<String,Object> map =  matchService.searchMatch(1,1,5);
         int total = (int) map.get("total");
         assertEquals(3,total);
     }

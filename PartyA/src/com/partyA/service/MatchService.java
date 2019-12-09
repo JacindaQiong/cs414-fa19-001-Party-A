@@ -18,10 +18,10 @@ public class MatchService {
         return matchDao.add(match);
     }
 
-    public Map<String,Object> searchMatch(int page,int show){
+    public Map<String,Object> searchMatch(int userID, int page,int show){
         MatchDao dao=new MatchDao();
-        List<Match> list=dao.searchAll(page, show);
-        int number=dao.searchCount();
+        List<Match> list=dao.searchAll(userID, page, show);
+        int number=dao.searchCount(userID);
         Map<String,Object> map=new HashMap<String,Object>();
         map.put("page", page);
         map.put("rows", list);

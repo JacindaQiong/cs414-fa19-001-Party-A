@@ -27,11 +27,11 @@ public class MatchDao {
 
     }
 
-    public List<Match> searchAll(int page, int show){
+    public List<Match> searchAll(int userID,int page, int show){
         List<Match> list=new ArrayList<Match>();
-        String sql="select id,white_id,white_name,black_id,black_name,result,start_time,end_time from game_match LIMIT ?,?";
+        String sql="select id,white_id,white_name,black_id,black_name,result,start_time,end_time from game_match where white_id = ? or black_id = ? LIMIT ?,?";
         DBUtil db=new DBUtil();
-        ResultSet rs=db.query(sql,(page-1)*show,show);
+        ResultSet rs=db.query(sql,userID,userID,(page-1)*show,show);
         try {
             while(rs.next()){
                 int ID = rs.getInt(1);
@@ -61,11 +61,11 @@ public class MatchDao {
         }
         return list;
     }
-    public int searchCount() {
+    public int searchCount(int userID) {
         int temp=0;
-        String sql="select count(*) from game_match";
+        String sql="select count(*) from game_match where white_id = ? or black_id = ?";
         DBUtil db=new DBUtil();
-        ResultSet rs=db.query(sql);
+        ResultSet rs= db.query(sql,userID,userID);
         try {
             if(rs.next()){
                 temp=rs.getInt(1);
